@@ -4,13 +4,11 @@ import dotenv from 'dotenv';
 
 if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: path.join('.env.production') });
-} else if (process.env.NODE_ENV === 'dev_todaycare') {
-  dotenv.config({ path: path.join('.env.dev.todaycare') });
-} else if (process.env.NODE_ENV === 'dev_dailybook') {
-  dotenv.config({ path: path.join('.env.dev.dailybook') });
-} else {
-  dotenv.config({ path: path.join('.env.dev') });
-}
+} else if (process.env.NODE_ENV === 'local') {
+  dotenv.config({ path: path.join('.env.local') });
+} else if (process.env.NODE_ENV === 'test') {
+  dotenv.config({ path: path.join('.env.test') });
+} 
 
 import { DataSourceOptions } from 'typeorm';
 import SnakeNamingStrategy from '../database/namingStrategy/SnakeNamingStrategy';
