@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: path.join('.env.test') });
 } 
 
-import { DataSourceOptions } from 'typeorm';
+import { DataSourceOptions, DataSource } from 'typeorm';
 import SnakeNamingStrategy from '../database/namingStrategy/SnakeNamingStrategy';
 
 const NODE_ENV = process.env.NODE_ENV || 'local';
@@ -48,7 +48,7 @@ const config = {
   },
 };
 
-const connectionConfig: DataSourceOptions = {
+const connectionConfig: DataSource = {
   ...config[NODE_ENV],
   type: DB_TYPE,
   synchronize: NODE_ENV !== 'production',
