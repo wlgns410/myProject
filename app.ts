@@ -1,43 +1,30 @@
-// index.ts
-import 'reflect-metadata';
-import express from 'express';
-import compression from 'compression';
-import bodyParser from 'body-parser';
+/* eslint-disable import/first */
+import path from 'path';
+import dotenv from 'dotenv';
+
+if (process.env.NODE_ENV === 'production') {
+  dotenv.config({ path: path.join('.env.production') });
+} else if (process.env.NODE_ENV === 'local') {
+  dotenv.config({ path: path.join('.env.dev') });
+} else if (process.env.NODE_ENV === 'test') {
+  dotenv.config({ path: path.join('.env.test') });
+} 
+
+import express  from 'express';
 import cors from 'cors';
-import 'dotenv/config';
 
-// Import Routers
-
-
-// Connect typeORM mysql
-createConnection()
-  .then(() => {
-    console.log('Database Connected :)');
-  })
-  .catch((error) => console.log(error));
-
-// Create express server
 const app = express();
 
-// middlewares
-app.set('port', process.env.PORT || 3000);
-app.use(compression());
-app.use(bodyParser.json());
 app.use(
-  bodyParser.urlencoded({
-    extended: false,
-  }),
-);
-app.use(morgan('dev'));
-app.use(
-  cors({
-    origin: [`${process.env.TEST_IP}`],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-  }),
-);
+    cors({
+      origin: true,
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      credentials: true,
+      exposedHeaders: ['Authorization'],
+    }),
+  );
 
-// Routes
-
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
 
 export default app;
