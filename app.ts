@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: path.join('.env.production') });
 } else if (process.env.NODE_ENV === 'local') {
-  dotenv.config({ path: path.join('.env.dev') });
+  dotenv.config({ path: path.join('.env.local') });
 } else if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: path.join('.env.test') });
 } 
