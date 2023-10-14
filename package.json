@@ -1,10 +1,11 @@
 {
   "name": "myproject",
   "version": "1.0.0",
-  "description": "",
+  "description": "express project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node app.ts"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +19,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^3.6.1",
     "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.9.1",
     "typeorm": "^0.3.17"
   },
   "devDependencies": {

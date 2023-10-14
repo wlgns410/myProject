@@ -1,30 +1,48 @@
 /* eslint-disable import/first */
 import path from 'path';
 import dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import http from 'http';
+
+// Load environment variables based on NODE_ENV
+let envPath = '.env.development';  // Default to development environment
 
 if (process.env.NODE_ENV === 'production') {
-  dotenv.config({ path: path.join('.env.production') });
+  envPath = '.env.production';
 } else if (process.env.NODE_ENV === 'local') {
-  dotenv.config({ path: path.join('.env.local') });
+  envPath = '.env.local';
 } else if (process.env.NODE_ENV === 'test') {
-  dotenv.config({ path: path.join('.env.test') });
-} 
+  envPath = '.env.test';
+}
 
-import express  from 'express';
-import cors from 'cors';
+dotenv.config({ path: path.join(__dirname, envPath) });
 
 const app = express();
 
 app.use(
-    cors({
-      origin: true,
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-      credentials: true,
-      exposedHeaders: ['Authorization'],
-    }),
-  );
+  cors({
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    exposedHeaders: ['Authorization'],
+  })
+);
 
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// Define a simple endpoint
+app.get('/', (req, res) => {
+    res.send('서버 테스트 중');
+  });
+
+const server = http.createServer(app);
+
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}/`);
+});
 
 export default app;
