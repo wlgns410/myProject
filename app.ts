@@ -6,7 +6,7 @@ import cors from 'cors';
 import http from 'http';
 
 // Load environment variables based on NODE_ENV
-let envPath = '.env.development';  // Default to development environment
+let envPath = '.env.local';  // Default to development environment
 
 if (process.env.NODE_ENV === 'production') {
   envPath = '.env.production';
@@ -33,9 +33,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Define a simple endpoint
-app.get('/', (req, res) => {
-    res.send('서버 테스트 중');
-  });
+if (process.env.NODE_ENV === 'local'){
+    app.get('/', (req, res) => {
+        res.send('로컬 테스트 중');
+    }); 
+}
 
 const server = http.createServer(app);
 
