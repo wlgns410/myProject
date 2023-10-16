@@ -3,5 +3,5 @@ import { injectable } from 'inversify';
 import { User } from '../entity';
 
 @injectable()
-export default class UserRepository extends Repository<User> {
+export class UserRepository extends Repository<User> {
 }
