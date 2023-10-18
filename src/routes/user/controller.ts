@@ -1,8 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-// import  from './service';
+
+import userSignUpService from './service';
+import errorCode from '~/libs/exception/errorCode';
+import ErrorField from '~/libs/exception/errorField';
+import ErrorResponse from '~/libs/exception/errorResponse';
+import { verifyToken } from '~/libs/jwt';
+import { regexValidation } from '~/libs/validation';
 
 export const userSignUpController = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.headers.authorization) {
+        return next(new ErrorResponse(errorCode.UNAUTHORIZED));
+      }
 
     // try {
     //     const response = await userSignUpService(req.body);
