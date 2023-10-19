@@ -1,4 +1,4 @@
-import { ErrorCode } from './errorCode';
+import { ErrorCode } from './createErrorCode';
 import ErrorField from './errorField';
 
 class ErrorResponse {

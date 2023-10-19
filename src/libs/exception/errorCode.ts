@@ -1,29 +1,8 @@
-import { IErrorCode } from '~/@types/exception';
-
-export class ErrorCode {
-  status: number;
-  message: string;
-  code: string;
-
-  constructor({ status, message, code }: IErrorCode) {
-    this.status = status;
-    this.message = message;
-    this.code = code;
-  }
-
-  /**
-   * @param {Number} status
-   * @param {String} message
-   * @param {String} code
-   */
-  static createErrorCode(status: number, message: string, code: string) {
-    return new ErrorCode({ status, message, code });
-  }
-}
+import { ErrorCode } from './createErrorCode';
 
 const $ = ErrorCode.createErrorCode;
 
-const errorCode = {
+const ERROR_CODE = {
   PAGE_NOT_FOUND: $(404, 'PAGE NOT FOUND', 'COMMON001'),
   INVALID_INPUT_VALUE: $(400, 'INVALID INPUT VALUE', 'COMMON002'),
   SESSION_HAS_EXPIRED: $(401, '세션이 만료되었습니다.', 'COMMON003'),
@@ -36,4 +15,4 @@ const errorCode = {
   NOT_FOUND_USER: $(404, '가입하지 않은 아이디입니다.', 'COMMON009'),
 };
 
-export default errorCode;
+export default ERROR_CODE;

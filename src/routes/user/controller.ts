@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 
 import userSignUpService from './service';
-import errorCode from '~/libs/exception/errorCode';
+import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorField from '~/libs/exception/errorField';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { verifyToken } from '~/libs/jwt';
@@ -10,7 +10,7 @@ import { regexValidation } from '~/libs/validation';
 
 export const userSignUpController = async (req: Request, res: Response, next: NextFunction) => {
     if (!req.headers.authorization) {
-        return next(new ErrorResponse(errorCode.UNAUTHORIZED));
+        return next(new ErrorResponse(ERROR_CODE.UNAUTHORIZED));
       }
 
     // try {
