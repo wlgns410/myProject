@@ -7,13 +7,13 @@ export class User extends TimeDefaultEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false, length: 150 })
+  @Column({ nullable: false, length: 30 })
   email: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, length: 30 })
   password: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 30  })
   name: string | null;
 
   @Column({ nullable: false, length: 11 })
