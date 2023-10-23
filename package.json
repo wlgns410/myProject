@@ -30,7 +30,8 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "ts-node": "^10.9.1",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "unique-names-generator": "^4.7.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.14",

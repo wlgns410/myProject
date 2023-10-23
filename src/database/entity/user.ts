@@ -14,7 +14,7 @@ export class User extends TimeDefaultEntity {
   password: string;
 
   @Column({ nullable: true, length: 30  })
-  name: string | null;
+  nickname: string | null;
 
   @Column({ nullable: false, length: 11 })
   phone: string;
