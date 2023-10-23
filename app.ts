@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import http from 'http';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
 
 // Load environment variables based on NODE_ENV
 let envPath = '.env.local';  // Default to development environment
@@ -38,6 +40,27 @@ if (process.env.NODE_ENV === 'local'){
         res.send('로컬 테스트 중');
     }); 
 }
+
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
+    app.use(
+      '/api-docs',
+      swaggerUi.serve,
+      swaggerUi.setup(
+        swaggerJsDoc({
+          swaggerDefinition: {
+            openapi: '3.0.0',
+            info: {
+              title: 'My API',
+              version: '1.0.0',
+            },
+            schemes: ['http', 'https'],
+            host: '',
+          },
+          apis: ['./src/routes/**/index*.ts'],
+        }),
+      ),
+    );
+  }
 
 const server = http.createServer(app);
 
