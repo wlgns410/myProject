@@ -20,6 +20,7 @@
     "http": "^0.0.1-security",
     "morgan": "^1.10.0",
     "mysql2": "^3.6.1",
+    "redis": "^4.6.10",
     "reflect-metadata": "^0.1.13",
     "ts-jenum": "^2.2.2",
     "ts-node": "^10.9.1",
