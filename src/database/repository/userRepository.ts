@@ -15,4 +15,14 @@ export class UserRepository extends Repository<User> {
         }
         return false;
     }
+
+    async isPhoneExists(phone: string): Promise<boolean> {
+        const users = await this.find({
+          where: { phone },
+        });
+        if (users.length > 0) {
+          return true;
+        }
+        return false;
+    }
 }

@@ -6,3 +6,11 @@ export interface ISignUpController {
     userType: string;
     }
 }
+
+export interface ISignUpService {
+    email: string;
+    password: string;
+    phone: string;
+    userType: string;
+
+}
