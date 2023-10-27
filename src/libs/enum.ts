@@ -11,5 +11,10 @@ export class UserType extends EnumType<UserType>() {
     private constructor(readonly code: string, readonly text: string) {
         super();
     }
+
+    static isValid(userType: string): boolean {
+        // 유효한 userType 값인지 확인하는 로직 작성
+        return Object.values(UserType).some((enumValue) => enumValue.code === userType);
+    }
 }
 

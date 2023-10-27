@@ -1,24 +1,54 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-
 import userSignUpService from './service';
 import ERROR_CODE from '~/libs/exception/errorCode';
-import ErrorField from '~/libs/exception/errorField';
 import ErrorResponse from '~/libs/exception/errorResponse';
-import { verifyToken } from '~/libs/jwt';
-import { regexValidation } from '~/libs/validation';
+import { registerRegexesOfType } from '~/libs/regex';
+import { UserType } from '~/libs/enum';
 
 export const userSignUpController = async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.headers.authorization) {
-        return next(new ErrorResponse(ERROR_CODE.UNAUTHORIZED));
-      }
+    const {email, password, phone, userType} = req.params;
+    if (!email && !password && !phone && !userType) {
+        return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+    }
 
-    // try {
-    //     const response = await userSignUpService(req.body);
-    //     return res
-    //       .status(httpStatus.CREATED)
-    //       .json({ data: response, status: httpStatus.CREATED, message: '정상적으로 처리되었습니다.' });
-    //   } catch (e) {
-    //     return next(e);
-    //   }
+    if (email) {
+        const emailRegexes = registerRegexesOfType.email.regexes;
+        const isEmailValid = emailRegexes.some(regex => regex.test(email));
+
+        if (!isEmailValid) {
+            return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+        }
+    }
+
+    if (password) {
+        const passwordRegexes = registerRegexesOfType.password.regexes;
+        const isPasswordValid = passwordRegexes.some(regex => regex.test(password));
+
+        if (!isPasswordValid) {
+            return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+        }
+    }
+
+    if (phone) {
+        const phoneRegexes = registerRegexesOfType.phone.regexes;
+        const isPhoneValid = phoneRegexes.some(regex => regex.test(phone));
+
+        if (!isPhoneValid) {
+            return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+        }
+    }
+
+    if (!UserType.isValid(userType)) {
+        return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+    }
+
+    try {
+        const response = await userSignUpService(email, password, phone, userType);
+        return res
+          .status(httpStatus.CREATED)
+          .json({ data: response, status: httpStatus.CREATED, message: '정상적으로 처리되었습니다.' });
+      } catch (e) {
+        return next(e);
+      }
 }
