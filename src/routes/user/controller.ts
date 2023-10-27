@@ -5,8 +5,10 @@ import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/regex';
 import { UserType } from '~/libs/enum';
+import { ISignUpController } from '~/@types/api/user/request'
+import { ISignUpRequest } from '~/@types/api/user/response'
 
-export const userSignUpController = async (req: Request, res: Response, next: NextFunction) => {
+export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
     const {email, password, phone, userType} = req.params;
     if (!email && !password && !phone && !userType) {
         return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
