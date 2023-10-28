@@ -48,21 +48,48 @@ const config = {
   },
 };
 
-const connectionConfig: DataSource = {
-  ...config[NODE_ENV],
-  type: DB_TYPE,
-  synchronize: NODE_ENV !== 'production',
-  entities: ['src/database/entity/*.ts'],
-  subscribers: ['src/database/subscriber/*.ts'],
-  migrations: ['src/database/migration/*.ts'],
-  cli: {
-    entitiesDir: 'src/database/entity',
-    migrationsDir: 'src/database/migration',
-    subscribersDir: 'src/database/subscriber',
-  },
-  namingStrategy: new SnakeNamingStrategy(),
-  dropSchema: NODE_ENV === 'test',
-  timezone: '+09:00',
-};
+// const connectionConfig: DataSource = {
+//   ...config[NODE_ENV],
+//   type: DB_TYPE,
+//   synchronize: NODE_ENV !== 'production',
+//   entities: ['src/database/entity/*.ts'],
+//   subscribers: ['src/database/subscriber/*.ts'],
+//   migrations: ['src/database/migration/*.ts'],
+//   cli: {
+//     entitiesDir: 'src/database/entity',
+//     migrationsDir: 'src/database/migration',
+//     subscribersDir: 'src/database/subscriber',
+//   },
+//   namingStrategy: new SnakeNamingStrategy(),
+//   dropSchema: NODE_ENV === 'test',
+//   timezone: '+09:00',
+// };
 
-export default connectionConfig;
+// export default connectionConfig;
+
+const AppDataSource: DataSource = {
+    ...config[NODE_ENV],
+    type: DB_TYPE,
+    synchronize: NODE_ENV !== 'production',
+    entities: ['src/database/entity/*.ts'],
+    subscribers: ['src/database/subscriber/*.ts'],
+    migrations: ['src/database/migration/*.ts'],
+    cli: {
+      entitiesDir: 'src/database/entity',
+      migrationsDir: 'src/database/migration',
+      subscribersDir: 'src/database/subscriber',
+    },
+    namingStrategy: new SnakeNamingStrategy(),
+    dropSchema: NODE_ENV === 'test',
+    timezone: '+09:00',
+  };
+
+AppDataSource.initialize()
+  .then(() => {
+      console.log("Data Source has been initialized!")
+  })
+  .catch((err) => {
+      console.error("Error during Data Source initialization", err)
+  })
+
+export default AppDataSource;
