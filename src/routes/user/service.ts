@@ -1,4 +1,5 @@
 import { User } from '~/database/entity';
+import { UserPhoneAuth } from '~/database/entity';
 import  AppDataSource from '~/config/db';
 import redisCli from '~/config/redis';
 import { ISignUpService, ISignUpAuthNumService } from '~/@types/api/user/request'
@@ -22,6 +23,9 @@ export const userSignUpService= async ({
 
     const nickname = capitalizedRandomName;
 
+    const userPhoneAuthRepository = AppDataSource.getRepository(UserPhoneAuth)
+    const phoneAuthData = await userPhoneAuthRepository.findOne({ where: { phone } });
+
     // 레디스에 인증번호가 있는 지 핸드폰 번호로 파악(인증번호 있으면 OK -> 인증 시스템 안써서 그냥 PASS 시켰음)
     let randomNums: string | null; // 변수 선언 및 초기화;
     const key = `user_data:${phone}`;
@@ -30,7 +34,7 @@ export const userSignUpService= async ({
         const parsedData = JSON.parse(data);
         if (parsedData.phone === phone) {
             randomNums = parsedData.randomNums; // 변수 초기화
-            if (randomNums) {
+            if (randomNums === phoneAuthData.authNums) {
                 const phoneAuthRegexes = registerRegexesOfType.phoneAuth.regexes;
                 const isPhoneAuthValid = phoneAuthRegexes.some(regex => regex.test(randomNums));
                 if (!isPhoneAuthValid) {
@@ -60,12 +64,28 @@ export const userSignUpAuthenticationNumberService= async ({
     phone,
 }: ISignUpAuthNumService) =>{
 
-    const randomNums = generateFourDigitRandom;
+    const randomNums = generateFourDigitRandom();
     const data = JSON.stringify({ phone, randomNums });
     const key = `user_data:${phone}`;
 
     // 1분동안 다른 인증번호는 생성 못하게 막음(FE에서)
     const expirationTime = 60000; // 1분 (60,000 밀리초)
     await redisCli.psetex(key, expirationTime, data);
+
+    const userPhoneAuthRepository = AppDataSource.getRepository(UserPhoneAuth)
+    const phoneAuthData = await userPhoneAuthRepository.findOne({ where: { phone } });
+
+    await transactionRunner(async (queryRunner) => {
+        if (phoneAuthData) {
+            await queryRunner.manager.remove(phoneAuthData);
+        } else {
+            const newUser = userPhoneAuthRepository.create({
+                phone,
+                authNums: randomNums,
+            });
+            await queryRunner.manager.save(newUser);
+        }
+    });
+
     return randomNums;
 };
