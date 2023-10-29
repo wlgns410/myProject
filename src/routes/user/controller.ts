@@ -48,7 +48,7 @@ export const userSignUpController = async (req: ISignUpController, res: Response
         const response = await userSignUpService({email, password, phone, userType});
         return res
           .status(httpStatus.CREATED)
-          .json({ data: response, status: httpStatus.CREATED, message: '정상적으로 처리되었습니다.' });
+          .json({ status: httpStatus.CREATED, message: '정상적으로 회원가입 되었습니다.' });
       } catch (e) {
         return next(e);
       }
@@ -73,7 +73,7 @@ export const userSignUpAuthenticationNumberController = async (req: ISignUpAuthN
         const response = await userSignUpAuthenticationNumberService({phone});
         return res
           .status(httpStatus.ACCEPTED)
-          .json({ data: response, status: httpStatus.ACCEPTED, message: '정상적으로 처리되었습니다.' });
+          .json({ data: response, status: httpStatus.ACCEPTED, message: '정상적으로 인증번호가 발급되었습니다.' });
       } catch (e) {
         return next(e);
       }
