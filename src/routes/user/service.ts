@@ -32,14 +32,9 @@ export const userSignUpService= async ({
 export const userSignUpAuthenticationNumberService= async ({
     phone,
 }: ISignUpAuthNumService) =>{
-    // const existingCode = await redisCli.get(`verification:${phone}`);
 
     const randomNums = generateFourDigitRandom;
     const data = JSON.stringify({ phone, randomNums });
-    const redisNums = await redisCli.set('user_data', data);
-
-
-    // redis에 인증번호, 전화번호 있는지 파악
-    // DB 저장
-    // create라서 리턴은 없음.
+    await redisCli.set('user_data', data);
+    return randomNums;
 };
