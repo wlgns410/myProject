@@ -6,6 +6,7 @@ import { ISignUpService, ISignUpAuthNumService } from '~/@types/api/user/request
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import capitalizedRandomName from '~/libs/nickname';
+import generateFourDigitRandom from '~/libs/generateFourDigit';
 
 export const userSignUpService= async ({
     email,password,phone,userType,
@@ -29,10 +30,13 @@ export const userSignUpService= async ({
 };
 
 export const userSignUpAuthenticationNumberService= async ({
-   nums, phone,
+    phone,
 }: ISignUpAuthNumService) =>{
-    // redis에 전화번호 있는지 파악
-    const existingCode = await redis.get(`verification:${phone}`);
+    // const existingCode = await redisCli.get(`verification:${phone}`);
+
+    const randomNums = generateFourDigitRandom;
+    const data = JSON.stringify({ phone, randomNums });
+    const redisNums = await redisCli.set('user_data', data);
 
 
     // redis에 인증번호, 전화번호 있는지 파악

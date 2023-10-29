@@ -46,7 +46,7 @@ export const userSignUpController = async (req: ISignUpController, res: Response
     }
 
     try {
-        const response = await userSignUpService(email, password, phone, userType);
+        const response = await userSignUpService({email, password, phone, userType});
         return res
           .status(httpStatus.CREATED)
           .json({ data: response, status: httpStatus.CREATED, message: '정상적으로 처리되었습니다.' });
@@ -56,8 +56,8 @@ export const userSignUpController = async (req: ISignUpController, res: Response
 }
 
 export const userSignUpAuthenticationNumberController = async (req: ISignUpAuthNumController, res: Response, next: NextFunction) => {
-    const { nums, phone } = req.params;
-    if (!nums && !phone) {
+    const { phone } = req.params;
+    if (!phone) {
         return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
     }
 
@@ -70,17 +70,8 @@ export const userSignUpAuthenticationNumberController = async (req: ISignUpAuthN
         }
     }
 
-    if (nums) {
-        const numsRegexes = registerRegexesOfType.nums.regexes;
-        const isNumsValid = numsRegexes.some(regex => regex.test(nums));
-
-        if (!isNumsValid) {
-            return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
-        }
-    }
-
     try {
-        const response = await userSignUpAuthenticationNumberService(nums, phone);
+        const response = await userSignUpAuthenticationNumberService({phone});
         return res
           .status(httpStatus.ACCEPTED)
           .json({ data: response, status: httpStatus.ACCEPTED, message: '정상적으로 처리되었습니다.' });

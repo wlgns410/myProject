@@ -16,12 +16,10 @@ export interface ISignUpService {
 
 export interface ISignUpAuthNumController {
     params:{
-      nums: string;
       phone: string;
     }
 }
 
 export interface ISignUpAuthNumService {
-    nums: string;
     phone: string;
 }
