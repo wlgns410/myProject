@@ -18,7 +18,7 @@ export const userSignUpController = async (req: ISignUpController, res: Response
         const isEmailValid = emailRegexes.some(regex => regex.test(email));
 
         if (!isEmailValid) {
-            return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+            return next(new ErrorResponse(ERROR_CODE.EMAIL_INVAILD_INPUT));
         }
     }
 
@@ -27,7 +27,7 @@ export const userSignUpController = async (req: ISignUpController, res: Response
         const isPasswordValid = passwordRegexes.some(regex => regex.test(password));
 
         if (!isPasswordValid) {
-            return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+            return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
         }
     }
 
@@ -36,16 +36,16 @@ export const userSignUpController = async (req: ISignUpController, res: Response
         const isPhoneValid = phoneRegexes.some(regex => regex.test(phone));
 
         if (!isPhoneValid) {
-            return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+            return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
         }
     }
 
     if (!UserType.isValid(userType)) {
-        return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+        return next(new ErrorResponse(ERROR_CODE.USER_TYPE_INVAILD_INPUT));
     }
 
     try {
-        const response = await userSignUpService({email, password, phone, userType});
+        await userSignUpService({email, password, phone, userType});
         return res
           .status(httpStatus.CREATED)
           .json({ status: httpStatus.CREATED, message: '정상적으로 회원가입 되었습니다.' });

@@ -21,6 +21,6 @@ export const registerRegexesOfType = {
     },
     phoneAuth: {
         regexes: [/^\d{4}$/],
-        msg: '인증번호의 양식에 맞게 입력해주세요.',
+        msg: '핸드폰 인증번호의 형식에 맞게 입력해주세요.',
     }
 }
