@@ -7,6 +7,7 @@ import ErrorResponse from '~/libs/exception/errorResponse';
 import capitalizedRandomName from '~/libs/nickname';
 import generateFourDigitRandom from '~/libs/generateFourDigit';
 import { registerRegexesOfType } from '~/libs/regex';
+import transactionRunner from '~/database/transaction';
 
 export const userSignUpService= async ({
     email,password,phone,userType,
@@ -43,14 +44,16 @@ export const userSignUpService= async ({
         throw new ErrorResponse(ERROR_CODE.NOT_FOUND_REDIS_SESSION_USER);
     }
 
-    const newUser = userRepository.create({
-        email,
-        password,
-        phone,
-        userType,
-        nickname,
+    await transactionRunner(async (queryRunner) => {
+        const newUser = userRepository.create({
+            email,
+            password,
+            phone,
+            userType,
+            nickname,
+        });
+        await queryRunner.manager.save(newUser);
     });
-    await userRepository.save(newUser);
 };
 
 export const userSignUpAuthenticationNumberService= async ({
