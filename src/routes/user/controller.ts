@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
 import { userSignUpService, userSignUpAuthenticationNumberService } from './service';
 import ERROR_CODE from '~/libs/exception/errorCode';
@@ -6,7 +6,6 @@ import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/regex';
 import { UserType } from '~/libs/enum';
 import { ISignUpController, ISignUpAuthNumController } from '~/@types/api/user/request'
-import { ISignUpRequest } from '~/@types/api/user/response'
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
     const {email, password, phone, userType} = req.params;
