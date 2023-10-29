@@ -1,4 +1,3 @@
-import { UserRepository } from '~/database/repository';
 import { User } from '~/database/entity';
 import  AppDataSource from '~/config/db';
 import redisCli from '~/config/redis';
