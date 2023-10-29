@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import userSignUpService from './service';
+import { userSignUpService, userSignUpAuthenticationNumberService } from './service';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/regex';
 import { UserType } from '~/libs/enum';
-import { ISignUpController } from '~/@types/api/user/request'
+import { ISignUpController, ISignUpAuthNumController } from '~/@types/api/user/request'
 import { ISignUpRequest } from '~/@types/api/user/response'
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
@@ -50,6 +50,40 @@ export const userSignUpController = async (req: ISignUpController, res: Response
         return res
           .status(httpStatus.CREATED)
           .json({ data: response, status: httpStatus.CREATED, message: '정상적으로 처리되었습니다.' });
+      } catch (e) {
+        return next(e);
+      }
+}
+
+export const userSignUpAuthenticationNumberController = async (req: ISignUpAuthNumController, res: Response, next: NextFunction) => {
+    const { nums, phone } = req.params;
+    if (!nums && !phone) {
+        return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+    }
+
+    if (phone) {
+        const phoneRegexes = registerRegexesOfType.phone.regexes;
+        const isPhoneValid = phoneRegexes.some(regex => regex.test(phone));
+
+        if (!isPhoneValid) {
+            return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+        }
+    }
+
+    if (nums) {
+        const numsRegexes = registerRegexesOfType.nums.regexes;
+        const isNumsValid = numsRegexes.some(regex => regex.test(nums));
+
+        if (!isNumsValid) {
+            return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+        }
+    }
+
+    try {
+        const response = await userSignUpAuthenticationNumberService(nums, phone);
+        return res
+          .status(httpStatus.ACCEPTED)
+          .json({ data: response, status: httpStatus.ACCEPTED, message: '정상적으로 처리되었습니다.' });
       } catch (e) {
         return next(e);
       }
