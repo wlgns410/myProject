@@ -18,5 +18,9 @@ export const registerRegexesOfType = {
     phone: {
         regexes: [/^01\d\d{3,4}\d{4}$/],
         msg: '핸드폰 번호의 양식에 맞게 입력해주세요.',
+    },
+    nums: {
+        regexes: [/^\d{4}$/],
+        msg: '인증번호의 양식에 맞게 입력해주세요.',
     }
 }
