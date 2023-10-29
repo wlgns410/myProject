@@ -1,3 +1,168 @@
 tags:
   name: User
-  description: User Controller
+  description: User SignUp Controller
+
+definitions:
+  SignUp:
+    type: object
+    required:
+      - email
+      - password
+      - phone
+      - userType
+    properties:
+      email:
+        type: string
+        description: 이메일
+      password:
+        type: string
+        description: 비밀번호
+      phone:
+        type: string
+        description: 전화번호
+      userType:
+        type: string
+        description: 유저타입
+
+  SignUpAuth:
+    type: object
+    required:
+      - phone
+    properties:
+      phone:
+        type: string
+        description: 전화번호
+
+/user/signup:
+  post:
+    tags: [User]
+    produces:
+      - application/json
+    consumes:
+      - application/json
+    requestBody:
+      content:
+        application/json:
+          name: SignUp
+          required: true
+          schema: '#/definitions/SignUp'
+    response:
+      201:
+        description: '회원가입'
+        content:
+          application/json:
+            example:
+              status: 201
+              message: '정상적으로 회원가입 되었습니다.'
+      400:
+        description: '잘못된 데이터를 입력한 경우'
+        content:
+          application/json:
+            example:
+              errorCode:
+                status: 400
+                message: '이메일의 형식에 맞게 입력해주세요.'
+                code: 'SIGNUP002'
+      400:
+        description: '잘못된 데이터를 입력한 경우'
+        content:
+          application/json:
+            example:
+              errorCode:
+                status: 400
+                message: '비밀번호는 6자 이상 15자 이하의 영문+숫자이어야 합니다.'
+                code: 'SIGNUP003'
+      400:
+        description: '잘못된 데이터를 입력한 경우'
+        content:
+          application/json:
+            example:
+              errorCode:
+                status: 400
+                message: '핸드폰의 형식에 맞게 입력해주세요.'
+                code: 'SIGNUP004'
+      400:
+        description: '잘못된 데이터를 입력한 경우'
+        content:
+          application/json:
+            example:
+              errorCode:
+                status: 400
+                message: '유저 타입의 형식에 맞게 입력해주세요.'
+                code: 'SIGNUP006'
+      401:
+        description: "token이 없거나 유효하지 않음(비정상적 접근)"
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ErrorResponseAboutBusinessLogic"
+            example:
+              errorCode:
+                status: 401
+                message: 인증번호 데이터가 존재하지 않습니다. || 인증번호를 다시 발급해주세요
+                code: SIGNUP007 || SIGNUP008
+      403:
+        description: "이미 회원가입한 유저"
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ErrorResponseAboutBusinessLogic"
+            example:
+              errorCode:
+                status: 403
+                message: 이미 회원가입한 아이디입니다.
+                code: SIGNUP001
+      500:
+        description: "알 수 없는 오류"
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ErrorResponseAboutBusinessLogic"
+            example:
+              errorCode:
+                status: 500
+                message: Internal Server Error
+                code: COMMON005
+              fieldErrors: []
+
+/user/signup/auth:
+  post:
+    tags: [User]
+    produces:
+      - application/json
+    consumes:
+      - application/json
+    requestBody:
+      content:
+        application/json:
+          name: SignUpAuth
+          required: true
+          schema: '#/definitions/SignUpAuth'
+      response:
+        202:
+          description: '인증번호 발급'
+          content:
+            application/json:
+              example:
+                status: 201
+                message: '정상적으로 인증번호가 발급되었습니다.'
+        400:
+        description: '잘못된 데이터를 입력한 경우'
+        content:
+          application/json:
+            example:
+              errorCode:
+                status: 400
+                message: '핸드폰의 형식에 맞게 입력해주세요.'
+                code: 'SIGNUP004'
+        500:
+        description: "알 수 없는 오류"
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ErrorResponseAboutBusinessLogic"
+            example:
+              errorCode:
+                status: 500
+                message: Internal Server Error
+                code: COMMON005

@@ -57,7 +57,7 @@ export const userSignUpController = async (req: ISignUpController, res: Response
 export const userSignUpAuthenticationNumberController = async (req: ISignUpAuthNumController, res: Response, next: NextFunction) => {
     const { phone } = req.params;
     if (!phone) {
-        return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+        return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
     }
 
     if (phone) {
@@ -65,7 +65,7 @@ export const userSignUpAuthenticationNumberController = async (req: ISignUpAuthN
         const isPhoneValid = phoneRegexes.some(regex => regex.test(phone));
 
         if (!isPhoneValid) {
-            return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+            return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
         }
     }
 
