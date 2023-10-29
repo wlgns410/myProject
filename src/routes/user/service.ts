@@ -33,14 +33,14 @@ export const userSignUpService= async ({
                 const phoneAuthRegexes = registerRegexesOfType.phoneAuth.regexes;
                 const isPhoneAuthValid = phoneAuthRegexes.some(regex => regex.test(randomNums));
                 if (!isPhoneAuthValid) {
-                    throw new ErrorResponse(ERROR_CODE.NOT_FOUND_USER);
+                    throw new ErrorResponse(ERROR_CODE.NOT_MATCH_SESSION_USER_PHONE);
                 }
             }
         } else {
-            throw new ErrorResponse(ERROR_CODE.NOT_FOUND_USER);
+            throw new ErrorResponse(ERROR_CODE.NOT_MATCH_SESSION_USER_PHONE);
         }
     } else {
-        throw new ErrorResponse(ERROR_CODE.NOT_FOUND_USER);
+        throw new ErrorResponse(ERROR_CODE.NOT_FOUND_REDIS_SESSION_USER);
     }
 
     const newUser = userRepository.create({

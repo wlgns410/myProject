@@ -15,12 +15,14 @@ const ERROR_CODE = {
   NOT_FOUND_USER: $(404, '가입하지 않은 아이디입니다.', 'COMMON009'),
 
   // SignUp
-  ALREADY_SIGNUP_USER: $(400, '이미 회원가입한 아이디입니다.', 'SIGNUP001'),
+  ALREADY_SIGNUP_USER: $(403, '이미 회원가입한 아이디입니다.', 'SIGNUP001'),
   EMAIL_INVAILD_INPUT: $(400, '이메일의 형식에 맞게 입력해주세요.', 'SIGNUP002'),
   PASSWORD_INVAILD_INPUT: $(400, '비밀번호는 6자 이상 15자 이하의 영문+숫자이어야 합니다.', 'SIGNUP003'),
   PHONE_INVAILD_INPUT: $(400, '핸드폰의 형식에 맞게 입력해주세요.', 'SIGNUP004'),
   PHONE_AUTH_INVAILD_INPUT: $(400, '핸드폰 인증번호의 형식에 맞게 입력해주세요.', 'SIGNUP005'),
   USER_TYPE_INVAILD_INPUT: $(400, '유저 타입의 형식에 맞게 입력해주세요.', 'SIGNUP006'),
+  NOT_FOUND_REDIS_SESSION_USER: $(401, '인증번호 데이터가 존재하지 않습니다.', 'SIGNUP007'),
+  NOT_MATCH_SESSION_USER_PHONE: $(401, '인증번호를 다시 발급해주세요', 'SIGNUP008'),
 };
 
 export default ERROR_CODE;
