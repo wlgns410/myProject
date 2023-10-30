@@ -82,6 +82,13 @@ const AppDataSource: DataSource = {
     namingStrategy: new SnakeNamingStrategy(),
     dropSchema: NODE_ENV === 'test',
     timezone: '+09:00',
+    cache: {
+        type: "redis",
+        options: {
+            host: "localhost",
+            port: 6379
+        },
+    },
   };
 
 AppDataSource.initialize()
