@@ -67,36 +67,37 @@ const config = {
 
 // export default connectionConfig;
 
-const AppDataSource: DataSource = {
+const ConfigOption: DataSourceOptions= {
     ...config[NODE_ENV],
     type: DB_TYPE,
-    synchronize: NODE_ENV !== 'production',
+    // synchronize: NODE_ENV !== 'production',
+    synchronize: true,
     entities: ['src/database/entity/*.ts'],
     subscribers: ['src/database/subscriber/*.ts'],
-    migrations: ['src/database/migration/*.ts'],
+    migrations: ['src/database/migrations/*.ts', 'src/database/migrations/*.js'],
     cli: {
       entitiesDir: 'src/database/entity',
-      migrationsDir: 'src/database/migration',
+      migrationsDir: 'src/database/migrations',
       subscribersDir: 'src/database/subscriber',
     },
     namingStrategy: new SnakeNamingStrategy(),
     dropSchema: NODE_ENV === 'test',
     timezone: '+09:00',
-    cache: {
-        type: "redis",
-        options: {
-            host: "localhost",
-            port: 6379
-        },
-    },
+    // cache: {
+    //     type: "redis",
+    //     options: {
+    //         host: "localhost",
+    //         port: 6379
+    //     },
+    // },
   };
 
-AppDataSource.initialize()
-  .then(() => {
-      console.log("Data Source has been initialized!")
-  })
-  .catch((err) => {
-      console.error("Error during Data Source initialization", err)
-  })
+//   config.initialize()
+//   .then(() => {
+//       console.log("Data Source has been initialized!")
+//   })
+//   .catch((err) => {
+//       console.error("Error during Data Source initialization", err)
+//   })
 
-export default AppDataSource;
+export const AppDataSource = new DataSource(ConfigOption);
