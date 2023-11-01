@@ -1,2 +1,2 @@
 // User
-export * from './UserRepository';
+export * from './userRepository';

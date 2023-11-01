@@ -50,13 +50,29 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
           swaggerDefinition: {
             openapi: '3.0.0',
             info: {
-              title: 'My API',
+              title: 'MyProject API',
               version: '1.0.0',
             },
             schemes: ['http', 'https'],
-            host: '',
+            host: 'PR.Swagger.com',
+            components: {
+              securitySchemes: {
+                bearerAuth: {
+                  type: 'http',
+                  scheme: 'bearer',
+                  name: 'authorization',
+                  bearerFormat: 'JWT',
+                  in: 'header',
+                },
+              },
+            },
+            security: [
+              {
+                bearerAuth: [],
+              },
+            ],
           },
-          apis: ['./src/routes/**/index*.ts'],
+          apis: ['./src/routes/**/index*.ts', './src/routes/**/swagger.yml'],
         }),
       ),
     );
