@@ -1,6 +1,6 @@
 import { User } from '~/database/entity';
 import { UserPhoneAuth } from '~/database/entity';
-import  AppDataSource from '~/config/db';
+import { AppDataSource } from '~/config/db';
 import redisCli from '~/config/redis';
 import { ISignUpService, ISignUpAuthNumService } from '~/@types/api/user/request'
 import ERROR_CODE from '~/libs/exception/errorCode';
