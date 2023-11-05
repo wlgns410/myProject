@@ -1,5 +1,5 @@
 export interface ISignUpController {
-  params:{
+  body:{
     email: string;
     password: string;
     phone: string;
@@ -15,7 +15,7 @@ export interface ISignUpService {
 }
 
 export interface ISignUpAuthNumController {
-    params:{
+    body:{
       phone: string;
     }
 }
@@ -23,3 +23,4 @@ export interface ISignUpAuthNumController {
 export interface ISignUpAuthNumService {
     phone: string;
 }
+

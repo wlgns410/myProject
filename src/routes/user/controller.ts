@@ -55,7 +55,7 @@ export const userSignUpController = async (req: ISignUpController, res: Response
 }
 
 export const userSignUpAuthenticationNumberController = async (req: ISignUpAuthNumController, res: Response, next: NextFunction) => {
-    const { phone } = req.params;
+    const { phone } = req.body;
     if (!phone) {
         return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
     }
