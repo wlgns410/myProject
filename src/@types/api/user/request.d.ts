@@ -24,3 +24,14 @@ export interface ISignUpAuthNumService {
     phone: string;
 }
 
+export interface ISignInController {
+  body:{
+    password: string;
+    phone: string;
+    }
+}
+
+export interface ISignInService {
+    password: string;
+    phone: string;
+}
