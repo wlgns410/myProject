@@ -8,7 +8,7 @@ import { UserType } from '~/libs/enum';
 import { ISignUpController, ISignUpAuthNumController } from '~/@types/api/user/request'
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
-    const {email, password, phone, userType} = req.params;
+    const {email, password, phone, userType} = req.body;
     if (!email && !password && !phone && !userType) {
         return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
     }
