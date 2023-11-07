@@ -5,7 +5,7 @@ import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/regex';
 import { UserType } from '~/libs/enum';
-import { ISignUpController, ISignUpAuthNumController } from '~/@types/api/user/request'
+import { ISignUpController, ISignUpAuthNumController, ISignInController } from '~/@types/api/user/request'
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
     const {email, password, phone, userType} = req.body;
@@ -74,6 +74,44 @@ export const userSignUpAuthenticationNumberController = async (req: ISignUpAuthN
         return res
           .status(httpStatus.ACCEPTED)
           .json({ data: response, status: httpStatus.ACCEPTED, message: '정상적으로 인증번호가 발급되었습니다.' });
+      } catch (e) {
+        return next(e);
+      }
+}
+
+export const userSignInController = async (req: ISignInController, res: Response, next: NextFunction) => {
+    const { phone, password } = req.body;
+    if (!phone) {
+        return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
+    }
+
+    if (phone) {
+        const phoneRegexes = registerRegexesOfType.phone.regexes;
+        const isPhoneValid = phoneRegexes.some(regex => regex.test(phone));
+
+        if (!isPhoneValid) {
+            return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
+        }
+    }
+
+    if (!password) {
+        return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
+    }
+
+    if (password) {
+        const phoneRegexes = registerRegexesOfType.phone.regexes;
+        const isPhoneValid = phoneRegexes.some(regex => regex.test(phone));
+
+        if (!isPhoneValid) {
+            return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
+        }
+    }
+
+    try {
+        const response = await userSignInService({phone, password});
+        return res
+          .status(httpStatus.OK)
+          .json({ data: response, status: httpStatus.OK, message: '정상적으로 로그인 되었습니다.' });
       } catch (e) {
         return next(e);
       }
