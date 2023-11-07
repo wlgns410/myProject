@@ -99,10 +99,10 @@ export const userSignInController = async (req: ISignInController, res: Response
     }
 
     if (password) {
-        const phoneRegexes = registerRegexesOfType.phone.regexes;
-        const isPhoneValid = phoneRegexes.some(regex => regex.test(phone));
+        const passwordRegexes = registerRegexesOfType.password.regexes;
+        const isPasswordValid = passwordRegexes.some(regex => regex.test(password));
 
-        if (!isPhoneValid) {
+        if (!isPasswordValid) {
             return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
         }
     }
