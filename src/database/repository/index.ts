@@ -1,2 +1,0 @@
-// User
-export * from './userRepository';
