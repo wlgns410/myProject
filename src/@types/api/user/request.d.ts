@@ -32,6 +32,5 @@ export interface ISignInController {
 }
 
 export interface ISignInService {
-    password: string;
     phone: string;
 }

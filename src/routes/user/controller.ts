@@ -1,6 +1,6 @@
 import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
-import { userSignUpService, userSignUpAuthenticationNumberService } from './service';
+import { userSignUpService, userSignUpAuthenticationNumberService, userSignInService } from './service';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/regex';
@@ -82,7 +82,7 @@ export const userSignUpAuthenticationNumberController = async (req: ISignUpAuthN
 export const userSignInController = async (req: ISignInController, res: Response, next: NextFunction) => {
     const { phone, password } = req.body;
     if (!phone) {
-        return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
+        return next(new ErrorResponse(ERROR_CODE.NOT_EXACT_PHONE_OR_PASSWORD));
     }
 
     if (phone) {
@@ -90,12 +90,12 @@ export const userSignInController = async (req: ISignInController, res: Response
         const isPhoneValid = phoneRegexes.some(regex => regex.test(phone));
 
         if (!isPhoneValid) {
-            return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
+            return next(new ErrorResponse(ERROR_CODE.NOT_EXACT_PHONE_OR_PASSWORD));
         }
     }
 
     if (!password) {
-        return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
+        return next(new ErrorResponse(ERROR_CODE.NOT_EXACT_PHONE_OR_PASSWORD));
     }
 
     if (password) {
@@ -103,12 +103,12 @@ export const userSignInController = async (req: ISignInController, res: Response
         const isPasswordValid = passwordRegexes.some(regex => regex.test(password));
 
         if (!isPasswordValid) {
-            return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
+            return next(new ErrorResponse(ERROR_CODE.NOT_EXACT_PHONE_OR_PASSWORD));
         }
     }
 
     try {
-        const response = await userSignInService({phone, password});
+        const response = await userSignInService({phone});
         return res
           .status(httpStatus.OK)
           .json({ data: response, status: httpStatus.OK, message: '정상적으로 로그인 되었습니다.' });

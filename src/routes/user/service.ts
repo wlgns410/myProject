@@ -2,9 +2,10 @@ import { User } from '~/database/entity';
 import { UserPhoneAuth } from '~/database/entity';
 import { AppDataSource } from '~/config/db';
 import redisCli from '~/config/redis';
-import { ISignUpService, ISignUpAuthNumService } from '~/@types/api/user/request'
+import { ISignUpService, ISignUpAuthNumService, ISignInService } from '~/@types/api/user/request'
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
+import { createToken } from '~/libs/jwt';
 import capitalizedRandomName from '~/libs/nickname';
 import generateFourDigitRandom from '~/libs/generateFourDigit';
 import { registerRegexesOfType } from '~/libs/regex';
@@ -88,4 +89,24 @@ export const userSignUpAuthenticationNumberService= async ({
     });
 
     return randomNums;
+};
+
+export const userSignInService= async ({
+    phone
+}: ISignInService) =>{
+
+    const userRepository = AppDataSource.getRepository(User)
+    const userObj = await userRepository.findOne({ where: { phone } });
+
+    if (userObj) {
+        const userId = userObj.id;
+        const token = createToken({ 
+            id: userId, 
+            email: userObj.email, 
+            nickname: userObj.nickname, 
+            phone: userObj.phone 
+          });
+          return { accessToken: token };
+    }
+    throw new ErrorResponse(ERROR_CODE.TOKEN_NOT_CREATE);
 };
