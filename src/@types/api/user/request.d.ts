@@ -51,4 +51,5 @@ export interface IPasswordChangeController extends IRequestWithUserId {
 export interface IPasswordChangeService {
     originPassword: string;
     changePassword: string;
+    userId: number;
 }

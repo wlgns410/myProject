@@ -121,12 +121,29 @@ export const userLogOutService = async ({ token }: ILogoutService) => {
     }
 };
 
-  export const userPasswordChangeService = async ({ originPassword, changePassword }: IPasswordChangeService) => {
-    const { id: userId } = verifyToken(token);
+export const userPasswordChangeService = async ({ originPassword, changePassword, userId }: IPasswordChangeService) => {
 
     const userRepository = AppDataSource.getRepository(User)
     const foundUser = await userRepository.findOne({ where: { id:userId } });
     if (!foundUser) {
       throw new ErrorResponse(ERROR_CODE.UNAUTHORIZED);
     }
-  };
+
+    // Check if the originPassword matches the user's current password
+    if (foundUser.password !== originPassword) {
+        throw new ErrorResponse(ERROR_CODE.RIGHT_ORIGIN_PASSWORD);
+    }
+
+    // Check if the originPassword and changePassword are the same
+    if (originPassword === changePassword) {
+        throw new ErrorResponse(ERROR_CODE.SAME_PASSWORD);
+    }
+
+    // put(change) state
+  await transactionRunner(async (queryRunner) => {
+    if (foundUser) {
+        foundUser.password = changePassword;
+      await queryRunner.manager.save(foundUser);
+    }
+  });
+};

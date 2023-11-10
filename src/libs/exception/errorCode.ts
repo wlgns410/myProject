@@ -27,6 +27,10 @@ const ERROR_CODE = {
   // SignIn
   NOT_EXACT_PHONE_OR_PASSWORD: $(400, '전화번호나 비밀번호가 일치하지 않습니다.', 'SIGNIN001'),
   TOKEN_NOT_CREATE: $(403, '토큰이 발급되지 않았습니다.', 'SIGNIN002'),
+
+  //ChangePassword
+  RIGHT_ORIGIN_PASSWORD: $(400, '기존의 비밀번호를 입력해주세요.', 'PASSWORD001'),
+  SAME_PASSWORD: $(400, '기존의 비밀번호는 사용하실 수 없습니다.', 'PASSWORD002'),
 };
 
 export default ERROR_CODE;

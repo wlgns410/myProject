@@ -4,6 +4,7 @@ import {
     userSignUpAuthenticationNumberController,
     userSignInController,
     userLogOutController,
+    userPasswordChangeController,
   } from './controller';
 
 const user = Router();
@@ -20,5 +21,8 @@ user
 user
   .route('/logout')
   .post(userLogOutController);
+user
+  .route('/changepassword')
+  .patch(userPasswordChangeController);
 
 export default user;

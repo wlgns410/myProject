@@ -138,6 +138,7 @@ export const userLogOutController = async (req: Request, res: Response, next: Ne
 
 export const userPasswordChangeController = async (req: IPasswordChangeController, res: Response, next: NextFunction) => {
     const { originPassword, changePassword } = req.body;
+    const { userId } = req;
 
     if (!originPassword) {
         return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
@@ -164,10 +165,10 @@ export const userPasswordChangeController = async (req: IPasswordChangeControlle
     }
 
     try {
-        const response = await userPasswordChangeService({originPassword, changePassword});
+        const response = await userPasswordChangeService({originPassword, changePassword, userId: Number(userId)});
         return res
           .status(httpStatus.OK)
-          .json({ data: response, status: httpStatus.OK, message: '정상적으로 로그인 되었습니다.' });
+          .json({ data: response, status: httpStatus.OK, message: '정상적으로 비밀번호가 변경되었습니다.' });
       } catch (e) {
         return next(e);
       }
