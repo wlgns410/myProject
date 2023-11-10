@@ -206,6 +206,8 @@ definitions:
       - application/json
     consumes:
       - application/json
+    security:
+      - bearerAuth: []
     parameters:
       - in: header
         name: authorization
@@ -239,4 +241,3 @@ definitions:
                 status: 500
                 message: Internal Server Error
                 code: COMMON005
-                
