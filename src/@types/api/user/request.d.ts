@@ -1,3 +1,5 @@
+import { IRequestWithUserInfo, IRequestWithUserId } from '~/@types/api/request/request';
+
 export interface ISignUpController {
   body:{
     email: string;
@@ -33,4 +35,20 @@ export interface ISignInController {
 
 export interface ISignInService {
     phone: string;
+}
+
+export interface ILogoutService {
+    token: string;
+}
+
+export interface IPasswordChangeController extends IRequestWithUserId {
+    body:{
+        originPassword: string;
+        changePassword: string;
+    }
+}
+
+export interface IPasswordChangeService {
+    originPassword: string;
+    changePassword: string;
 }

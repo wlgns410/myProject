@@ -2,7 +2,7 @@ import { User } from '~/database/entity';
 import { UserPhoneAuth } from '~/database/entity';
 import { AppDataSource } from '~/config/db';
 import redisCli from '~/config/redis';
-import { ISignUpService, ISignUpAuthNumService, ISignInService } from '~/@types/api/user/request'
+import { ISignUpService, ISignUpAuthNumService, ISignInService, ILogoutService, IPasswordChangeService } from '~/@types/api/user/request'
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { createToken, verifyToken } from '~/libs/jwt';
@@ -111,7 +111,17 @@ export const userSignInService= async ({
     throw new ErrorResponse(ERROR_CODE.TOKEN_NOT_CREATE);
 };
 
-export const userLogOutService = async ({ token }: { token: string }) => {
+export const userLogOutService = async ({ token }: ILogoutService) => {
+    const { id: userId } = verifyToken(token);
+
+    const userRepository = AppDataSource.getRepository(User)
+    const foundUser = await userRepository.findOne({ where: { id:userId } });
+    if (!foundUser) {
+      throw new ErrorResponse(ERROR_CODE.UNAUTHORIZED);
+    }
+};
+
+  export const userPasswordChangeService = async ({ originPassword, changePassword }: IPasswordChangeService) => {
     const { id: userId } = verifyToken(token);
 
     const userRepository = AppDataSource.getRepository(User)

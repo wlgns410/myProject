@@ -1,11 +1,11 @@
 import { NextFunction, Response, Request } from 'express';
 import httpStatus from 'http-status';
-import { userSignUpService, userSignUpAuthenticationNumberService, userSignInService, userLogOutService } from './service';
+import { userSignUpService, userSignUpAuthenticationNumberService, userSignInService, userLogOutService, userPasswordChangeService } from './service';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/regex';
 import { UserType } from '~/libs/enum';
-import { ISignUpController, ISignUpAuthNumController, ISignInController } from '~/@types/api/user/request'
+import { ISignUpController, ISignUpAuthNumController, ISignInController, IPasswordChangeController } from '~/@types/api/user/request'
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
     const {email, password, phone, userType} = req.body;
@@ -134,4 +134,42 @@ export const userLogOutController = async (req: Request, res: Response, next: Ne
             return next(e);
         });
       });
+}
+
+export const userPasswordChangeController = async (req: IPasswordChangeController, res: Response, next: NextFunction) => {
+    const { originPassword, changePassword } = req.body;
+
+    if (!originPassword) {
+        return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
+    }
+
+    if (originPassword) {
+        const passwordRegexes = registerRegexesOfType.password.regexes;
+        const isPasswordValid = passwordRegexes.some(regex => regex.test(originPassword));
+        if (!isPasswordValid) {
+            return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
+        }
+    }
+
+    if (!changePassword) {
+        return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
+    }
+
+    if (changePassword) {
+        const passwordRegexes = registerRegexesOfType.password.regexes;
+        const isPasswordValid = passwordRegexes.some(regex => regex.test(changePassword));
+        if (!isPasswordValid) {
+            return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
+        }
+    }
+
+    try {
+        const response = await userPasswordChangeService({originPassword, changePassword});
+        return res
+          .status(httpStatus.OK)
+          .json({ data: response, status: httpStatus.OK, message: '정상적으로 로그인 되었습니다.' });
+      } catch (e) {
+        return next(e);
+      }
+
 }
