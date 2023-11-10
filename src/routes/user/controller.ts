@@ -1,6 +1,6 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Response, Request } from 'express';
 import httpStatus from 'http-status';
-import { userSignUpService, userSignUpAuthenticationNumberService, userSignInService } from './service';
+import { userSignUpService, userSignUpAuthenticationNumberService, userSignInService, userLogOutService } from './service';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/regex';
@@ -115,4 +115,23 @@ export const userSignInController = async (req: ISignInController, res: Response
       } catch (e) {
         return next(e);
       }
+}
+
+export const userLogOutController = async (req: Request, res: Response, next: NextFunction) => {
+    const token: string = req.headers.authorization.split('Bearer ')[1];
+
+    req.logout((err) => {
+        if (err) {
+          // 로그아웃 중 에러 처리
+          return next(err);
+        }
+
+        userLogOutService({ token }).then(() => {
+            return res
+              .status(httpStatus.NO_CONTENT)
+              .json({status: httpStatus.NO_CONTENT, message: '정상적으로 로그아웃 되었습니다.' }).end();
+        }).catch((e) => {
+            return next(e);
+        });
+      });
 }

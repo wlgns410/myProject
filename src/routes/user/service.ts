@@ -5,7 +5,7 @@ import redisCli from '~/config/redis';
 import { ISignUpService, ISignUpAuthNumService, ISignInService } from '~/@types/api/user/request'
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
-import { createToken } from '~/libs/jwt';
+import { createToken, verifyToken } from '~/libs/jwt';
 import capitalizedRandomName from '~/libs/nickname';
 import generateFourDigitRandom from '~/libs/generateFourDigit';
 import { registerRegexesOfType } from '~/libs/regex';
@@ -110,3 +110,13 @@ export const userSignInService= async ({
     }
     throw new ErrorResponse(ERROR_CODE.TOKEN_NOT_CREATE);
 };
+
+export const userLogOutService = async ({ token }: { token: string }) => {
+    const { id: userId } = verifyToken(token);
+
+    const userRepository = AppDataSource.getRepository(User)
+    const foundUser = await userRepository.findOne({ where: { id:userId } });
+    if (!foundUser) {
+      throw new ErrorResponse(ERROR_CODE.UNAUTHORIZED);
+    }
+  };
