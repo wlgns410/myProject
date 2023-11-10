@@ -257,7 +257,7 @@ definitions:
                 code: COMMON005
 
 /user/changepassword:
-  post:
+  patch:
     tags: [User]
     produces:
       - application/json
@@ -315,4 +315,3 @@ definitions:
                 status: 500
                 message: Internal Server Error
                 code: COMMON005
-                
