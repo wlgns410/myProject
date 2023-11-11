@@ -1,5 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { IJWTTokenData } from '~/@types/utils/jwt';
+import { IRequestWithUserInfo } from '~/@types/api/request/request';
+import { NextFunction, Response } from 'express';
+import ERROR_CODE from '~/libs/exception/errorCode';
+import ErrorResponse from '~/libs/exception/errorResponse';
 
 const { TOKEN_SECRET } = process.env;
 
@@ -15,4 +19,14 @@ export const verifyToken = (token: string) => {
   } catch (error) {
     return null;
   }
+};
+
+export const tokenValidation = async (req: IRequestWithUserInfo, _: Response, next: NextFunction) => {
+    if (!req.headers.authorization) {
+      return next(new ErrorResponse(ERROR_CODE.UNAUTHORIZED));
+    }
+  
+    const token: string = req.headers.authorization.split('Bearer ')[1];
+    const isVerified = verifyToken(token);
+    req.userId = isVerified.id;
 };

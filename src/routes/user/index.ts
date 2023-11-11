@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { tokenValidation } from '~/libs/jwt';
 import {
     userSignUpController,
     userSignUpAuthenticationNumberController,
@@ -20,9 +21,9 @@ user
   .post(userSignInController);
 user
   .route('/logout')
-  .post(userLogOutController);
+  .post(tokenValidation, userLogOutController);
 user
   .route('/changepassword')
-  .patch(userPasswordChangeController);
+  .patch(tokenValidation, userPasswordChangeController);
 
 export default user;
