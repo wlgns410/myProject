@@ -165,10 +165,10 @@ export const userPasswordChangeController = async (req: IPasswordChangeControlle
     }
 
     try {
-        const response = await userPasswordChangeService({originPassword, changePassword, userId: Number(userId)});
+        await userPasswordChangeService({originPassword, changePassword, userId: Number(userId)});
         return res
           .status(httpStatus.OK)
-          .json({ data: response, status: httpStatus.OK, message: '정상적으로 비밀번호가 변경되었습니다.' });
+          .json({ status: httpStatus.OK, message: '정상적으로 비밀번호가 변경되었습니다.' });
       } catch (e) {
         return next(e);
       }
