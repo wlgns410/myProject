@@ -111,9 +111,7 @@ export const userSignInService= async ({
     throw new ErrorResponse(ERROR_CODE.TOKEN_NOT_CREATE);
 };
 
-export const userLogOutService = async ({ token }: ILogoutService) => {
-    const { id: userId } = verifyToken(token);
-
+export const userLogOutService = async ({ userId }: ILogoutService) => {
     const userRepository = AppDataSource.getRepository(User)
     const foundUser = await userRepository.findOne({ where: { id:userId } });
     if (!foundUser) {

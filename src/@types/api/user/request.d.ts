@@ -1,4 +1,4 @@
-import { IRequestWithUserInfo, IRequestWithUserId } from '~/@types/api/request/request';
+import { IRequestWithUserId } from '~/@types/api/request/request';
 
 export interface ISignUpController {
   body:{
@@ -38,7 +38,7 @@ export interface ISignInService {
 }
 
 export interface ILogoutService {
-    token: string;
+    userId: number;
 }
 
 export interface IPasswordChangeController extends IRequestWithUserId {

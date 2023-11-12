@@ -6,6 +6,7 @@ import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/regex';
 import { UserType } from '~/libs/enum';
 import { ISignUpController, ISignUpAuthNumController, ISignInController, IPasswordChangeController } from '~/@types/api/user/request'
+import { IRequestWithUserId } from '~/@types/api/request/request';
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
     const {email, password, phone, userType} = req.body;
@@ -117,16 +118,15 @@ export const userSignInController = async (req: ISignInController, res: Response
       }
 }
 
-export const userLogOutController = async (req: Request, res: Response, next: NextFunction) => {
-    const token: string = req.headers.authorization.split('Bearer ')[1];
-
+export const userLogOutController = async (req: IRequestWithUserId, res: Response, next: NextFunction) => {
+    const { userId } = req;
+    
     req.logout((err) => {
         if (err) {
           // 로그아웃 중 에러 처리
           return next(err);
         }
-
-        userLogOutService({ token }).then(() => {
+        userLogOutService({ userId: Number(userId) }).then(() => {
             return res
               .status(httpStatus.NO_CONTENT)
               .json({status: httpStatus.NO_CONTENT, message: '정상적으로 로그아웃 되었습니다.' }).end();
