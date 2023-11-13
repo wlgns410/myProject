@@ -1,17 +1,11 @@
 import { Request, Express } from 'express';
-
-export interface ITokenData {
-    id: number;
-    email: string;
-    name: string;
-    phone: string;
-}
+import { IJWTTokenData } from '~/@types/utils/jwt';
 
 export interface IRequestWithUserId extends Request {
     userId: number;
 }
 
 export interface IRequestWithUserInfo extends IRequestWithUserId {
-    user: ITokenData;
+    user: IJWTTokenData;
     token: string;
 }

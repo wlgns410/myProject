@@ -1,4 +1,4 @@
-import { NextFunction, Response, Request } from 'express';
+import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
 import { userSignUpService, userSignUpAuthenticationNumberService, userSignInService, userLogOutService, userPasswordChangeService } from './service';
 import ERROR_CODE from '~/libs/exception/errorCode';
