@@ -1,5 +1,5 @@
 import ErrorField from './exception/errorField';
-import { registerRegexesOfType } from './regex';
+import { registerRegexesOfType } from './util/regex';
 
 export const dateValidation = (fieldName: string, date: string, errorFields: ErrorField[]) => {
   const year = Number(date.substring(0, 4));

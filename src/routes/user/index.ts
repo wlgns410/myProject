@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { tokenValidation } from '~/libs/jwt';
+import { tokenValidation } from '~/libs/util/jwt';
 import {
     userSignUpController,
     userSignUpAuthenticationNumberController,

@@ -3,8 +3,8 @@ import httpStatus from 'http-status';
 import { userSignUpService, userSignUpAuthenticationNumberService, userSignInService, userLogOutService, userPasswordChangeService } from './service';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
-import { registerRegexesOfType } from '~/libs/regex';
-import { UserType } from '~/libs/enum';
+import { registerRegexesOfType } from '~/libs/util/regex';
+import { UserType } from '~/libs/util/enum';
 import { ISignUpController, ISignUpAuthNumController, ISignInController, IPasswordChangeController } from '~/@types/api/user/request'
 import { IRequestWithUserId } from '~/@types/api/request/request';
 

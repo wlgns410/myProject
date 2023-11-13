@@ -5,10 +5,10 @@ import redisCli from '~/config/redis';
 import { ISignUpService, ISignUpAuthNumService, ISignInService, ILogoutService, IPasswordChangeService } from '~/@types/api/user/request'
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
-import { createToken, verifyToken } from '~/libs/jwt';
-import capitalizedRandomName from '~/libs/nickname';
-import generateFourDigitRandom from '~/libs/generateFourDigit';
-import { registerRegexesOfType } from '~/libs/regex';
+import { createToken, verifyToken } from '~/libs/util/jwt';
+import capitalizedRandomName from '~/libs/util/nickname';
+import generateFourDigitRandom from '~/libs/util/generateFourDigit';
+import { registerRegexesOfType } from '~/libs/util/regex';
 import transactionRunner from '~/database/transaction';
 
 export const userSignUpService= async ({
