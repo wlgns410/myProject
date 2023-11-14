@@ -53,3 +53,14 @@ export interface IPasswordChangeService {
     changePassword: string;
     userId: number;
 }
+
+export interface IWithdrawalController extends IRequestWithUserId {
+    body:{
+    password: string;
+    }
+}
+
+export interface IWithdrawalService {
+    password: string;
+    userId: number;
+}

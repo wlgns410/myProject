@@ -2,7 +2,7 @@ import { User } from '~/database/entity';
 import { UserPhoneAuth } from '~/database/entity';
 import { AppDataSource } from '~/config/db';
 import redisCli from '~/config/redis';
-import { ISignUpService, ISignUpAuthNumService, ISignInService, ILogoutService, IPasswordChangeService } from '~/@types/api/user/request'
+import { ISignUpService, ISignUpAuthNumService, ISignInService, ILogoutService, IPasswordChangeService, IWithdrawalService } from '~/@types/api/user/request'
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { createToken } from '~/libs/util/jwt';
@@ -144,4 +144,23 @@ export const userPasswordChangeService = async ({ originPassword, changePassword
       await queryRunner.manager.save(foundUser);
     }
   });
+};
+
+export const userWithdrawalService = async ({ password, userId }: IWithdrawalService) => {
+
+    const userRepository = AppDataSource.getRepository(User)
+    const foundUser = await userRepository.findOne({ where: { id:userId } });
+    if (!foundUser) {
+      throw new ErrorResponse(ERROR_CODE.UNAUTHORIZED);
+    }
+
+    // Check if the originPassword matches the user's current password
+    if (foundUser.password !== password) {
+        throw new ErrorResponse(ERROR_CODE.RIGHT_ORIGIN_PASSWORD);
+    }
+
+    await transactionRunner(async (queryRunner) => {
+        const userRepoInTransaction = queryRunner.manager.getRepository(User);
+        await userRepoInTransaction.softDelete({ id: foundUser.id });
+    });
 };

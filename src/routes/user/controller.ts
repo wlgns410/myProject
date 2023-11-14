@@ -1,11 +1,11 @@
 import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
-import { userSignUpService, userSignUpAuthenticationNumberService, userSignInService, userLogOutService, userPasswordChangeService } from './service';
+import { userSignUpService, userSignUpAuthenticationNumberService, userSignInService, userLogOutService, userPasswordChangeService, userWithdrawalService } from './service';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/util/regex';
 import { UserType } from '~/libs/util/enum';
-import { ISignUpController, ISignUpAuthNumController, ISignInController, IPasswordChangeController } from '~/@types/api/user/request'
+import { ISignUpController, ISignUpAuthNumController, ISignInController, IPasswordChangeController, IWithdrawalController } from '~/@types/api/user/request'
 import { IRequestWithUserId } from '~/@types/api/request/request';
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
@@ -172,5 +172,30 @@ export const userPasswordChangeController = async (req: IPasswordChangeControlle
       } catch (e) {
         return next(e);
       }
+}
 
+export const userWithdrawalController = async (req: IWithdrawalController, res: Response, next: NextFunction) => {
+    const { password } = req.body;
+    const { userId } = req;
+
+    if (!password) {
+        return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
+    }
+
+    if (password) {
+        const passwordRegexes = registerRegexesOfType.password.regexes;
+        const isPasswordValid = passwordRegexes.some(regex => regex.test(password));
+        if (!isPasswordValid) {
+            return next(new ErrorResponse(ERROR_CODE.PASSWORD_INVAILD_INPUT));
+        }
+    }
+
+    try {
+        await userWithdrawalService({password, userId: Number(userId)});
+        return res
+          .status(httpStatus.NO_CONTENT)
+          .json({ status: httpStatus.NO_CONTENT, message: '정상적으로 회원탈퇴 되었습니다.' });
+      } catch (e) {
+        return next(e);
+      }
 }

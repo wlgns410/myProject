@@ -6,6 +6,7 @@ import {
     userSignInController,
     userLogOutController,
     userPasswordChangeController,
+    userWithdrawalController,
   } from './controller';
 
 const user = Router();
@@ -25,5 +26,8 @@ user
 user
   .route('/changepassword')
   .patch(tokenValidation, userPasswordChangeController);
+user
+  .route('/withdrawal')
+  .patch(tokenValidation, userWithdrawalController);
 
 export default user;
