@@ -1,5 +1,4 @@
-import { User } from '~/database/entity';
-import { UserPhoneAuth } from '~/database/entity';
+import { UserPhoneAuth, User } from '~/database/entity';
 import { AppDataSource } from '~/config/db';
 import redisCli from '~/config/redis';
 import { ISignUpService, ISignUpAuthNumService, ISignInService, ILogoutService, IPasswordChangeService, IWithdrawalService } from '~/@types/api/user/request'
