@@ -1,3 +1,3 @@
 // User
-export * from './user';
+export * from './Account';
 export * from './UserPhoneAuth';

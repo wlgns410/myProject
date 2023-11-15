@@ -1,36 +1,39 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from 'typeorm';
-import bcrypt from 'bcrypt';
-import TimeDefaultEntity from './TimeDefaultEntity';
+// /* eslint-disable no-undef */
+// /* eslint-disable newline-per-chained-call */
 
-@Entity()
-export class User extends TimeDefaultEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+// import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from 'typeorm';
+// import bcrypt from 'bcrypt';
+// import TimeDefaultEntity from './TimeDefaultEntity';
 
-  @Column({ nullable: false, length: 30 })
-  email: string;
+// @Entity()
+// export class User extends TimeDefaultEntity {
+//   @PrimaryGeneratedColumn()
+//   id: number;
 
-  @Column({ nullable: false, length: 30 })
-  password: string;
+//   @Column({ nullable: false, length: 30 })
+//   email: string;
 
-  @Column({ nullable: true, length: 30  })
-  nickname: string | null;
+//   @Column({ nullable: false, length: 30 })
+//   password: string;
 
-  @Column({ nullable: false, length: 11 })
-  phone: string;
+//   @Column({ nullable: true, length: 30  })
+//   nickname: string | null;
 
-  @Column({ nullable: true, length: 15 })
-  userType: string;
+//   @Column({ nullable: false, length: 11 })
+//   phone: string;
 
-  @BeforeInsert()
-  async savePasswordWithEncrypt() {
-    if (this.password) {
-      this.password = await bcrypt.hash(this.password, 5);
-    }
-  }
+//   @Column({ nullable: true, length: 15 })
+//   userType: string;
 
-  async comparePassword(password: string) {
-    const result = await bcrypt.compare(password, this.password);
-    return result;
-  }
-}
+//   @BeforeInsert()
+//   async savePasswordWithEncrypt() {
+//     if (this.password) {
+//       this.password = await bcrypt.hash(this.password, 5);
+//     }
+//   }
+
+//   async comparePassword(password: string) {
+//     const result = await bcrypt.compare(password, this.password);
+//     return result;
+//   }
+// }
