@@ -9,7 +9,7 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import passport from 'passport';
 
 // Load environment variables based on NODE_ENV
-let envPath = '.env.local';  // Default to development environment
+let envPath = '.env.local'; // Default to development environment
 
 if (process.env.NODE_ENV === 'production') {
   envPath = '.env.production';
@@ -29,7 +29,7 @@ app.use(
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     exposedHeaders: ['Authorization'],
-  })
+  }),
 );
 
 app.use(express.json());
@@ -38,48 +38,48 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Define a simple endpoint
-if (process.env.NODE_ENV === 'local'){
-    app.get('/', (req, res) => {
-        res.send('로컬 테스트 중');
-    }); 
+if (process.env.NODE_ENV === 'local') {
+  app.get('/', (req, res) => {
+    res.send('로컬 테스트 중');
+  });
 }
 
 if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
-    app.use(
-      '/api-docs',
-      swaggerUi.serve,
-      swaggerUi.setup(
-        swaggerJsDoc({
-          swaggerDefinition: {
-            openapi: '3.0.0',
-            info: {
-              title: 'MyProject API',
-              version: '1.0.0',
-            },
-            schemes: ['http', 'https'],
-            host: 'PR.Swagger.com',
-            components: {
-              securitySchemes: {
-                bearerAuth: {
-                  type: 'http',
-                  scheme: 'bearer',
-                  name: 'authorization',
-                  bearerFormat: 'JWT',
-                  in: 'header',
-                },
-              },
-            },
-            security: [
-              {
-                bearerAuth: [],
-              },
-            ],
+  app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(
+      swaggerJsDoc({
+        swaggerDefinition: {
+          openapi: '3.0.0',
+          info: {
+            title: 'MyProject API',
+            version: '1.0.0',
           },
-          apis: ['./src/routes/**/index*.ts', './src/routes/**/swagger.yml'],
-        }),
-      ),
-    );
-  }
+          schemes: ['http', 'https'],
+          host: 'PR.Swagger.com',
+          components: {
+            securitySchemes: {
+              bearerAuth: {
+                type: 'http',
+                scheme: 'bearer',
+                name: 'authorization',
+                bearerFormat: 'JWT',
+                in: 'header',
+              },
+            },
+          },
+          security: [
+            {
+              bearerAuth: [],
+            },
+          ],
+        },
+        apis: ['./src/routes/**/index*.ts', './src/routes/**/swagger.yml'],
+      }),
+    ),
+  );
+}
 
 const server = http.createServer(app);
 

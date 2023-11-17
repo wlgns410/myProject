@@ -1,6 +1,5 @@
 export interface IErrorCode {
-    status: number;
-    message: string;
-    code: string;
-  }
-  
+  status: number;
+  message: string;
+  code: string;
+}

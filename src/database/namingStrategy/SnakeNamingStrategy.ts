@@ -1,22 +1,13 @@
 import { DefaultNamingStrategy, NamingStrategyInterface } from 'typeorm';
 import { snakeCase } from 'typeorm/util/StringUtils';
 
-export default class SnakeNamingStrategy
-  extends DefaultNamingStrategy
-  implements NamingStrategyInterface {
+export default class SnakeNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
   tableName(className: string, customName: string): string {
     return `tbl_${customName || snakeCase(className)}`;
   }
 
-  columnName(
-    propertyName: string,
-    customName: string,
-    embeddedPrefixes: string[],
-  ): string {
-    return (
-      snakeCase(embeddedPrefixes.concat('').join('_'))
-      + (customName || snakeCase(propertyName))
-    );
+  columnName(propertyName: string, customName: string, embeddedPrefixes: string[]): string {
+    return snakeCase(embeddedPrefixes.concat('').join('_')) + (customName || snakeCase(propertyName));
   }
 
   relationName(propertyName: string): string {
@@ -33,29 +24,14 @@ export default class SnakeNamingStrategy
     firstPropertyName: string,
     secondPropertyName: string,
   ): string {
-    return snakeCase(
-      `${firstTableName 
-      }_${ 
-        firstPropertyName.replace(/\./gi, '_') 
-      }_${ 
-        secondTableName}`,
-    );
+    return snakeCase(`${firstTableName}_${firstPropertyName.replace(/\./gi, '_')}_${secondTableName}`);
   }
 
-  joinTableColumnName(
-    tableName: string,
-    propertyName: string,
-    columnName?: string,
-  ): string {
-    return snakeCase(
-      `${tableName}_${columnName || propertyName}`,
-    );
+  joinTableColumnName(tableName: string, propertyName: string, columnName?: string): string {
+    return snakeCase(`${tableName}_${columnName || propertyName}`);
   }
 
-  classTableInheritanceParentColumnName(
-    parentTableName: any,
-    parentTableIdPropertyName: any,
-  ): string {
+  classTableInheritanceParentColumnName(parentTableName: any, parentTableIdPropertyName: any): string {
     return snakeCase(`${parentTableName}_${parentTableIdPropertyName}`);
   }
 

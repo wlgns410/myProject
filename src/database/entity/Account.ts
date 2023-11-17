@@ -1,6 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable newline-per-chained-call */
-
 import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from 'typeorm';
 import bcrypt from 'bcrypt';
 import TimeDefaultEntity from './TimeDefaultEntity';
@@ -16,7 +13,7 @@ export class User extends TimeDefaultEntity {
   @Column({ nullable: false, length: 30 })
   password: string;
 
-  @Column({ nullable: true, length: 30  })
+  @Column({ nullable: true, length: 30 })
   nickname: string | null;
 
   @Column({ nullable: false, length: 11 })

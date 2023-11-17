@@ -6,7 +6,7 @@ export class UserPhoneAuth extends TimeDefaultEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false, length: 4  })
+  @Column({ nullable: false, length: 4 })
   authNums: string;
 
   @Column({ nullable: false, length: 11 })

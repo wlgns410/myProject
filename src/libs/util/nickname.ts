@@ -3,7 +3,7 @@ import { uniqueNamesGenerator, languages, colors, names } from 'unique-names-gen
 const capitalizedRandomName: string = uniqueNamesGenerator({
   dictionaries: [languages, colors, names],
   separator: '',
-  style: 'capital'
+  style: 'capital',
 }); // PoliteRedJone
 
 export default capitalizedRandomName;

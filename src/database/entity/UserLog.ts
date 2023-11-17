@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import TimeDefaultEntity from './TimeDefaultEntity';
 import { User } from './Account';
 
@@ -14,24 +22,24 @@ export class UserLog extends TimeDefaultEntity {
   @Column()
   userId: number;
 
-  @CreateDateColumn( {nullable: true} )
+  @CreateDateColumn({ nullable: true })
   signUpDate: Date;
 
-  @UpdateDateColumn( {nullable: true} )
+  @UpdateDateColumn({ nullable: true })
   changePasswordDate: Date;
 
-  @UpdateDateColumn( {nullable: true} )
+  @UpdateDateColumn({ nullable: true })
   changeUserTypeDate: Date;
 
-  @UpdateDateColumn( {nullable: true} )
+  @UpdateDateColumn({ nullable: true })
   accessApplicationDate: Date;
 
-  @UpdateDateColumn( {nullable: true} )
+  @UpdateDateColumn({ nullable: true })
   withdrawalDate: Date;
 
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   accessApplicationCount: number;
 
-  @Column({ default:false })
+  @Column({ default: false })
   allowAlarm: boolean;
 }

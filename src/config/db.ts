@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: path.join('.env.local') });
 } else if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: path.join('.env.test') });
-} 
+}
 
 import { DataSourceOptions, DataSource } from 'typeorm';
 import SnakeNamingStrategy from '../database/namingStrategy/SnakeNamingStrategy';
@@ -16,13 +16,8 @@ import SnakeNamingStrategy from '../database/namingStrategy/SnakeNamingStrategy'
 const NODE_ENV = process.env.NODE_ENV || 'local';
 const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_TYPE } = process.env;
 const { DB_TEST_HOST, DB_TEST_PORT, DB_TEST_USERNAME, DB_TEST_PASSWORD, DB_TEST_NAME } = process.env;
-const {
-  DB_PRODUCTION_HOST,
-  DB_PRODUCTION_PORT,
-  DB_PRODUCTION_USERNAME,
-  DB_PRODUCTION_PASSWORD,
-  DB_PRODUCTION_NAME,
-} = process.env;
+const { DB_PRODUCTION_HOST, DB_PRODUCTION_PORT, DB_PRODUCTION_USERNAME, DB_PRODUCTION_PASSWORD, DB_PRODUCTION_NAME } =
+  process.env;
 
 const config = {
   local: {
@@ -67,30 +62,30 @@ const config = {
 
 // export default connectionConfig;
 
-const ConfigOption: DataSourceOptions= {
-    ...config[NODE_ENV],
-    type: DB_TYPE,
-    // synchronize: NODE_ENV !== 'production',
-    synchronize: true,
-    entities: ['src/database/entity/*.ts'],
-    subscribers: ['src/database/subscriber/*.ts'],
-    migrations: ['src/database/migrations/*.ts', 'src/database/migrations/*.js'],
-    cli: {
-      entitiesDir: 'src/database/entity',
-      migrationsDir: 'src/database/migrations',
-      subscribersDir: 'src/database/subscriber',
-    },
-    namingStrategy: new SnakeNamingStrategy(),
-    dropSchema: NODE_ENV === 'test',
-    timezone: '+09:00',
-    // cache: {
-    //     type: "redis",
-    //     options: {
-    //         host: "localhost",
-    //         port: 6379
-    //     },
-    // },
-  };
+const ConfigOption: DataSourceOptions = {
+  ...config[NODE_ENV],
+  type: DB_TYPE,
+  // synchronize: NODE_ENV !== 'production',
+  synchronize: true,
+  entities: ['src/database/entity/*.ts'],
+  subscribers: ['src/database/subscriber/*.ts'],
+  migrations: ['src/database/migrations/*.ts', 'src/database/migrations/*.js'],
+  cli: {
+    entitiesDir: 'src/database/entity',
+    migrationsDir: 'src/database/migrations',
+    subscribersDir: 'src/database/subscriber',
+  },
+  namingStrategy: new SnakeNamingStrategy(),
+  dropSchema: NODE_ENV === 'test',
+  timezone: '+09:00',
+  // cache: {
+  //     type: "redis",
+  //     options: {
+  //         host: "localhost",
+  //         port: 6379
+  //     },
+  // },
+};
 
 //   config.initialize()
 //   .then(() => {

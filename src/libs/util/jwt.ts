@@ -22,11 +22,11 @@ export const verifyToken = (token: string) => {
 };
 
 export const tokenValidation = async (req: IRequestWithUserInfo, _: Response, next: NextFunction) => {
-    if (!req.headers.authorization) {
-      return next(new ErrorResponse(ERROR_CODE.UNAUTHORIZED));
-    }
-  
-    const token: string = req.headers.authorization.split('Bearer ')[1];
-    const isVerified = verifyToken(token);
-    req.userId = isVerified.id;
+  if (!req.headers.authorization) {
+    return next(new ErrorResponse(ERROR_CODE.UNAUTHORIZED));
+  }
+
+  const token: string = req.headers.authorization.split('Bearer ')[1];
+  const isVerified = verifyToken(token);
+  req.userId = isVerified.id;
 };
