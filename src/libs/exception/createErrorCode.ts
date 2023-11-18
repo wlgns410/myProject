@@ -11,11 +11,6 @@ export class ErrorCode {
     this.code = code;
   }
 
-  /**
-   * @param {Number} status
-   * @param {String} message
-   * @param {String} code
-   */
   static createErrorCode(status: number, message: string, code: string): ErrorCode {
     return new ErrorCode({ status, message, code });
   }
