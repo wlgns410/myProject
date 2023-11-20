@@ -6,7 +6,6 @@ import cors from 'cors';
 import http from 'http';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
-import passport from 'passport';
 
 // Load environment variables based on NODE_ENV
 let envPath = '.env.local'; // Default to development environment
@@ -34,8 +33,6 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Define a simple endpoint
 if (process.env.NODE_ENV === 'local') {

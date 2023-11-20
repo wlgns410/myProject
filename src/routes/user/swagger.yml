@@ -6,10 +6,10 @@ definitions:
   SignUp:
     type: object
     required:
-      - email
-      - password
-      - phone
-      - userType
+    - email
+    - password
+    - phone
+    - userType
     properties:
       email:
         type: string
@@ -27,17 +27,17 @@ definitions:
   SignUpAuth:
     type: object
     required:
-      - phone
+    - phone
     properties:
       phone:
         type: string
         description: 전화번호
-  
+
   SignIn:
     type: object
     required:
-      - phone
-      - password
+    - phone
+    - password
     properties:
       phone:
         type: string
@@ -49,8 +49,8 @@ definitions:
   ChangePassword:
     type: object
     required:
-      - originPassword
-      - changePassword
+    - originPassword
+    - changePassword
     properties:
       originPassword:
         type: string
@@ -62,7 +62,7 @@ definitions:
   WhithDrawal:
     type: object
     required:
-      - password
+    - password
     properties:
       password:
         type: string
@@ -72,15 +72,15 @@ definitions:
   post:
     tags: [User]
     produces:
-      - application/json
+    - application/json
     consumes:
-      - application/json
+    - application/json
     requestBody:
       content:
         application/json:
           name: SignUp
           required: true
-          schema: 
+          schema:
             $ref: '#/definitions/SignUp'
     responses:
       201:
@@ -132,15 +132,15 @@ definitions:
   post:
     tags: [User]
     produces:
-      - application/json
+    - application/json
     consumes:
-      - application/json
+    - application/json
     requestBody:
       content:
         application/json:
           name: SignUpAuth
           required: true
-          schema: 
+          schema:
             $ref: '#/definitions/SignUpAuth'
     responses:
       202:
@@ -173,15 +173,15 @@ definitions:
   post:
     tags: [User]
     produces:
-      - application/json
+    - application/json
     consumes:
-      - application/json
+    - application/json
     requestBody:
       content:
         application/json:
           name: SignIn
           required: true
-          schema: 
+          schema:
             $ref: '#/definitions/SignIn'
     responses:
       200:
@@ -225,23 +225,23 @@ definitions:
   post:
     tags: [User]
     produces:
-      - application/json
+    - application/json
     consumes:
-      - application/json
+    - application/json
     security:
-      - bearerAuth: []
+    - bearerAuth: []
     parameters:
-      - in: header
-        name: authorization
-        description: 로그인 토큰
-        required: true
-        schema:
-          type: string
+    - in: header
+      name: authorization
+      description: 로그인 토큰
+      required: true
+      schema:
+        type: string
     responses:
       204:
         description: '로그아웃 성공'
-         content:
-           application/json:
+        content:
+          application/json:
             example:
               status: 204
               message: '정상적으로 로그아웃 되었습니다.'
@@ -268,31 +268,31 @@ definitions:
   patch:
     tags: [User]
     produces:
-      - application/json
+    - application/json
     consumes:
-      - application/json
+    - application/json
     security:
-      - bearerAuth: []
+    - bearerAuth: []
     parameters:
-      - in: header
-        name: authorization
-        description: 로그인 토큰
-        required: true
-        schema:
-          type: string
+    - in: header
+      name: authorization
+      description: 로그인 토큰
+      required: true
+      schema:
+        type: string
     requestBody:
       content:
         application/json:
           name: ChangePassword
           required: true
-          schema: 
+          schema:
             $ref: '#/definitions/ChangePassword'
-    
+
     responses:
       200:
         description: '비밀번호 변경'
-         content:
-           application/json:
+        content:
+          application/json:
             example:
               status: 200
               message: '정상적으로 비밀번호가 변경되었습니다.'
@@ -328,30 +328,30 @@ definitions:
   post:
     tags: [User]
     produces:
-      - application/json
+    - application/json
     consumes:
-      - application/json
+    - application/json
     security:
-      - bearerAuth: []
+    - bearerAuth: []
     parameters:
-      - in: header
-        name: authorization
-        description: 로그인 토큰
-        required: true
-        schema:
-          type: string
+    - in: header
+      name: authorization
+      description: 로그인 토큰
+      required: true
+      schema:
+        type: string
     requestBody:
       content:
         application/json:
           name: WhithDrawal
           required: true
-          schema: 
+          schema:
             $ref: '#/definitions/WhithDrawal'
     responses:
       204:
         description: '로그아웃 성공'
-         content:
-           application/json:
+        content:
+          application/json:
             example:
               status: 204
               message: '정상적으로 로그아웃 되었습니다.'

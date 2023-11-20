@@ -11,7 +11,7 @@ import {
 } from '~/@types/api/user/request';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
-import { createToken } from '~/libs/util/jwt';
+import { createToken, logoutToken } from '~/libs/util/jwt';
 import capitalizedRandomName from '~/libs/util/nickname';
 import generateFourDigitRandom from '~/libs/util/generateFourDigit';
 import { registerRegexesOfType } from '~/libs/util/regex';
@@ -115,6 +115,8 @@ export const userLogOutService = async ({ userId }: ILogoutService) => {
   if (!foundUser) {
     throw new ErrorResponse(ERROR_CODE.UNAUTHORIZED);
   }
+  // 로그아웃 토큰 생성
+  logoutToken();
 };
 
 export const userPasswordChangeService = async ({ originPassword, changePassword, userId }: IPasswordChangeService) => {
