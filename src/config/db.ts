@@ -14,18 +14,18 @@ import { DataSourceOptions, DataSource } from 'typeorm';
 import SnakeNamingStrategy from '../database/namingStrategy/SnakeNamingStrategy';
 
 const NODE_ENV = process.env.NODE_ENV || 'local';
-const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_TYPE } = process.env;
+const { DB_LOCAL_HOST, DB_LOCAL_PORT, DB_LOCAL_USERNAME, DB_LOCAL_PASSWORD, DB_LOCAL_NAME, DB_LOCAL_TYPE } = process.env;
 const { DB_TEST_HOST, DB_TEST_PORT, DB_TEST_USERNAME, DB_TEST_PASSWORD, DB_TEST_NAME } = process.env;
 const { DB_PRODUCTION_HOST, DB_PRODUCTION_PORT, DB_PRODUCTION_USERNAME, DB_PRODUCTION_PASSWORD, DB_PRODUCTION_NAME } =
   process.env;
 
 const config = {
   local: {
-    host: DB_HOST,
-    port: Number(DB_PORT),
-    username: DB_USERNAME,
-    password: DB_PASSWORD,
-    database: DB_NAME,
+    host: DB_LOCAL_HOST,
+    port: Number(DB_LOCAL_PORT),
+    username: DB_LOCAL_USERNAME,
+    password: DB_LOCAL_PASSWORD,
+    database: DB_LOCAL_NAME,
   },
   test: {
     host: DB_TEST_HOST,
@@ -64,15 +64,16 @@ const config = {
 
 const ConfigOption: DataSourceOptions = {
   ...config[NODE_ENV],
-  type: DB_TYPE,
+  type: DB_LOCAL_TYPE,
   // synchronize: NODE_ENV !== 'production',
   synchronize: true,
   entities: ['src/database/entity/*.ts'],
   subscribers: ['src/database/subscriber/*.ts'],
-  migrations: ['src/database/migrations/*.ts', 'src/database/migrations/*.js'],
+  migrations: [__dirname + 'src/database/migrations/*.{ts,js}'],
+  migrationsTableName: 'migrations',
   cli: {
     entitiesDir: 'src/database/entity',
-    migrationsDir: 'src/database/migrations',
+    migrationsDir: __dirname + 'src/database/migrations/*.{ts,js}',
     subscribersDir: 'src/database/subscriber',
   },
   namingStrategy: new SnakeNamingStrategy(),
