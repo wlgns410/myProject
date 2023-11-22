@@ -6,6 +6,7 @@ import cors from 'cors';
 import http from 'http';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
+import morgan from 'morgan';
 
 // Load environment variables based on NODE_ENV
 let envPath = '.env.local'; // Default to development environment
@@ -34,9 +35,14 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// log setting
+// 로그 형식 정의
+morgan.format('detailed', ':method :url :status :res[content-length] - :response-time ms :remote-addr - :remote-user :referrer :user-agent');
+app.use(morgan('detailed')); // dev, detailed 등 중 자세히 보기로 설정
+
 // Define a simple endpoint
 if (process.env.NODE_ENV === 'local') {
-  app.get('/', (req, res) => {
+  app.get('/test', (req, res) => {
     res.send('로컬 테스트 중');
   });
 }
@@ -54,7 +60,7 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
             version: '1.0.0',
           },
           schemes: ['http', 'https'],
-          host: 'PR.Swagger.com',
+          host: 'localhost:5001',
           components: {
             securitySchemes: {
               bearerAuth: {
