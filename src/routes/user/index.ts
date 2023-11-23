@@ -11,18 +11,18 @@ import {
 
 const user = Router();
 
-// user.route('/signup').post(userSignUpController);
-// user.route('/signup/auth').post(userSignUpAuthenticationNumberController);
-// user.route('/signin').post(userSignInController);
-// user.route('/logout').post(tokenValidation, userLogOutController);
-// user.route('/changepassword').patch(tokenValidation, userPasswordChangeController);
-// user.route('/withdrawal').patch(tokenValidation, userWithdrawalController);
+user.route('/signup').post(userSignUpController);
+user.route('/signup/auth').post(userSignUpAuthenticationNumberController);
+user.route('/signin').post(userSignInController);
+user.route('/logout').post(tokenValidation, userLogOutController);
+user.route('/changepassword').patch(tokenValidation, userPasswordChangeController);
+user.route('/withdrawal').patch(tokenValidation, userWithdrawalController);
 
-user.post('/signup', userSignUpController);
-user.post('/signup/auth', userSignUpAuthenticationNumberController);
-user.post('/signin', userSignInController);
-user.route('/logout').all(tokenValidation).post(userLogOutController);
-user.route('/changepassword').all(tokenValidation).patch(userPasswordChangeController);
-user.route('/withdrawal').patch(tokenValidation).patch(userWithdrawalController)
+// user.post('/signup', userSignUpController);
+// user.post('/signup/auth', userSignUpAuthenticationNumberController);
+// user.post('/signin', userSignInController);
+// user.route('/logout').all(tokenValidation).post(userLogOutController);
+// user.route('/changepassword').all(tokenValidation).patch(userPasswordChangeController);
+// user.route('/withdrawal').patch(tokenValidation).patch(userWithdrawalController)
 
 export default user;

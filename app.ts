@@ -32,8 +32,8 @@ app.use(
   }),
 );
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json()); // { strict:false } 설정하면 문자열만 받기도 가능 , 지금은 [], {}만 받음
+app.use(express.urlencoded({ extended: false })); 
 
 // log setting
 // 로그 형식 정의
@@ -41,11 +41,22 @@ morgan.format('detailed', ':method :url :status :res[content-length] - :response
 app.use(morgan('detailed')); // dev, detailed 등 중 자세히 보기로 설정
 
 // Define a simple endpoint
-if (process.env.NODE_ENV === 'local') {
-  app.get('/test', (req, res) => {
-    res.send('로컬 테스트 중');
-  });
-}
+app.get('/test', (req, res) => {
+  res.send('로컬 테스트 중1',);
+  
+});
+// if (process.env.NODE_ENV === 'local') {
+//   app.get('/test', (req, res) => {
+//     res.send('로컬 테스트 중');
+//   });
+// }
+app.get('/test2', (req, res) => {
+  res.send('로컬 테스트 중2');
+});
+
+app.get('/test3/', (req, res) => {
+  res.send('로컬 테스트 중3');
+});
 
 if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   app.use(
@@ -60,7 +71,7 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
             version: '1.0.0',
           },
           schemes: ['http', 'https'],
-          host: 'localhost:5001',
+          host: '0.0.0.0:5001',
           components: {
             securitySchemes: {
               bearerAuth: {
@@ -84,12 +95,20 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   );
 }
 
+
 const server = http.createServer(app);
 
-const PORT = process.env.PORT || 3000;
+const PORT: number = Number(process.env.PORT) || 3000;
+// const hostname = '0.0.0.0'
+//
+const hostname = '0.0.0.0'
+// server.listen(PORT, () => {
+//   console.log(`Server running at http://localhost:${PORT}/`);
+// });
 
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+server.listen(PORT, hostname, () => {
+  console.log(`⚡️[server]: Server is running at 0.0.0.0:${PORT}`);
 });
+
 
 export default app;
