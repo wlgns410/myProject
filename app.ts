@@ -7,6 +7,8 @@ import http from 'http';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import morgan from 'morgan';
+// import router from './src/routes';
+import router from '~/routes';
 
 // Load environment variables based on NODE_ENV
 let envPath = '.env.local'; // Default to development environment
@@ -45,11 +47,7 @@ app.get('/test', (req, res) => {
   res.send('로컬 테스트 중1',);
   
 });
-// if (process.env.NODE_ENV === 'local') {
-//   app.get('/test', (req, res) => {
-//     res.send('로컬 테스트 중');
-//   });
-// }
+
 app.get('/test2', (req, res) => {
   res.send('로컬 테스트 중2');
 });
@@ -95,20 +93,15 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   );
 }
 
+// router
+app.use('/', router);
 
-const server = http.createServer(app);
-
-const PORT: number = Number(process.env.PORT) || 3000;
+// const server = http.createServer(app);
+// const PORT: number = Number(process.env.PORT) || 3000;
 // const hostname = '0.0.0.0'
-//
-const hostname = '0.0.0.0'
-// server.listen(PORT, () => {
-//   console.log(`Server running at http://localhost:${PORT}/`);
+
+// server.listen(PORT, hostname, () => {
+//   console.log(`⚡️[server]: Server is running at 0.0.0.0:${PORT}`);
 // });
-
-server.listen(PORT, hostname, () => {
-  console.log(`⚡️[server]: Server is running at 0.0.0.0:${PORT}`);
-});
-
 
 export default app;

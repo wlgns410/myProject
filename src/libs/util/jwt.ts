@@ -1,7 +1,7 @@
+import { NextFunction, Response, Request } from 'express';
 import jwt from 'jsonwebtoken';
 import { IJWTTokenData } from '~/@types/utils/jwt';
 import { IRequestWithUserInfo } from '~/@types/api/request/request';
-import { NextFunction, Response } from 'express';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 

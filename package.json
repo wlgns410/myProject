@@ -6,10 +6,9 @@
   "scripts": {
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node app.ts",
+    "start": "ts-node ./src/bin/www.ts",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -d ./src/config/db.ts",
-    "local": "ts-node app.ts --env local",
+    "local": "ts-node ./src/bin/www.ts --env local",
     "local:force": "ts-node ./node_modules/typeorm/cli.js --dataSource src/config/db.ts",
     "migration:generate": "NODE_ENV=local npx typeorm-ts-node-commonjs migration:generate -d ./src/config/db.ts -p -o ./src/database/migrations/",
     "migration:run": "NODE_ENV=local npx typeorm-ts-node-commonjs migration:run -d ./src/config/db.ts"

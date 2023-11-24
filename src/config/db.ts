@@ -1,6 +1,8 @@
 /* eslint-disable import/first */
 import path from 'path';
 import dotenv from 'dotenv';
+import { DataSourceOptions, DataSource } from 'typeorm';
+import SnakeNamingStrategy from '../database/namingStrategy/SnakeNamingStrategy';
 
 if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: path.join('.env.production') });
@@ -9,9 +11,6 @@ if (process.env.NODE_ENV === 'production') {
 } else if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: path.join('.env.test') });
 }
-
-import { DataSourceOptions, DataSource } from 'typeorm';
-import SnakeNamingStrategy from '../database/namingStrategy/SnakeNamingStrategy';
 
 const NODE_ENV = process.env.NODE_ENV || 'local';
 const { DB_LOCAL_HOST, DB_LOCAL_PORT, DB_LOCAL_USERNAME, DB_LOCAL_PASSWORD, DB_LOCAL_NAME, DB_LOCAL_TYPE } = process.env;
