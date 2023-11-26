@@ -8,7 +8,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "ts-node ./src/bin/www.ts",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -d ./src/config/db.ts",
-    "local": "ts-node ./src/bin/www.ts --env local",
+    "local": "ts-node -r tsconfig-paths/register --ignore node_modules/ --ignore test/ src/bin/www.ts",
     "local:force": "ts-node ./node_modules/typeorm/cli.js --dataSource src/config/db.ts",
     "migration:generate": "NODE_ENV=local npx typeorm-ts-node-commonjs migration:generate -d ./src/config/db.ts -p -o ./src/database/migrations/",
     "migration:run": "NODE_ENV=local npx typeorm-ts-node-commonjs migration:run -d ./src/config/db.ts"
@@ -51,6 +51,7 @@
     "@types/node": "^20.8.3",
     "@types/swagger-jsdoc": "^6.0.2",
     "@types/swagger-ui-express": "^4.1.5",
+    "cross-env": "^7.0.3",
     "eslint-config-prettier": "^9.0.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.1.0",

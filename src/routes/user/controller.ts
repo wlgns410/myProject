@@ -54,9 +54,9 @@ export const userSignUpController = async (req: ISignUpController, res: Response
     }
   }
 
-  if (!UserType.isValid(userType)) {
-    return next(new ErrorResponse(ERROR_CODE.USER_TYPE_INVAILD_INPUT));
-  }
+  // if (!UserType.isValid(userType)) {
+  //   return next(new ErrorResponse(ERROR_CODE.USER_TYPE_INVAILD_INPUT));
+  // }
 
   try {
     await userSignUpService({ email, password, phone, userType });

@@ -63,16 +63,16 @@ const config = {
 
 const ConfigOption: DataSourceOptions = {
   ...config[NODE_ENV],
-  type: DB_LOCAL_TYPE,
+  type: 'mysql',
   // synchronize: NODE_ENV !== 'production',
   synchronize: true,
   entities: ['src/database/entity/*.ts'],
   subscribers: ['src/database/subscriber/*.ts'],
-  migrations: [__dirname + 'src/database/migrations/*.{ts,js}'],
+  migrations: ['src/database/migrations/*.{ts,js}'],
   migrationsTableName: 'migrations',
   cli: {
     entitiesDir: 'src/database/entity',
-    migrationsDir: __dirname + 'src/database/migrations/*.{ts,js}',
+    migrationsDir: 'src/database/migrations/*.{ts,js}',
     subscribersDir: 'src/database/subscriber',
   },
   namingStrategy: new SnakeNamingStrategy(),
