@@ -9,12 +9,10 @@
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "baseUrl": "./", //babel 세팅 필요
-      // "types": ["typeorm"],
       "paths": {
         "~/*": ["src/*"]
       },
     },
-    // "include": ["src", "app.ts"],
     "include": ["src"],
     "exclude": ["node_modules"]
 }

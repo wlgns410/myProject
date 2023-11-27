@@ -74,6 +74,7 @@ export const userSignUpAuthenticationNumberController = async (
   next: NextFunction,
 ) => {
   const { phone } = req.body;
+  console.log("start!!")
   if (!phone) {
     return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
   }
