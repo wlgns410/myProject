@@ -8,6 +8,7 @@
       "sourceMap": true,
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
+      "strictPropertyInitialization": false,
       "baseUrl": "./", //babel 세팅 필요
       "paths": {
         "~/*": ["src/*"]
@@ -16,4 +17,3 @@
     "include": ["src"],
     "exclude": ["node_modules"]
 }
-  

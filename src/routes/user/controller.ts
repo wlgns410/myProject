@@ -74,7 +74,6 @@ export const userSignUpAuthenticationNumberController = async (
   next: NextFunction,
 ) => {
   const { phone } = req.body;
-  console.log("start!!")
   if (!phone) {
     return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
   }
@@ -87,7 +86,6 @@ export const userSignUpAuthenticationNumberController = async (
       return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
     }
   }
-
   try {
     const response = await userSignUpAuthenticationNumberService({ phone });
     return res

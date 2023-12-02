@@ -1,5 +1,8 @@
-import { UserPhoneAuth, User } from '~/database/entity';
-import { AppDataSource } from '~/config/db';
+// import { UserPhoneAuth, User } from '~/database/entity';
+import { User } from '../../database/entity/Account';
+import { UserPhoneAuth } from '../../database/entity/UserPhoneAuth';
+
+import { AppDataSource } from '../../config/data-source';
 // import redisCli from '~/config/redis';
 import {
   ISignUpService,
@@ -69,14 +72,13 @@ export const userSignUpAuthenticationNumberService = async ({ phone }: ISignUpAu
   const randomNums = generateFourDigitRandom();
   const data = JSON.stringify({ phone, randomNums });
   const key = `user_data:${phone}`;
-
   // 1분동안 다른 인증번호는 생성 못하게 막음(FE에서)
   const expirationTime = 60000; // 1분 (60,000 밀리초)
   // await redisCli.psetex(key, expirationTime, data);
 
   const userPhoneAuthRepository = AppDataSource.getRepository(UserPhoneAuth);
+  // const userPhoneAuthRepository = getRepository(UserPhoneAuth);
   const phoneAuthData = await userPhoneAuthRepository.findOne({ where: { phone } });
-
   await transactionRunner(async (queryRunner) => {
     if (phoneAuthData) {
       await queryRunner.manager.remove(phoneAuthData);

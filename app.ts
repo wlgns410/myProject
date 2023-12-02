@@ -3,11 +3,9 @@ import path from 'path';
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
-import http from 'http';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import morgan from 'morgan';
-// import router from './src/routes';
 import router from '~/routes';
 
 // Load environment variables based on NODE_ENV
@@ -46,14 +44,6 @@ app.use(morgan('detailed')); // dev, detailed 등 중 자세히 보기로 설정
 app.get('/test', (req, res) => {
   res.send('로컬 테스트 중1',);
   
-});
-
-app.get('/test2', (req, res) => {
-  res.send('로컬 테스트 중2');
-});
-
-app.get('/test3/', (req, res) => {
-  res.send('로컬 테스트 중3');
 });
 
 if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
@@ -95,13 +85,5 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
 
 // router
 app.use('/', router);
-
-// const server = http.createServer(app);
-// const PORT: number = Number(process.env.PORT) || 3000;
-// const hostname = '0.0.0.0'
-
-// server.listen(PORT, hostname, () => {
-//   console.log(`⚡️[server]: Server is running at 0.0.0.0:${PORT}`);
-// });
 
 export default app;

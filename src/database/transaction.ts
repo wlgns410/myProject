@@ -1,5 +1,5 @@
 import { QueryRunner } from 'typeorm';
-import { AppDataSource } from '~/config/db';
+import { AppDataSource } from '~/config/data-source';
 
 const transactionRunner = async (callback: (queryRunner: QueryRunner) => Promise<void>) => {
   const queryRunner = AppDataSource.createQueryRunner();
