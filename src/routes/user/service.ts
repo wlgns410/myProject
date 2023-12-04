@@ -3,7 +3,7 @@ import { User } from '../../database/entity/Account';
 import { UserPhoneAuth } from '../../database/entity/UserPhoneAuth';
 
 import { AppDataSource } from '../../config/data-source';
-// import redisCli from '~/config/redis';
+import redisCli from '~/config/redis';
 import {
   ISignUpService,
   ISignUpAuthNumService,
@@ -22,29 +22,38 @@ import transactionRunner from '~/database/transaction';
 
 export const userSignUpService = async ({ email, password, phone, userType }: ISignUpService) => {
   // DB에 전화번호 있는지 파악
+  console.log("here")
+  console.log("email : ", email)
   const userRepository = AppDataSource.getRepository(User);
+  console.log("here2")
   const phoneExists = await userRepository.findOne({ where: { phone } });
+  console.log("here3")
 
   if (phoneExists) {
     throw new ErrorResponse(ERROR_CODE.ALREADY_SIGNUP_USER);
   }
-
+  console.log("here4")
   const nickname = capitalizedRandomName;
 
   const userPhoneAuthRepository = AppDataSource.getRepository(UserPhoneAuth);
   const phoneAuthData = await userPhoneAuthRepository.findOne({ where: { phone } });
 
-  // 레디스에 인증번호가 있는 지 핸드폰 번호로 파악(인증번호 있으면 OK -> 인증 시스템 안써서 그냥 PASS 시켰음)
+  // // 레디스에 인증번호가 있는 지 핸드폰 번호로 파악(인증번호 있으면 OK -> 인증 시스템 안써서 그냥 PASS 시켰음)
   // let randomNums: string | null; // 변수 선언 및 초기화;
   // const key = `user_data:${phone}`;
+  // console.log("key", key)
   // const data = await redisCli.get(key);
+  // console.log("data", data)
   // if (data) {
   //   const parsedData = JSON.parse(data);
+  //   console.log("parsedData", parsedData)
   //   if (parsedData.phone === phone) {
   //     randomNums = parsedData.randomNums; // 변수 초기화
+  //     console.log("randomNums", randomNums)
   //     if (randomNums === phoneAuthData.authNums) {
   //       const phoneAuthRegexes = registerRegexesOfType.phoneAuth.regexes;
   //       const isPhoneAuthValid = phoneAuthRegexes.some((regex) => regex.test(randomNums));
+  //       console.log("isPhoneAuthValid", isPhoneAuthValid)
   //       if (!isPhoneAuthValid) {
   //         throw new ErrorResponse(ERROR_CODE.NOT_MATCH_SESSION_USER_PHONE);
   //       }
@@ -72,12 +81,12 @@ export const userSignUpAuthenticationNumberService = async ({ phone }: ISignUpAu
   const randomNums = generateFourDigitRandom();
   const data = JSON.stringify({ phone, randomNums });
   const key = `user_data:${phone}`;
+
   // 1분동안 다른 인증번호는 생성 못하게 막음(FE에서)
   const expirationTime = 60000; // 1분 (60,000 밀리초)
-  // await redisCli.psetex(key, expirationTime, data);
+  await redisCli.pSetEx(key, expirationTime, data);
 
   const userPhoneAuthRepository = AppDataSource.getRepository(UserPhoneAuth);
-  // const userPhoneAuthRepository = getRepository(UserPhoneAuth);
   const phoneAuthData = await userPhoneAuthRepository.findOne({ where: { phone } });
   await transactionRunner(async (queryRunner) => {
     if (phoneAuthData) {

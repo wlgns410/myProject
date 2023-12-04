@@ -10,7 +10,7 @@ export class User extends TimeDefaultEntity {
   @Column({ nullable: false, length: 30 })
   email: string;
 
-  @Column({ nullable: false, length: 30 })
+  @Column({ nullable: false, length: 70 })
   password: string;
 
   @Column({ nullable: true, length: 30 })
