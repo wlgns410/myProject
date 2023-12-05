@@ -21,18 +21,14 @@ import { registerRegexesOfType } from '~/libs/util/regex';
 import transactionRunner from '~/database/transaction';
 
 export const userSignUpService = async ({ email, password, phone, userType }: ISignUpService) => {
-  // DB에 전화번호 있는지 파악
-  console.log("here")
-  console.log("email : ", email)
+
   const userRepository = AppDataSource.getRepository(User);
-  console.log("here2")
   const phoneExists = await userRepository.findOne({ where: { phone } });
-  console.log("here3")
+
 
   if (phoneExists) {
     throw new ErrorResponse(ERROR_CODE.ALREADY_SIGNUP_USER);
   }
-  console.log("here4")
   const nickname = capitalizedRandomName;
 
   const userPhoneAuthRepository = AppDataSource.getRepository(UserPhoneAuth);
@@ -70,8 +66,8 @@ export const userSignUpService = async ({ email, password, phone, userType }: IS
       email,
       password,
       phone,
-      userType,
       nickname,
+      userType
     });
     await queryRunner.manager.save(newUser);
   });

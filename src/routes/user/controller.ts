@@ -22,12 +22,12 @@ import {
 import { IRequestWithUserId, IRequestWithUserIdLogOut } from '~/@types/api/request/request';
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
-  console.log("here1111110")
+
   const { email, password, phone, userType } = req.body;
-  if (!email && !password && !phone && !userType) {
+  if (!email && !password && !phone) {
     return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
   }
-  console.log("here111111")
+
   if (email) {
     const emailRegexes = registerRegexesOfType.email.regexes;
     const isEmailValid = emailRegexes.some((regex) => regex.test(email));
@@ -59,14 +59,16 @@ export const userSignUpController = async (req: ISignUpController, res: Response
     return next(new ErrorResponse(ERROR_CODE.USER_TYPE_INVAILD_INPUT));
   }
 
+  const userEnum = UserType[userType].name;
+
   try {
-    await userSignUpService({ email, password, phone, userType });
+    await userSignUpService({ email, password, phone, userType: userEnum });
     return res
       .status(httpStatus.CREATED)
       .json({ status: httpStatus.CREATED, message: '정상적으로 회원가입 되었습니다.' });
-  } catch (e) {
-    return next(e);
-  }
+    } catch (e) {
+      return next(e.message);
+    }
 };
 
 export const userSignUpAuthenticationNumberController = async (
@@ -93,7 +95,6 @@ export const userSignUpAuthenticationNumberController = async (
       .status(httpStatus.ACCEPTED)
       .json({ data: response, status: httpStatus.ACCEPTED, message: '정상적으로 인증번호가 발급되었습니다.' });
     } catch (e) {
-      console.error("Error during signup:", e);
       return res.status(500).json({ error: e.message });
     }
 };
