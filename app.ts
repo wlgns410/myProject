@@ -1,12 +1,14 @@
 /* eslint-disable import/first */
 import path from 'path';
 import dotenv from 'dotenv';
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import morgan from 'morgan';
 import router from '~/routes';
+import ErrorResponse from '~/libs/exception/errorResponse';
+import ERROR_CODE from '~/libs/exception/errorCode';
 
 // Load environment variables based on NODE_ENV
 let envPath = '.env.local'; // Default to development environment
@@ -85,5 +87,36 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
 
 // router
 app.use('/', router);
+
+app.use((req, res, next) => next(PAGE_NOT_FOUND_EXCEPTION));
+// eslint-disable-next-line no-unused-vars
+const PAGE_NOT_FOUND_EXCEPTION = new ErrorResponse(ERROR_CODE.PAGE_NOT_FOUND);
+
+app.use((err: ErrorResponse | any, req: Request, res: Response, _: NextFunction) => {
+  const status = Number(err.errorCode.status);
+
+  // 개발 중에만 로그를 출력하도록 설정
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('[ERROR BODY]');
+    console.log({
+      errorCode: {
+        code: err.errorCode.code,
+        status: err.errorCode.status,
+        message: err.errorCode.message,
+      },
+      fieldErrors: err.fieldErrors,
+    });
+  }
+
+  // 필요한 정보만 전달
+  return res.status(status).json({
+    errorCode: {
+      code: err.errorCode.code,
+      status: err.errorCode.status,
+      message: err.errorCode.message,
+    },
+    fieldErrors: err.fieldErrors,
+  });
+});
 
 export default app;

@@ -21,8 +21,8 @@ const ERROR_CODE = {
   PHONE_INVAILD_INPUT: $(400, '핸드폰의 형식에 맞게 입력해주세요.', 'SIGNUP004'),
   PHONE_AUTH_INVAILD_INPUT: $(400, '핸드폰 인증번호의 형식에 맞게 입력해주세요.', 'SIGNUP005'),
   USER_TYPE_INVAILD_INPUT: $(400, '유저 타입의 형식에 맞게 입력해주세요.', 'SIGNUP006'),
-  NOT_FOUND_REDIS_SESSION_USER: $(401, '인증번호 데이터가 존재하지 않습니다.', 'SIGNUP007'),
-  NOT_MATCH_SESSION_USER_PHONE: $(401, '인증번호를 다시 발급해주세요', 'SIGNUP008'),
+  NOT_FOUND_REDIS_SESSION_USER: $(404, '인증번호 데이터가 존재하지 않습니다.', 'SIGNUP007'),
+  NOT_MATCH_SESSION_USER_PHONE: $(404, '인증번호를 다시 발급해주세요', 'SIGNUP008'),
 
   // SignIn
   NOT_EXACT_PHONE_OR_PASSWORD: $(400, '전화번호나 비밀번호가 일치하지 않습니다.', 'SIGNIN001'),

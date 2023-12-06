@@ -53,7 +53,7 @@ export const userSignUpService = async ({ email, password, phone, userType }: IS
       throw new ErrorResponse(ERROR_CODE.NOT_MATCH_SESSION_USER_PHONE);
     }
   } else {
-    throw new ErrorResponse(ERROR_CODE.NOT_FOUND_REDIS_SESSION_USER);
+    throw new ErrorResponse(ERROR_CODE.PAGE_NOT_FOUND);
   }
 
   await transactionRunner(async (queryRunner) => {
