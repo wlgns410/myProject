@@ -23,12 +23,6 @@ if (process.env.NODE_ENV === 'production') {
 
 dotenv.config({ path: path.join(__dirname, envPath) });
 
-console.log('Current process.env:', process.env);
-
-const { TOKEN_SECRET, DB_LOCAL_TYPE } = process.env;
-console.log('TOKEN_SECRET', TOKEN_SECRET);
-console.log('DB_LOCAL_TYPE', DB_LOCAL_TYPE);
-
 const app = express();
 
 app.use(
