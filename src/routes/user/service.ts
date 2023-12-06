@@ -97,8 +97,10 @@ export const userSignUpAuthenticationNumberService = async ({ phone }: ISignUpAu
 export const userSignInService = async ({ phone }: ISignInService) => {
   const userRepository = AppDataSource.getRepository(User);
   const userObj = await userRepository.findOne({ where: { phone } });
+  console.log("here is working servie?")
 
   if (userObj) {
+    console.log("here is working if?")
     const userId = userObj.id;
     const token = createToken({
       id: userId,
@@ -106,6 +108,7 @@ export const userSignInService = async ({ phone }: ISignInService) => {
       nickname: userObj.nickname,
       phone: userObj.phone,
     });
+    console.log("here token : ",token)
     return { accessToken: token };
   }
   throw new ErrorResponse(ERROR_CODE.TOKEN_NOT_CREATE);

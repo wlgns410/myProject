@@ -23,6 +23,12 @@ if (process.env.NODE_ENV === 'production') {
 
 dotenv.config({ path: path.join(__dirname, envPath) });
 
+console.log('Current process.env:', process.env);
+
+const { TOKEN_SECRET, DB_LOCAL_TYPE } = process.env;
+console.log('TOKEN_SECRET', TOKEN_SECRET);
+console.log('DB_LOCAL_TYPE', DB_LOCAL_TYPE);
+
 const app = express();
 
 app.use(
@@ -92,13 +98,25 @@ app.use((req, res, next) => next(PAGE_NOT_FOUND_EXCEPTION));
 // eslint-disable-next-line no-unused-vars
 const PAGE_NOT_FOUND_EXCEPTION = new ErrorResponse(ERROR_CODE.PAGE_NOT_FOUND);
 
-app.use((err: ErrorResponse | any, req: Request, res: Response, _: NextFunction) => {
-  const status = Number(err.errorCode.status);
+app.use((err: ErrorResponse | any, req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof ErrorResponse) {
+    const status = Number(err.errorCode.status);
 
-  // 개발 중에만 로그를 출력하도록 설정
-  if (process.env.NODE_ENV !== 'production') {
-    console.log('[ERROR BODY]');
-    console.log({
+    // 개발 중에만 로그를 출력하도록 설정
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[ERROR BODY]');
+      console.log({
+        errorCode: {
+          code: err.errorCode.code,
+          status: err.errorCode.status,
+          message: err.errorCode.message,
+        },
+        fieldErrors: err.fieldErrors,
+      });
+    }
+
+    // 필요한 정보만 전달
+    return res.status(status).json({
       errorCode: {
         code: err.errorCode.code,
         status: err.errorCode.status,
@@ -108,15 +126,8 @@ app.use((err: ErrorResponse | any, req: Request, res: Response, _: NextFunction)
     });
   }
 
-  // 필요한 정보만 전달
-  return res.status(status).json({
-    errorCode: {
-      code: err.errorCode.code,
-      status: err.errorCode.status,
-      message: err.errorCode.message,
-    },
-    fieldErrors: err.fieldErrors,
-  });
+  // Pass the error to the next error-handling middleware
+  next(err);
 });
 
 export default app;
