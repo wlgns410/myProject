@@ -4,28 +4,59 @@ import { IJWTTokenData } from '~/@types/utils/jwt';
 import { IRequestWithUserInfo } from '~/@types/api/request/request';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
-import path from 'path';
-import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import redisCli from '~/config/redis';
+import { promisify } from 'util';
 
-dotenv.config();
-
-const { TOKEN_SECRET, DB_LOCAL_TYPE } = process.env;
-console.log('TOKEN_SECRET', TOKEN_SECRET);
-console.log('DB_LOCAL_TYPE', DB_LOCAL_TYPE);
+// global로 쓰면 dotenv에서 못가져와서 함수로 secret 나중에 가져옴
+export const logTokenSecret = () => {
+  const { TOKEN_ACCESS_SECRET, TOKEN_REFRESH_SECRET } = process.env;
+  return {TOKEN_ACCESS_SECRET, TOKEN_REFRESH_SECRET};
+};
 
 export const createToken = (auth: IJWTTokenData) => {
-  console.log("working create token?")
-  return jwt.sign(auth, TOKEN_SECRET, { expiresIn: '1M' });
+  const {TOKEN_ACCESS_SECRET, TOKEN_REFRESH_SECRET} = logTokenSecret();
+
+  const accessToken = jwt.sign(auth, TOKEN_ACCESS_SECRET, { algorithm: 'HS256', expiresIn: '1M' });
+  const refreshToken = jwt.sign({}, TOKEN_REFRESH_SECRET, { algorithm: 'HS256', expiresIn: '365d' });
+
+  return { accessToken, refreshToken };
 };
 
 export const verifyToken = (token: string) => {
+  const {TOKEN_ACCESS_SECRET} = logTokenSecret();
   if (!token) return null;
 
   try {
-    return jwt.verify(token, TOKEN_SECRET, { ignoreExpiration: true }) as IJWTTokenData;
+    return jwt.verify(token, TOKEN_ACCESS_SECRET, { ignoreExpiration: true }) as IJWTTokenData;
   } catch (error) {
     return null;
+  }
+};
+
+export const refreshVerifyToken = async (token: string, userId: number) => {
+  const {TOKEN_REFRESH_SECRET} = logTokenSecret();
+  const getAsync = promisify(redisCli.get).bind(redisCli);
+  if (!token) return null;
+
+  // try {
+  //   return jwt.verify(token, TOKEN_REFRESH_SECRET);
+  // } catch (error) {
+  //   return null;
+  // }
+  try {
+    const data = await getAsync(userId); // refresh token 가져오기
+    if (token === data) {
+      try {
+        return jwt.verify(token, TOKEN_REFRESH_SECRET);
+      } catch (err) {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return false;
   }
 };
 
@@ -40,5 +71,7 @@ export const tokenValidation = async (req: IRequestWithUserInfo, _: Response, ne
 };
 
 export const logoutToken = () => {
-  return jwt.sign({ type: 'logout' }, TOKEN_SECRET, { expiresIn: '0s' });
+  const {TOKEN_ACCESS_SECRET, TOKEN_REFRESH_SECRET} = logTokenSecret();
+  jwt.sign({ type: 'logout' }, TOKEN_REFRESH_SECRET, { expiresIn: '0s' });
+  return jwt.sign({ type: 'logout' }, TOKEN_ACCESS_SECRET, { expiresIn: '0s' });
 };
