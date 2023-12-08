@@ -109,7 +109,7 @@ export const userSignInService = async ({ phone }: ISignInService) => {
 
     // refreshToken redis에 저장
     const { refreshToken } = token;
-    redisCli.set(userObj.id, refreshToken);
+    redisCli.set(String(userObj.id), refreshToken);
     return token;
   }
   throw new ErrorResponse(ERROR_CODE.TOKEN_NOT_CREATE);
