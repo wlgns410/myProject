@@ -139,7 +139,6 @@ export const userSignInController = async (req: ISignInController, res: Response
 
 export const userLogOutController = async (req: IRequestWithUserId, res: Response, next: NextFunction) => {
   const { userId } = req;
-  console.log("userId: ",userId)
 
   try {
     await userLogOutService({ userId: Number(userId) });
