@@ -65,9 +65,10 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
           components: {
             securitySchemes: {
               bearerAuth: {
+                description: "JWT Authorization",
                 type: 'http',
                 scheme: 'bearer',
-                name: 'authorization',
+                name: 'Authorization',
                 bearerFormat: 'JWT',
                 in: 'header',
               },

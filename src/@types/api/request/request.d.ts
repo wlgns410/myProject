@@ -1,4 +1,4 @@
-import { Request, Express } from 'express';
+import { Request, Express, NextFunction } from 'express';
 import { IJWTTokenData } from '~/@types/utils/jwt';
 
 export interface IRequestWithUserId extends Request {
@@ -7,7 +7,6 @@ export interface IRequestWithUserId extends Request {
 
 export interface IRequestWithUserIdLogOut extends Request {
   userId: number;
-  logout(): void;
 }
 
 

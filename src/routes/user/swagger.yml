@@ -230,13 +230,6 @@ definitions:
       - application/json
     security:
       - bearerAuth: []
-    parameters:
-      - in: header
-        name: authorization
-        description: 로그인 토큰
-        required: true
-        schema:
-          type: string
     responses:
       204:
         description: '로그아웃 성공'
@@ -273,13 +266,6 @@ definitions:
       - application/json
     security:
       - bearerAuth: []
-    parameters:
-      - in: header
-        name: authorization
-        description: 로그인 토큰
-        required: true
-        schema:
-          type: string
     requestBody:
       content:
         application/json:
@@ -325,7 +311,7 @@ definitions:
                 code: COMMON005
 
 /user/withdrawal:
-  post:
+  delete:
     tags: [User]
     produces:
       - application/json
@@ -333,13 +319,6 @@ definitions:
       - application/json
     security:
       - bearerAuth: []
-    parameters:
-      - in: header
-        name: authorization
-        description: 로그인 토큰
-        required: true
-        schema:
-          type: string
     requestBody:
       content:
         application/json:

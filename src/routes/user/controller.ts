@@ -137,15 +137,15 @@ export const userSignInController = async (req: ISignInController, res: Response
   }
 };
 
-export const userLogOutController = async (req: IRequestWithUserIdLogOut, res: Response, next: NextFunction) => {
+export const userLogOutController = async (req: IRequestWithUserId, res: Response, next: NextFunction) => {
   const { userId } = req;
+  console.log("userId: ",userId)
 
   try {
     await userLogOutService({ userId: Number(userId) });
     return res
       .status(httpStatus.NO_CONTENT)
-      .json({ status: httpStatus.NO_CONTENT, message: '정상적으로 로그아웃 되었습니다.' })
-      .end();
+      .json({ status: httpStatus.NO_CONTENT, message: '정상적으로 로그아웃 되었습니다.' });
   } catch (e) {
     return next(e);
   }

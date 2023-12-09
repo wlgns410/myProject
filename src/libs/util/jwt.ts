@@ -23,27 +23,30 @@ export const createToken = (auth: IJWTTokenData) => {
   return { accessToken, refreshToken };
 };
 
-export const verifyToken = (token: string) => {
+export const verifyToken = async (token: string) => {
   const {TOKEN_ACCESS_SECRET} = logTokenSecret();
   if (!token) return null;
 
+  const verifyAsync = promisify(jwt.verify) as (
+    token: string,
+    secretOrPublicKey: jwt.Secret,
+    options?: jwt.VerifyOptions
+  ) => Promise<unknown>;
+
   try {
-    return jwt.verify(token, TOKEN_ACCESS_SECRET, { ignoreExpiration: true }) as IJWTTokenData;
+    const verifiedData = await verifyAsync(token, TOKEN_ACCESS_SECRET, { ignoreExpiration: true });
+
+    // Now perform a more specific type assertion
+    return verifiedData as IJWTTokenData;
   } catch (error) {
     return null;
   }
 };
-
 export const refreshVerifyToken = async (token: string, userId: number) => {
   const {TOKEN_REFRESH_SECRET} = logTokenSecret();
   const getAsync = promisify(redisCli.get).bind(redisCli);
   if (!token) return null;
 
-  // try {
-  //   return jwt.verify(token, TOKEN_REFRESH_SECRET);
-  // } catch (error) {
-  //   return null;
-  // }
   try {
     const data = await getAsync(userId); // refresh token 가져오기
     if (token === data) {
@@ -66,8 +69,14 @@ export const tokenValidation = async (req: IRequestWithUserInfo, _: Response, ne
   }
 
   const token: string = req.headers.authorization.split('Bearer ')[1];
-  const isVerified = verifyToken(token);
+  const isVerified = await verifyToken(token);
+
+  if (!isVerified) {
+    return next(new ErrorResponse(ERROR_CODE.UNAUTHORIZED));
+  }
+
   req.userId = isVerified.id;
+  next();
 };
 
 export const logoutToken = () => {

@@ -133,7 +133,9 @@ export const userPasswordChangeService = async ({ originPassword, changePassword
   }
 
   // Check if the originPassword matches the user's current password
-  if (foundUser.password !== originPassword) {
+  const isPasswordMatch = await foundUser.comparePassword(originPassword);
+
+  if (!isPasswordMatch) {
     throw new ErrorResponse(ERROR_CODE.RIGHT_ORIGIN_PASSWORD);
   }
 
@@ -146,6 +148,7 @@ export const userPasswordChangeService = async ({ originPassword, changePassword
   await transactionRunner(async (queryRunner) => {
     if (foundUser) {
       foundUser.password = changePassword;
+      await foundUser.savePasswordWithEncrypt();
       await queryRunner.manager.save(foundUser);
     }
   });
@@ -158,8 +161,8 @@ export const userWithdrawalService = async ({ password, userId }: IWithdrawalSer
     throw new ErrorResponse(ERROR_CODE.UNAUTHORIZED);
   }
 
-  // Check if the originPassword matches the user's current password
-  if (foundUser.password !== password) {
+  const isPasswordMatch = await foundUser.comparePassword(password);
+  if (!isPasswordMatch) {
     throw new ErrorResponse(ERROR_CODE.RIGHT_ORIGIN_PASSWORD);
   }
 
@@ -168,6 +171,5 @@ export const userWithdrawalService = async ({ password, userId }: IWithdrawalSer
     await userRepoInTransaction.softDelete({ id: foundUser.id });
   });
 
-  // 탈퇴후 토큰 제거
   logoutToken();
 };
