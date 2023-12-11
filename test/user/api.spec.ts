@@ -17,7 +17,7 @@ describe('인증번호 전송을 위한 /user/signup/auth 은...', () => {
 describe('회원가입을 위한 /user/signup 은...', () => {
     it('# 회원가입에 성공하면 201을 리턴한다.', (done) => {  
       request(app).post('/user/signup').send({
-        'email': 'wlgns410@gmail.com',
+        'email': 'jihoon411@gmail.com',
         'password': 'qwer1234',
         'phone': '01000000000',
         'userType': 'employee'
@@ -92,7 +92,7 @@ describe('회원탈퇴을 위한 /user/withdrawal 은...', () => {
         });
     });
 
-    it('# 비밀번호 변경에 성공하면 204 리턴한다.', (done) => {  
-      request(app).patch('/user/withdrawal').send({'password': 'qwer12345'}).expect(204, done);
+    it('# 계정 삭제에 성공하면 204 리턴한다.', (done) => {  
+      request(app).delete('/user/withdrawal').send({'password': 'qwer12345'}).expect(204, done);
     });
 });
