@@ -16,7 +16,7 @@ export const userBMISettingController = async (
     res: Response,
     next: NextFunction,
   ) => {
-    const { height, weight } = req.body;
+    const { height, weight, targetBody } = req.body;
     const { userId } = req;
 
     if (!height) {
@@ -46,7 +46,7 @@ export const userBMISettingController = async (
     }
 
     try {
-      const response = await userBMISettingService({ height, weight, userId: Number(userId) });
+      const response = await userBMISettingService({ height: Number(height), weight: Number(weight), userId: Number(userId), targetBody });
       return res
         .status(httpStatus.CREATED)
         .json({ data: response, status: httpStatus.CREATED, message: '정상적으로 BMI가 저장되었습니다.' });

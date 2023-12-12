@@ -43,3 +43,28 @@ export const calculateWeightDifference = (height: number, weight: number) => {
   
     return {muscularDifference, slimDifference, normalDifference};
 };
+
+// 대략적인 목표 bmi 설정 후 그 몸무게와 현재 몸무게 차이 계산
+export const targetCalculateWeightDifference = (height: number, weight: number, targetBody: string) => {
+
+  let bmiTarget: number;
+  if (targetBody == 'muscular'){
+    bmiTarget = 15
+  } else if (targetBody == 'slim'){
+    bmiTarget = 19
+  } else if (targetBody == 'normal'){
+    bmiTarget = 22
+  } else {
+    bmiTarget = 22
+  }
+
+  const targetWeight = bmiTarget * Math.pow(height / 100, 2);
+
+  // 몸무게 차이는 정수 2자리 + 소수점 1자리 최대 3자리
+  const decimalPlaces = 1; 
+  const integerPlaces = 2;
+
+  const targetDifference = (targetWeight - weight).toFixed(decimalPlaces).toString().padStart(decimalPlaces + integerPlaces, '0');
+
+  return {targetDifference, bmiTarget};
+};

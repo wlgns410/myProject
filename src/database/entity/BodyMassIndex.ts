@@ -5,32 +5,32 @@ import {
     ManyToOne,
     JoinColumn,
     CreateDateColumn,
-  } from 'typeorm';
-  import TimeDefaultEntity from './TimeDefaultEntity';
-  import { User } from './Account';
+} from 'typeorm';
+import TimeDefaultEntity from './TimeDefaultEntity';
+import { User } from './Account';
   
-  @Entity()
-  export class BodyMassIndex extends TimeDefaultEntity {
+@Entity()
+export class BodyMassIndex extends TimeDefaultEntity {
     @PrimaryGeneratedColumn()
     id: number;
   
-    @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL', onUpdate: 'SET NULL' })
+    @ManyToOne(() => User, { nullable: false, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     @JoinColumn({ name: 'user_id' })
     user: User;
   
     @Column()
     userId: number;
   
-    @CreateDateColumn({ nullable: true })
-    registrationDate: Date;
-  
-    @Column({ nullable: false, length: 3 })
+    @Column({ type: 'decimal', precision: 4, scale: 1, nullable: true }) // 정수 3자리 소수점 1자리까지
     height: string | null;
 
-    @Column({ nullable: false, length: 3 })
+    @Column({ type: 'decimal', precision: 4, scale: 1, nullable: true }) // 정수 3자리 소수점 1자리까지
     weight: string;
 
-    @Column({ nullable: true, length: 3 }) // 원하는 bmi 체형
-    targetBody : string;
+    @Column({ type: 'decimal', precision: 3, scale: 1, nullable: true }) // 정수 2자리 소수점 1자리까지
+    bmiTarget: string;
+
+    @Column({ type: 'decimal', precision: 4, scale: 1, nullable: true }) // 정수 3자리 소수점 1자리까지
+    targetDifference: string;
 }
   
