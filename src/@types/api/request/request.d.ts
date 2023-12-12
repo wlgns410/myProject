@@ -9,8 +9,11 @@ export interface IRequestWithUserIdLogOut extends Request {
   userId: number;
 }
 
-
 export interface IRequestWithUserInfo extends IRequestWithUserId {
   user: IJWTTokenData;
   token: string;
+}
+
+export interface IRequestOnlyUserId {
+  userId: number;
 }

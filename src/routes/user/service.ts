@@ -7,10 +7,10 @@ import {
   ISignUpService,
   ISignUpAuthNumService,
   ISignInService,
-  ILogoutService,
   IPasswordChangeService,
   IWithdrawalService,
 } from '~/@types/api/user/request';
+import { IRequestOnlyUserId } from '~/@types/api/request/request';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { createToken, logoutToken } from '~/libs/util/jwt';
@@ -112,7 +112,7 @@ export const userSignInService = async ({ phone }: ISignInService) => {
   throw new ErrorResponse(ERROR_CODE.TOKEN_NOT_CREATE);
 };
 
-export const userLogOutService = async ({ userId }: ILogoutService) => {
+export const userLogOutService = async ({ userId }: IRequestOnlyUserId) => {
   const userRepository = AppDataSource.getRepository(User);
   const foundUser = await userRepository.findOne({ where: { id: userId } });
   if (!foundUser) {

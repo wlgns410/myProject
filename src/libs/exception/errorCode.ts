@@ -35,6 +35,7 @@ const ERROR_CODE = {
   //bmi
   RIGHT_WEIGHT: $(400, '몸무게는 30이상 300 미만의 숫자로 입력해주세요.', 'BMI001'),
   RIGHT_HEIGHT: $(400, '키는 50이상 350 미만의 숫자로 입력해주세요.', 'BMI002'),
+  BODY_TYPE_INVAILD_INPUT: $(400, '체형 타입의 형식에 맞게 입력해주세요.', 'BMI003'),
 };
 
 export default ERROR_CODE;
