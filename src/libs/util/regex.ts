@@ -15,4 +15,12 @@ export const registerRegexesOfType = {
     regexes: [/^\d{4}$/],
     msg: '핸드폰 인증번호의 형식에 맞게 입력해주세요.',
   },
+  height: {
+    regexes: [],
+    msg: '키는 50이상 350 미만의 숫자로 입력해주세요.',
+  },
+  weight: {
+    regexes: [],
+    msg: '몸무게는 30이상 300 미만의 숫자로 입력해주세요.',
+  },
 };

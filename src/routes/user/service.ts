@@ -1,4 +1,3 @@
-// import { UserPhoneAuth, User } from '~/database/entity';
 import { User } from '../../database/entity/Account';
 import { UserPhoneAuth } from '../../database/entity/UserPhoneAuth';
 
