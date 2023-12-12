@@ -31,6 +31,10 @@ const ERROR_CODE = {
   //ChangePassword
   RIGHT_ORIGIN_PASSWORD: $(400, '기존의 비밀번호를 입력해주세요.', 'PASSWORD001'),
   SAME_PASSWORD: $(400, '기존의 비밀번호는 사용하실 수 없습니다.', 'PASSWORD002'),
+
+  //bmi
+  RIGHT_WEIGHT: $(400, '몸무게는 30이상 300 미만의 숫자로 입력해주세요.', 'BMI001'),
+  RIGHT_HEIGHT: $(400, '키는 50이상 350 미만의 숫자로 입력해주세요.', 'BMI002'),
 };
 
 export default ERROR_CODE;
