@@ -25,4 +25,10 @@ export class BodyMassIndex extends TimeDefaultEntity {
 
   @Column({ type: 'decimal', precision: 4, scale: 1, nullable: true }) // 정수 3자리 소수점 1자리까지
   targetDifference: string;
+
+  @Column({ type: 'decimal', precision: 3, scale: 1, nullable: true }) // 정수 2자리 소수점 1자리까지
+  bmrTarget: string;
+
+  @Column({ nullable: true, length: 15 })
+  activityType: string;
 }

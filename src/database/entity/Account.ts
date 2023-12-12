@@ -22,6 +22,9 @@ export class User extends TimeDefaultEntity {
   @Column({ nullable: true, length: 15 })
   userType: string;
 
+  @Column({ nullable: true, length: 15 })
+  sex: string;
+
   @BeforeInsert()
   async savePasswordWithEncrypt() {
     if (this.password) {
