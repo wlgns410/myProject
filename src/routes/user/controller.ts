@@ -22,7 +22,6 @@ import {
 import { IRequestWithUserId, IRequestWithUserIdLogOut } from '~/@types/api/request/request';
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
-
   const { email, password, phone, userType } = req.body;
   if (!email && !password && !phone) {
     return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
@@ -66,9 +65,9 @@ export const userSignUpController = async (req: ISignUpController, res: Response
     return res
       .status(httpStatus.CREATED)
       .json({ status: httpStatus.CREATED, message: '정상적으로 회원가입 되었습니다.' });
-    } catch (e) {
-      return next(e.message);
-    }
+  } catch (e) {
+    return next(e.message);
+  }
 };
 
 export const userSignUpAuthenticationNumberController = async (
@@ -94,9 +93,9 @@ export const userSignUpAuthenticationNumberController = async (
     return res
       .status(httpStatus.ACCEPTED)
       .json({ data: response, status: httpStatus.ACCEPTED, message: '정상적으로 인증번호가 발급되었습니다.' });
-    } catch (e) {
-      return res.status(500).json({ error: e.message });
-    }
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
 };
 
 export const userSignInController = async (req: ISignInController, res: Response, next: NextFunction) => {

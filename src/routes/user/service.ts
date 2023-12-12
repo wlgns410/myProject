@@ -20,10 +20,8 @@ import { registerRegexesOfType } from '~/libs/util/regex';
 import transactionRunner from '~/database/transaction';
 
 export const userSignUpService = async ({ email, password, phone, userType }: ISignUpService) => {
-
   const userRepository = AppDataSource.getRepository(User);
   const phoneExists = await userRepository.findOne({ where: { phone } });
-
 
   if (phoneExists) {
     throw new ErrorResponse(ERROR_CODE.ALREADY_SIGNUP_USER);
@@ -61,7 +59,7 @@ export const userSignUpService = async ({ email, password, phone, userType }: IS
       password,
       phone,
       nickname,
-      userType
+      userType,
     });
     await queryRunner.manager.save(newUser);
   });

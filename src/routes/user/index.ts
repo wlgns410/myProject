@@ -16,6 +16,6 @@ user.route('/signup/auth').post(userSignUpAuthenticationNumberController);
 user.route('/signin').post(userSignInController);
 user.route('/logout').all(tokenValidation).post(userLogOutController);
 user.route('/changepassword').all(tokenValidation).patch(userPasswordChangeController);
-user.route('/withdrawal').all(tokenValidation).delete(userWithdrawalController)
+user.route('/withdrawal').all(tokenValidation).delete(userWithdrawalController);
 
 export default user;

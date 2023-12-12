@@ -1,8 +1,6 @@
 import { Router } from 'express';
 import { tokenValidation } from '~/libs/util/jwt';
-import {
-  userBMISettingController
-} from './controller';
+import { userBMISettingController } from './controller';
 
 const bmi = Router();
 
