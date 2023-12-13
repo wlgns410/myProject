@@ -22,7 +22,7 @@ import {
 import { IRequestWithUserId, IRequestWithUserIdLogOut } from '~/@types/api/request/request';
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
-  const { email, password, phone, userType, sex } = req.body;
+  const { email, password, phone, userType, sex, birth } = req.body;
   if (!email && !password && !phone) {
     return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
   }
@@ -51,6 +51,15 @@ export const userSignUpController = async (req: ISignUpController, res: Response
 
     if (!isPhoneValid) {
       return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
+    }
+  }
+
+  if (birth) {
+    const birthRegexes = registerRegexesOfType.birth.regexes;
+    const isBirthValid = birthRegexes.some((regex) => regex.test(birth));
+
+    if (!isBirthValid) {
+      return next(new ErrorResponse(ERROR_CODE.BIRTH_TYPE_INVAILD_INPUT));
     }
   }
 

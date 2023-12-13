@@ -7,6 +7,7 @@ export interface ISignUpController {
     phone: string;
     userType: string;
     sex: string;
+    birth: string;
   };
 }
 
@@ -16,6 +17,7 @@ export interface ISignUpService {
   phone: string;
   userType: string;
   sex: string;
+  birth: string;
 }
 
 export interface ISignUpAuthNumController {

@@ -4,4 +4,5 @@ export interface IJWTTokenData {
   nickname: string;
   phone: string;
   sex: string;
+  birth: string;
 }
