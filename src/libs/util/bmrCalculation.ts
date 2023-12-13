@@ -20,7 +20,7 @@ export const bmrCalculation = (height: number, weight: number, age: number, sex:
     case 'veryInactive':
       calories = bmr * 1.2;
       break;
-    case 'Inactive':
+    case 'inactive':
       calories = bmr * 1.375;
       break;
     case 'moderate':

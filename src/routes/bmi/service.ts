@@ -9,6 +9,7 @@ import transactionRunner from '~/database/transaction';
 import { targetCalculateWeightDifference } from '~/libs/util/bmiCalculation';
 import { bmrCalculation } from '~/libs/util/bmrCalculation';
 import { getCurrentAgeToNumber } from '~/libs/util/birth';
+import { getGenderToEng } from '~/libs/util/gender';
 
 export const userBMISettingService = async ({
   weight,
@@ -31,8 +32,9 @@ export const userBMISettingService = async ({
   const { targetDifference, bmiTarget } = targetCalculateWeightDifference(weight, height, targetBody);
 
   const currentAge = getCurrentAgeToNumber(birth);
+  const gender = getGenderToEng(sex);
 
-  const { calories, bmr } = bmrCalculation(height, weight, currentAge, sex, activityType);
+  const { calories, bmr } = bmrCalculation(height, weight, currentAge, gender, activityType);
 
   await transactionRunner(async (queryRunner) => {
     const bmiRepo = bodyMassIndexRepository.create({

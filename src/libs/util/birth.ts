@@ -19,5 +19,5 @@ export const getCurrentAgeToNumber = (birth: string): number => {
     return age - 1;
   }
 
-  return age;
+  return Number(age);
 };
