@@ -117,6 +117,15 @@ definitions:
                 status: 403
                 message: 이미 회원가입한 아이디입니다.
                 code: SIGNUP001
+      404:
+        description: 'redis auth 발급 안받은 유저'
+        content:
+          application/json:
+            example:
+              errorCode:
+                status: 404
+                message: PAGE NOT FOUND
+                code: COMMON001
       500:
         description: '알 수 없는 오류'
         content:

@@ -16,7 +16,7 @@ export class UserType extends EnumType<UserType>() {
 
   static isValid(userType: string): boolean {
     // 유효한 userType 값인지 확인하는 로직 작성
-    return Object.values(UserType).some((enumValue) => enumValue.code === userType);
+    return (this.values() as UserType[]).some((enumValue) => enumValue.code === userType);
   }
 
   get code(): string {
@@ -51,9 +51,9 @@ export class BodyType extends EnumType<BodyType>() {
     super();
   }
 
-  static isValid(userType: string): boolean {
+  static isValid(bodyType: string): boolean {
     // 유효한 userType 값인지 확인하는 로직 작성
-    return Object.values(UserType).some((enumValue) => enumValue.code === userType);
+    return (this.values() as BodyType[]).some((enumValue) => enumValue.code === bodyType);
   }
 
   get code(): string {
