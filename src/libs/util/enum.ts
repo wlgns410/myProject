@@ -15,7 +15,6 @@ export class UserType extends EnumType<UserType>() {
   }
 
   static isValid(userType: string): boolean {
-    // 유효한 userType 값인지 확인하는 로직 작성
     return (this.values() as UserType[]).some((enumValue) => enumValue.code === userType);
   }
 
@@ -52,7 +51,6 @@ export class BodyType extends EnumType<BodyType>() {
   }
 
   static isValid(bodyType: string): boolean {
-    // 유효한 bodyType 값인지 확인하는 로직 작성
     return (this.values() as BodyType[]).some((enumValue) => enumValue.code === bodyType);
   }
 
@@ -87,8 +85,44 @@ export class SexType extends EnumType<SexType>() {
   }
 
   static isValid(sex: string): boolean {
-    // 유효한 bodyType 값인지 확인하는 로직 작성
     return (this.values() as BodyType[]).some((enumValue) => enumValue.code === sex);
+  }
+
+  get code(): string {
+    return this._code;
+  }
+  get name(): string {
+    return this._name;
+  }
+  equals(code: string): boolean {
+    return this.code === code;
+  }
+
+  toCodeName() {
+    return {
+      code: this.code,
+      name: this.name,
+    };
+  }
+}
+
+@Enum('code')
+export class ActivityType extends EnumType<ActivityType>() {
+  static readonly veryInactive = new ActivityType('veryInactive', '매우비활동적');
+  static readonly Inactive = new ActivityType('Inactive', '비활동적');
+  static readonly moderate = new ActivityType('moderate', '보통');
+  static readonly active = new ActivityType('active', '활동적');
+  static readonly veryActive = new ActivityType('veryActive', '매우활동적');
+
+  private constructor(
+    readonly _code: string,
+    readonly _name: string,
+  ) {
+    super();
+  }
+
+  static isValid(activity: string): boolean {
+    return (this.values() as BodyType[]).some((enumValue) => enumValue.code === activity);
   }
 
   get code(): string {

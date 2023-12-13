@@ -9,6 +9,7 @@ definitions:
       - height
       - weight
       - targetBody
+      - activityType
     properties:
       height:
         type: string
@@ -19,6 +20,9 @@ definitions:
       targetBody:
         type: string
         description: 선호체형
+      activityType:
+        type: string
+        description: 활동성
 
 /bmi/target:
   post:
@@ -51,8 +55,8 @@ definitions:
             example:
               errorCode:
                 status: 400
-                message: '몸무게는 30이상 300 미만의 숫자로 입력해주세요. | 키는 50이상 350 미만의 숫자로 입력해주세요. |  체형 타입의 형식에 맞게 입력해주세요. | INVALID INPUT VALUE'
-                code: 'BMI001 | BMI002 | BMI003 | COMMON002'
+                message: '몸무게는 30이상 300 미만의 숫자로 입력해주세요. | 키는 50이상 350 미만의 숫자로 입력해주세요. |  체형 타입의 형식에 맞게 입력해주세요. | INVALID INPUT VALUE | 체형 타입의 형식에 맞게 입력해주세요. | 활동 수준의 형식에 맞게 입력해주세요.'
+                code: 'BMI001 | BMI002 | BMI003 | COMMON002 | BMI003 | BMI005'
       401:
         description: '비로그인으로 접근했을 경우'
         content:

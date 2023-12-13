@@ -6,11 +6,11 @@ import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/util/regex';
 import { IUserBMISettingController } from '~/@types/api/bmi/request';
 import { IRequestWithUserId } from '~/@types/api/request/request';
-import { BodyType } from '~/libs/util/enum';
+import { BodyType, ActivityType } from '~/libs/util/enum';
 
 export const userBMISettingController = async (req: IUserBMISettingController, res: Response, next: NextFunction) => {
-  const { height, weight, targetBody } = req.body;
-  const { userId } = req;
+  const { height, weight, targetBody, activityType } = req.body;
+  const { userId, sex, birth } = req;
 
   if (!height) {
     return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
@@ -38,8 +38,20 @@ export const userBMISettingController = async (req: IUserBMISettingController, r
     }
   }
 
+  if (!targetBody) {
+    return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+  }
+
   if (!BodyType.isValid(targetBody)) {
     return next(new ErrorResponse(ERROR_CODE.BODY_TYPE_INVAILD_INPUT));
+  }
+
+  if (!activityType) {
+    return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
+  }
+
+  if (!ActivityType.isValid(activityType)) {
+    return next(new ErrorResponse(ERROR_CODE.ACTIVITY_TYPE_INVAILD_INPUT));
   }
 
   try {
@@ -48,6 +60,9 @@ export const userBMISettingController = async (req: IUserBMISettingController, r
       weight: Number(weight),
       userId: Number(userId),
       targetBody,
+      sex: String(sex),
+      activityType: String(activityType),
+      birth: String(birth),
     });
     return res
       .status(httpStatus.CREATED)

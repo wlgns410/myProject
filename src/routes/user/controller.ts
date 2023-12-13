@@ -76,7 +76,7 @@ export const userSignUpController = async (req: ISignUpController, res: Response
   const sexEnum = SexType[sex].name;
 
   try {
-    await userSignUpService({ email, password, phone, userType: userEnum, sex: sexEnum });
+    await userSignUpService({ email, password, phone, userType: userEnum, sex: sexEnum, birth });
     return res
       .status(httpStatus.CREATED)
       .json({ status: httpStatus.CREATED, message: '정상적으로 회원가입 되었습니다.' });

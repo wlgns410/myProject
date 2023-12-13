@@ -7,8 +7,18 @@ import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import transactionRunner from '~/database/transaction';
 import { targetCalculateWeightDifference } from '~/libs/util/bmiCalculation';
+import { bmrCalculation } from '~/libs/util/bmrCalculation';
+import { getCurrentAgeToNumber } from '~/libs/util/birth';
 
-export const userBMISettingService = async ({ weight, height, userId, targetBody }: IUserBMISettingService) => {
+export const userBMISettingService = async ({
+  weight,
+  height,
+  userId,
+  targetBody,
+  sex,
+  activityType,
+  birth,
+}: IUserBMISettingService) => {
   const userRepository = AppDataSource.getRepository(User);
   const foundUser = await userRepository.findOne({ where: { id: userId } });
 
@@ -20,12 +30,19 @@ export const userBMISettingService = async ({ weight, height, userId, targetBody
 
   const { targetDifference, bmiTarget } = targetCalculateWeightDifference(weight, height, targetBody);
 
+  const currentAge = getCurrentAgeToNumber(birth);
+
+  const { calories, bmr } = bmrCalculation(height, weight, currentAge, sex, activityType);
+
   await transactionRunner(async (queryRunner) => {
     const bmiRepo = bodyMassIndexRepository.create({
       weight: String(weight),
       height: String(height),
-      bmiTarget: String(bmiTarget), // 또는 targetBody?.toString() 등으로 수정
+      bmiTarget: String(bmiTarget),
       targetDifference: String(targetDifference),
+      activityType: activityType,
+      bmrTarget: String(bmr),
+      calories: String(calories),
     });
     await queryRunner.manager.save(bmiRepo);
   });

@@ -29,6 +29,9 @@ export class BodyMassIndex extends TimeDefaultEntity {
   @Column({ type: 'decimal', precision: 3, scale: 1, nullable: true }) // 정수 2자리 소수점 1자리까지
   bmrTarget: string;
 
+  @Column({ type: 'decimal', precision: 6, scale: 1, nullable: true }) // 정수 2자리 소수점 1자리까지
+  calories: string;
+
   @Column({ nullable: true, length: 15 })
   activityType: string;
 }
