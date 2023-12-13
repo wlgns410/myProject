@@ -10,6 +10,7 @@ definitions:
       - password
       - phone
       - userType
+      - sex
     properties:
       email:
         type: string
@@ -23,6 +24,9 @@ definitions:
       userType:
         type: string
         description: 유저타입
+      sex:
+        type: string
+        description: 성별
 
   SignUpAuth:
     type: object

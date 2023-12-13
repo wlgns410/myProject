@@ -76,6 +76,7 @@ export const tokenValidation = async (req: IRequestWithUserInfo, _: Response, ne
   }
 
   req.userId = isVerified.id;
+  req.sex = isVerified.sex;
   next();
 };
 

@@ -19,7 +19,7 @@ import generateFourDigitRandom from '~/libs/util/generateFourDigit';
 import { registerRegexesOfType } from '~/libs/util/regex';
 import transactionRunner from '~/database/transaction';
 
-export const userSignUpService = async ({ email, password, phone, userType }: ISignUpService) => {
+export const userSignUpService = async ({ email, password, phone, userType, sex }: ISignUpService) => {
   const userRepository = AppDataSource.getRepository(User);
   const phoneExists = await userRepository.findOne({ where: { phone } });
 
@@ -60,6 +60,7 @@ export const userSignUpService = async ({ email, password, phone, userType }: IS
       phone,
       nickname,
       userType,
+      sex,
     });
     await queryRunner.manager.save(newUser);
   });
@@ -102,6 +103,7 @@ export const userSignInService = async ({ phone }: ISignInService) => {
       email: userObj.email,
       nickname: userObj.nickname,
       phone: userObj.phone,
+      sex: userObj.sex,
     });
 
     // refreshToken redis에 저장

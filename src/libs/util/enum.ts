@@ -73,3 +73,38 @@ export class BodyType extends EnumType<BodyType>() {
     };
   }
 }
+
+@Enum('code')
+export class SexType extends EnumType<SexType>() {
+  static readonly man = new SexType('man', '남성');
+  static readonly woman = new SexType('woman', '여성');
+
+  private constructor(
+    readonly _code: string,
+    readonly _name: string,
+  ) {
+    super();
+  }
+
+  static isValid(sex: string): boolean {
+    // 유효한 bodyType 값인지 확인하는 로직 작성
+    return (this.values() as BodyType[]).some((enumValue) => enumValue.code === sex);
+  }
+
+  get code(): string {
+    return this._code;
+  }
+  get name(): string {
+    return this._name;
+  }
+  equals(code: string): boolean {
+    return this.code === code;
+  }
+
+  toCodeName() {
+    return {
+      code: this.code,
+      name: this.name,
+    };
+  }
+}

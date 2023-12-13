@@ -11,7 +11,7 @@ import {
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/util/regex';
-import { UserType } from '~/libs/util/enum';
+import { UserType, SexType } from '~/libs/util/enum';
 import {
   ISignUpController,
   ISignUpAuthNumController,
@@ -22,7 +22,7 @@ import {
 import { IRequestWithUserId, IRequestWithUserIdLogOut } from '~/@types/api/request/request';
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
-  const { email, password, phone, userType } = req.body;
+  const { email, password, phone, userType, sex } = req.body;
   if (!email && !password && !phone) {
     return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
   }
@@ -60,8 +60,14 @@ export const userSignUpController = async (req: ISignUpController, res: Response
 
   const userEnum = UserType[userType].name;
 
+  if (!SexType.isValid(sex)) {
+    return next(new ErrorResponse(ERROR_CODE.SEX_TYPE_INVAILD_INPUT));
+  }
+
+  const sexEnum = SexType[sex].name;
+
   try {
-    await userSignUpService({ email, password, phone, userType: userEnum });
+    await userSignUpService({ email, password, phone, userType: userEnum, sex: sexEnum });
     return res
       .status(httpStatus.CREATED)
       .json({ status: httpStatus.CREATED, message: '정상적으로 회원가입 되었습니다.' });

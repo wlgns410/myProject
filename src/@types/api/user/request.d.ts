@@ -6,6 +6,7 @@ export interface ISignUpController {
     password: string;
     phone: string;
     userType: string;
+    sex: string;
   };
 }
 
@@ -14,6 +15,7 @@ export interface ISignUpService {
   password: string;
   phone: string;
   userType: string;
+  sex: string;
 }
 
 export interface ISignUpAuthNumController {
