@@ -52,7 +52,7 @@ export class BodyType extends EnumType<BodyType>() {
   }
 
   static isValid(bodyType: string): boolean {
-    // 유효한 userType 값인지 확인하는 로직 작성
+    // 유효한 bodyType 값인지 확인하는 로직 작성
     return (this.values() as BodyType[]).some((enumValue) => enumValue.code === bodyType);
   }
 
