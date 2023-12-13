@@ -16,11 +16,15 @@ export const registerRegexesOfType = {
     msg: '핸드폰 인증번호의 형식에 맞게 입력해주세요.',
   },
   height: {
-    regexes: [],
+    regexes: [/^[5-9]\d$|^3[0-4]\d$|^350$/],
     msg: '키는 50이상 350 미만의 숫자로 입력해주세요.',
   },
   weight: {
-    regexes: [],
+    regexes: [/^3\d$|^[4-9]\d$|^2\d{2}$/],
     msg: '몸무게는 30이상 300 미만의 숫자로 입력해주세요.',
+  },
+  birth: {
+    regexes: [/^\d{4}\d{2}\d{2}$/],
+    msg: '생년월일를 제대로 입력해 주세요.',
   },
 };
