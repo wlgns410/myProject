@@ -59,7 +59,7 @@ export const userBMISettingController = async (req: IUserBMISettingController, r
       height: Number(height),
       weight: Number(weight),
       userId: Number(userId),
-      targetBody,
+      targetBody: String(targetBody),
       sex: String(sex),
       activityType: String(activityType),
       birth: String(birth),
