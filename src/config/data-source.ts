@@ -4,7 +4,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 import { DataSourceOptions, DataSource } from 'typeorm';
 import SnakeNamingStrategy from '../database/namingStrategy/SnakeNamingStrategy';
-import { UserPhoneAuth, User, BodyMassIndex } from '~/database/entity';
+import { UserPhoneAuth, User, BodyMassIndex, DailyCalorie } from '~/database/entity';
 
 if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: path.join('.env.production') });
@@ -92,7 +92,7 @@ export const AppDataSource = new DataSource({
   database: 'product', // DB내 사용하는 DATABASE
   synchronize: true, // 엔티티 동기화 여부, 개발 중일땐 true를 해도 상관없으나 실서버에서는 false로 하고 migration을 하거나, 직접 수정한다.
   logging: true,
-  entities: [UserPhoneAuth, User, BodyMassIndex],
+  entities: [UserPhoneAuth, User, BodyMassIndex, DailyCalorie],
   subscribers: [],
   migrations: [],
   namingStrategy: new SnakeNamingStrategy(),
