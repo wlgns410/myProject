@@ -30,11 +30,12 @@ export const verifyToken = async (token: string) => {
   const verifyAsync = promisify(jwt.verify) as (
     token: string,
     secretOrPublicKey: jwt.Secret,
-    options?: jwt.VerifyOptions,
-  ) => Promise<unknown>;
+    options: jwt.VerifyOptions,
+  ) => Promise<{} | string>;
 
   try {
-    const verifiedData = await verifyAsync(token, TOKEN_ACCESS_SECRET, { ignoreExpiration: true });
+    // 여기서 만료시간 무시하면 위에서 토큰 시간 설정한게 의미없음
+    const verifiedData = await verifyAsync(token, TOKEN_ACCESS_SECRET, { ignoreExpiration: false });
 
     // Now perform a more specific type assertion
     return verifiedData as IJWTTokenData;
