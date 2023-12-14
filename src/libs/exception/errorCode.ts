@@ -38,7 +38,12 @@ const ERROR_CODE = {
   RIGHT_WEIGHT: $(400, '몸무게는 30이상 300 미만의 숫자로 입력해주세요.', 'BMI001'),
   RIGHT_HEIGHT: $(400, '키는 50이상 350 미만의 숫자로 입력해주세요.', 'BMI002'),
   BODY_TYPE_INVAILD_INPUT: $(400, '체형 타입의 형식에 맞게 입력해주세요.', 'BMI003'),
-  ACTIVITY_TYPE_INVAILD_INPUT: $(400, '활동 수준의 형식에 맞게 입력해주세요.', 'BMI005'),
+  ACTIVITY_TYPE_INVAILD_INPUT: $(400, '활동 수준의 형식에 맞게 입력해주세요.', 'BMI004'),
+  NOT_FOUND_BMI: $(404, 'bmi 지수 데이터가 없습니다.', 'BMI005'),
+
+  // daily
+  FOODS_INVAILD_INPUT: $(400, '음식 종류와 개수를 올바르게 입력해주세요.', 'DAILY001'),
+  NOT_FOUND_DAILY: $(404, 'daily calorie 데이터가 없습니다.', 'DAILY002'),
 };
 
 export default ERROR_CODE;

@@ -23,6 +23,9 @@ export class DailyCalorie extends TimeDefaultEntity {
   @Column({ type: 'decimal', precision: 6, scale: 1, nullable: true })
   lipid: string;
 
+  @Column({ type: 'decimal', precision: 7, scale: 1, nullable: true })
+  calorie: string;
+
   @Column('simple-json', { nullable: true })
   foods: { food: string; quantity: number }[];
 }
