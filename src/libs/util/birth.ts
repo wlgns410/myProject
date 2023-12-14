@@ -6,6 +6,7 @@ export const getCurrentAgeToNumber = (birth: string): number => {
 
   // 입력된 생년월일 문자열을 날짜 객체로 변환
   const birthDate = dayjs(birth, { format: 'YYYYMMDD' });
+  // const birthDate = dayjs(birth); // 일반적
 
   // 현재 나이 계산
   const age = currentDate.year() - birthDate.year();
