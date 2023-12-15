@@ -33,6 +33,7 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "mysql2": "^3.6.1",
+    "openai": "^4.22.0",
     "redis": "^4.6.10",
     "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "^5.0.0",
