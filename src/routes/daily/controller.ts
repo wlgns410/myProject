@@ -1,11 +1,14 @@
 import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
-import { dailyCalorieService } from './service';
+import { dailyCalorieService, eatingAllDayService, eatingOneService } from './service';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
-import { registerRegexesOfType } from '~/libs/util/regex';
-
-import { IUserDailyCalorieController } from '~/@types/api/daily/request';
+import {
+  IUserDailyCalorieController,
+  IUserEatingOneController,
+  IUserEatingAllDayController,
+} from '~/@types/api/daily/request';
+import { IRequestWithUserId } from '~/@types/api/request/request';
 
 export const dailyCalorieController = async (req: IUserDailyCalorieController, res: Response, next: NextFunction) => {
   const { foods } = req.body;
@@ -27,6 +30,30 @@ export const dailyCalorieController = async (req: IUserDailyCalorieController, r
   try {
     await dailyCalorieService({ foods, userId });
     return res.status(httpStatus.CREATED).json({ status: httpStatus.CREATED, message: '음식이 기록되었습니다.' });
+  } catch (e) {
+    return next(e.message);
+  }
+};
+
+export const eatingAllDayController = async (req: IUserEatingAllDayController, res: Response, next: NextFunction) => {
+  const { userId } = req;
+  const { bmiId } = req.params;
+
+  try {
+    await eatingAllDayService({ userId: Number(userId), bmiId: Number(bmiId) });
+    return res.status(httpStatus.OK).json({ status: httpStatus.OK, message: '하루동안 먹은 음식을 불러왔습니다.' });
+  } catch (e) {
+    return next(e.message);
+  }
+};
+
+export const eatingOneController = async (req: IUserEatingOneController, res: Response, next: NextFunction) => {
+  const { userId } = req;
+  const { dailyFoodId } = req.params;
+
+  try {
+    await eatingOneService({ userId: Number(userId), dailyFoodId: Number(dailyFoodId) });
+    return res.status(httpStatus.OK).json({ status: httpStatus.OK, message: '오늘 먹은 음식을 불러왔습니다.' });
   } catch (e) {
     return next(e.message);
   }

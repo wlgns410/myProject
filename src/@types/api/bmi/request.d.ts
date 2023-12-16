@@ -1,6 +1,6 @@
-import { IRequestWithUserId } from '~/@types/api/request/request';
+import { IRequestWithUserData } from '~/@types/api/request/request';
 
-export interface IUserBMISettingController extends IRequestWithUserId {
+export interface IUserBMISettingController extends IRequestWithUserData {
   body: {
     height: string;
     weight: string;

@@ -5,7 +5,7 @@ import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/util/regex';
 import { IUserBMISettingController } from '~/@types/api/bmi/request';
-import { IRequestWithUserId } from '~/@types/api/request/request';
+import { IRequestWithUserData } from '~/@types/api/request/request';
 import { BodyType, ActivityType } from '~/libs/util/enum';
 
 export const userBMISettingController = async (req: IUserBMISettingController, res: Response, next: NextFunction) => {
@@ -72,7 +72,7 @@ export const userBMISettingController = async (req: IUserBMISettingController, r
   }
 };
 
-export const userBMIController = async (req: IRequestWithUserId, res: Response, next: NextFunction) => {
+export const userBMIController = async (req: IRequestWithUserData, res: Response, next: NextFunction) => {
   const { userId } = req;
 
   try {

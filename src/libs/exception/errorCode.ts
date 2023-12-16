@@ -43,7 +43,7 @@ const ERROR_CODE = {
 
   // daily
   FOODS_INVAILD_INPUT: $(400, '음식 종류와 개수를 올바르게 입력해주세요.', 'DAILY001'),
-  NOT_FOUND_DAILY: $(404, 'daily calorie 데이터가 없습니다.', 'DAILY002'),
+  NOT_FOUND_DAILY: $(404, '오늘 먹은 음식 데이터가 없습니다.', 'DAILY002'),
 };
 
 export default ERROR_CODE;

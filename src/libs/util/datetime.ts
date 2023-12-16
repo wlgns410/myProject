@@ -14,3 +14,17 @@ export const getMonthStartDateEndDate = () => {
     endDate: monthEndDate,
   };
 };
+
+export const getDay = () => {
+  const now = dayjs();
+
+  // Set the start time of the day to 00:00:00, Date type
+  const startOfDay = now.startOf('day').toDate();
+
+  // Set the end time of the day to 23:59:59, Date type
+  const endOfDay = now.endOf('day').toDate();
+  return {
+    startOfDay,
+    endOfDay,
+  };
+};

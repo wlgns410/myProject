@@ -1,6 +1,10 @@
-import { IRequestWithUserId } from '~/@types/api/request/request';
+import { IRequestWithUserData, IRequestWithUserId } from '~/@types/api/request/request';
 
-export interface IUserDailyCalorieController extends IRequestWithUserId {
+interface FoodItem {
+  food: string;
+  quantity: number;
+}
+export interface IUserDailyCalorieController extends IRequestWithUserData {
   body: {
     foods: FoodItem[];
   };
@@ -11,7 +15,28 @@ export interface IUserDailyCalorieService {
   userId: number;
 }
 
-interface FoodItem {
-  food: string;
-  quantity: number;
+export interface IUserEatingAllDayController extends IRequestWithUserId {
+  userId: number;
+
+  params: {
+    bmiId: string;
+  };
+}
+
+export interface IUserEatingAllDayService {
+  userId: number;
+  bmiId: number;
+}
+
+export interface IUserEatingOneController extends IRequestWithUserId {
+  userId: number;
+
+  params: {
+    dailyFoodId: string;
+  };
+}
+
+export interface IUserEatingOneService {
+  userId: number;
+  dailyFoodId: number;
 }

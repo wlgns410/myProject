@@ -19,7 +19,7 @@ import {
   IPasswordChangeController,
   IWithdrawalController,
 } from '~/@types/api/user/request';
-import { IRequestWithUserId, IRequestWithUserIdLogOut } from '~/@types/api/request/request';
+import { IRequestWithUserData } from '~/@types/api/request/request';
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
   const { email, password, phone, userType, sex, birth } = req.body;
@@ -151,7 +151,7 @@ export const userSignInController = async (req: ISignInController, res: Response
   }
 };
 
-export const userLogOutController = async (req: IRequestWithUserId, res: Response, next: NextFunction) => {
+export const userLogOutController = async (req: IRequestWithUserData, res: Response, next: NextFunction) => {
   const { userId } = req;
 
   try {
