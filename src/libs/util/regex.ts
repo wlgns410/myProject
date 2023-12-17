@@ -27,4 +27,8 @@ export const registerRegexesOfType = {
     regexes: [/^\d{4}\d{2}\d{2}$/],
     msg: '생년월일를 제대로 입력해 주세요.',
   },
+  date: {
+    regexes: [/^\d{4}-\d{2}-\d{2}$/],
+    msg: '날짜를 제대로 입력해주세요.',
+  },
 };

@@ -8,8 +8,7 @@ import ErrorResponse from '~/libs/exception/errorResponse';
 import transactionRunner from '~/database/transaction';
 import { foodSentence } from '~/libs/util/foodSentence';
 import { openAI } from '~/libs/util/chatgpt';
-import { getDay } from '~/libs/util/datetime';
-import { IRequestOnlyUserId } from '~/@types/api/request/request';
+import { getPeriod } from '~/libs/util/datetime';
 import { Between } from 'typeorm';
 
 export const dailyCalorieService = async ({ foods, userId }: IUserDailyCalorieService) => {
@@ -50,7 +49,7 @@ export const dailyCalorieService = async ({ foods, userId }: IUserDailyCalorieSe
   });
 };
 
-export const eatingAllDayService = async ({ userId, bmiId }: IUserEatingAllDayService) => {
+export const eatingAllDayService = async ({ userId, bmiId, startDate, endDate }: IUserEatingAllDayService) => {
   const userRepository = AppDataSource.getRepository(User);
   const foundUser = await userRepository.findOne({ where: { id: userId } });
   if (!foundUser) {
@@ -65,7 +64,7 @@ export const eatingAllDayService = async ({ userId, bmiId }: IUserEatingAllDaySe
     throw new ErrorResponse(ERROR_CODE.NOT_FOUND_BMI);
   }
 
-  const { startOfDay, endOfDay } = getDay();
+  const { startOfDay, endOfDay } = getPeriod(startDate, endDate);
 
   const dailyCalorieRepository = AppDataSource.getRepository(DailyCalorie);
   const foundDailyCalorie = await dailyCalorieRepository.find({

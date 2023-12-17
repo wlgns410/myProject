@@ -21,11 +21,18 @@ export interface IUserEatingAllDayController extends IRequestWithUserId {
   params: {
     bmiId: string;
   };
+
+  query: {
+    startDate: string;
+    endDate: string;
+  };
 }
 
 export interface IUserEatingAllDayService {
   userId: number;
   bmiId: number;
+  startDate: string;
+  endDate: string;
 }
 
 export interface IUserEatingOneController extends IRequestWithUserId {

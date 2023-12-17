@@ -8,7 +8,7 @@ import {
   IUserEatingOneController,
   IUserEatingAllDayController,
 } from '~/@types/api/daily/request';
-import { IRequestWithUserId } from '~/@types/api/request/request';
+import { registerRegexesOfType } from '~/libs/util/regex';
 
 export const dailyCalorieController = async (req: IUserDailyCalorieController, res: Response, next: NextFunction) => {
   const { foods } = req.body;
@@ -38,10 +38,31 @@ export const dailyCalorieController = async (req: IUserDailyCalorieController, r
 export const eatingAllDayController = async (req: IUserEatingAllDayController, res: Response, next: NextFunction) => {
   const { userId } = req;
   const { bmiId } = req.params;
+  const { startDate, endDate } = req.query;
+
+  if (startDate) {
+    const dateRegexes = registerRegexesOfType.date.regexes;
+    const isStartDateValid = dateRegexes.some((regex) => regex.test(startDate));
+
+    if (!isStartDateValid) {
+      return next(new ErrorResponse(ERROR_CODE.NOT_FOUND_DATE));
+    }
+  }
+
+  if (endDate) {
+    const dateRegexes = registerRegexesOfType.date.regexes;
+    const isEndDateValid = dateRegexes.some((regex) => regex.test(endDate));
+
+    if (!isEndDateValid) {
+      return next(new ErrorResponse(ERROR_CODE.NOT_FOUND_DATE));
+    }
+  }
 
   try {
-    await eatingAllDayService({ userId: Number(userId), bmiId: Number(bmiId) });
-    return res.status(httpStatus.OK).json({ status: httpStatus.OK, message: '하루동안 먹은 음식을 불러왔습니다.' });
+    await eatingAllDayService({ userId: Number(userId), bmiId: Number(bmiId), startDate, endDate });
+    return res
+      .status(httpStatus.OK)
+      .json({ status: httpStatus.OK, message: '해당 기간동안 먹은 음식을 불러왔습니다.' });
   } catch (e) {
     return next(e.message);
   }

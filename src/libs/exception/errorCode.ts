@@ -13,6 +13,7 @@ const ERROR_CODE = {
   FORBIDDEN: $(403, '권한이 없습니다.', 'COMMON007'),
   UNAUTHORIZED: $(401, '로그인 후 이용해 주세요.', 'COMMON008'),
   NOT_FOUND_USER: $(404, '가입하지 않은 아이디입니다.', 'COMMON009'),
+  NOT_FOUND_DATE: $(400, '날짜를 제대로 입력해주세요.', 'COMMON010'),
 
   // SignUp
   ALREADY_SIGNUP_USER: $(403, '이미 회원가입한 아이디입니다.', 'SIGNUP001'),
