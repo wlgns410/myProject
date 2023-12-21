@@ -7,7 +7,7 @@ import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import transactionRunner from '~/database/transaction';
 import { foodSentence } from '~/libs/util/foodSentence';
-import { openAI } from '~/libs/util/chatgpt';
+import { openAI } from '~/libs/util/openAI';
 import { getPeriod } from '~/libs/util/datetime';
 import { Between } from 'typeorm';
 
@@ -34,7 +34,7 @@ export const dailyCalorieService = async ({ foods, userId }: IUserDailyCalorieSe
 
   // chatgpt 연동해서 foods의 탄단지, 칼로리 계산값 리턴
   const foodArrayToString = await foodSentence(foods);
-  const openAIResult = await openAI(foodArrayToString); // 문장에서 parse 해야함
+  const openAIResponse = await openAI(foodArrayToString); // 문장에서 parse 해야함
 
   await transactionRunner(async (queryRunner) => {
     const bmiRepo = dailyCalorieRepository.create({
