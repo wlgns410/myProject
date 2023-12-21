@@ -6,7 +6,7 @@ import { IUserDailyCalorieService, IUserEatingAllDayService, IUserEatingOneServi
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import transactionRunner from '~/database/transaction';
-import { foodSentence } from '~/libs/util/foodSentence';
+import { foodSentence, parseGPTSentnece } from '~/libs/util/foodSentence';
 import { openAI } from '~/libs/util/openAI';
 import { getPeriod } from '~/libs/util/datetime';
 import { Between } from 'typeorm';
@@ -44,12 +44,14 @@ export const dailyCalorieService = async ({ foods, userId }: IUserDailyCalorieSe
     throw new ErrorResponse(ERROR_CODE.NOT_RETURN_CHATGPT);
   }
 
+  const { carbohydrates, protein, lipid, calorie } = await parseGPTSentnece(openAIResponse);
+
   await transactionRunner(async (queryRunner) => {
     const bmiRepo = dailyCalorieRepository.create({
-      //   carbohydrate: String(carbohydrate),
-      //   protein: String(protein),
-      //   lipid: String(lipid),
-      //   calorie: String(calorie),
+      carbohydrate: carbohydrates,
+      protein: protein,
+      lipid: lipid,
+      calorie: calorie,
       bmiId: foundBodyMassIndex.id,
       foods: foods,
     });
