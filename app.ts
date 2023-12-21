@@ -91,6 +91,9 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
 // router
 app.use('/', router);
 
+// 최대 리스너 수 설정
+process.setMaxListeners(20);
+
 app.use((req, res, next) => next(PAGE_NOT_FOUND_EXCEPTION));
 // eslint-disable-next-line no-unused-vars
 const PAGE_NOT_FOUND_EXCEPTION = new ErrorResponse(ERROR_CODE.PAGE_NOT_FOUND);
