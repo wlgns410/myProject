@@ -1,14 +1,5 @@
-interface FoodItem {
-  food: string;
-  quantity: number;
-}
-
-interface NutritionInfo {
-  carbohydrates: string;
-  protein: string;
-  lipid: string;
-  calorie: string;
-}
+import { FoodItem } from '~/@types/utils/sentence/request';
+import { NutritionInfo } from '~/@types/utils/sentence/response';
 
 export const foodSentence = async (foods: FoodItem[]): Promise<string> => {
   const foodDescriptions: string[] = [];
