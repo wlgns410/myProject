@@ -10,6 +10,7 @@
       "experimentalDecorators": true,
       "strictPropertyInitialization": false,
       "baseUrl": "./", //babel 세팅 필요
+      "skipLibCheck": true,
       "paths": {
         "~/*": ["src/*"]
       },
