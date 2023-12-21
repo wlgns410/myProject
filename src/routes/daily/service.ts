@@ -33,8 +33,16 @@ export const dailyCalorieService = async ({ foods, userId }: IUserDailyCalorieSe
   const dailyCalorieRepository = AppDataSource.getRepository(DailyCalorie);
 
   // chatgpt 연동해서 foods의 탄단지, 칼로리 계산값 리턴
+  if (!foods || foods.length === 0) {
+    throw new ErrorResponse(ERROR_CODE.FOODS_INVAILD_INPUT);
+  }
+
   const foodArrayToString = await foodSentence(foods);
   const openAIResponse = await openAI(foodArrayToString); // 문장에서 parse 해야함
+
+  if (openAIResponse == null) {
+    throw new ErrorResponse(ERROR_CODE.NOT_RETURN_CHATGPT);
+  }
 
   await transactionRunner(async (queryRunner) => {
     const bmiRepo = dailyCalorieRepository.create({
