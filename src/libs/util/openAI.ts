@@ -1,25 +1,19 @@
 import OpenAI from 'openai';
 
-export const openAI = async (foodSentence: string): Promise<string> => {
+export const openAI = async (foodSentence: string) => {
   const openaiInstance = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
     organization: process.env.ORGANIZATION_INFO,
   });
 
   try {
-    let result = '';
-
     const response: any = await openaiInstance.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{ role: 'user', content: foodSentence }],
     });
+    const messagesContent = response.choices[0]?.message;
 
-    for await (const chunk of response) {
-      const content = chunk.choices[0]?.delta?.content || '';
-      result += content;
-    }
-
-    return result;
+    return messagesContent;
   } catch (error) {
     if (error instanceof OpenAI.APIError) {
       console.error(error.status); // e.g. 401

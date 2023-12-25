@@ -4,3 +4,8 @@ export interface NutritionInfo {
   lipid: string;
   calorie: string;
 }
+
+export interface GptResponse {
+  role: string;
+  content: string;
+}

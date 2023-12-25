@@ -1,16 +1,13 @@
 import { FoodItem } from '~/@types/utils/sentence/request';
-import { NutritionInfo } from '~/@types/utils/sentence/response';
+import { NutritionInfo, GptResponse } from '~/@types/utils/sentence/response';
 
 export const foodSentence = async (foods: FoodItem[]): Promise<string> => {
   const foodDescriptions: string[] = [];
 
   for (const food of foods) {
-    for (const [foodName, quantity] of Object.entries(food)) {
-      const description = `${foodName}의 ${quantity}개의 탄수화물, 단백질, 지방과 그리고 칼로리를 알려줘`;
-      foodDescriptions.push(description);
-    }
+    const description = `${food.food} ${food.quantity}개의 탄수화물, 단백질, 지방과 그리고 칼로리를 알려줘`;
+    foodDescriptions.push(description);
   }
-
   return foodDescriptions.join('\n');
 };
 
@@ -23,34 +20,37 @@ const calculateRangeValue = (min: string, max?: string): number => {
   return isNaN(minValue) ? 0 : (minValue + maxValue) / 2;
 };
 
-export const parseGPTSentnece = async (sentence: string): Promise<NutritionInfo> => {
-  const response = JSON.parse(sentence);
+export const parseGPTSentence = async (openAIResponse: GptResponse): Promise<NutritionInfo> => {
+  console.log('openAIResponse : ', openAIResponse);
 
   let carbohydrates = 0;
   let protein = 0;
   let lipid = 0;
   let calorie = 0;
 
-  // 각 메시지에 대해 반복하면서 값을 추출합니다.
-  for (const message of response.choices) {
-    if (message.role === 'assistant') {
-      // 각각의 정보를 포함하는 정규 표현식 패턴을 작성 : 총 5자리(소수점 1자리포함)
-      const pattern = /(\d+)-*(\d*)g.*?(\d+)-*(\d*)g.*?(\d+)-*(\d*)g.*?(\d+)-*(\d*)kcal/;
+  const message = openAIResponse; // 배열이 아니므로 직접 참조
 
-      // 정규 표현식을 사용하여 문자열에서 값을 추출합니다.
-      const matches = message.content.match(pattern);
+  if (message.role === 'assistant') {
+    // 각각의 정보를 포함하는 정규 표현식 패턴을 작성 : 총 5자리(소수점 1자리포함)
+    const pattern = /-?\s*(\d+)-*(\d*)g.*?(\d+)-*(\d*)g.*?(\d+)-*(\d*)g.*?(\d+)-*(\d*)kcal/;
 
-      // 추출된 값이 있다면 누적합니다.
-      if (matches) {
-        carbohydrates += calculateRangeValue(matches[1], matches[2]);
-        protein += calculateRangeValue(matches[3], matches[4]);
-        lipid += calculateRangeValue(matches[5], matches[6]);
-        calorie += calculateRangeValue(matches[7], matches[8]);
-      }
+    // 정규 표현식을 사용하여 문자열에서 값을 추출합니다.
+    const content = message.content;
+    const matches = content.match(pattern);
+    console.log('matches : ', content);
+    console.log('matches : ', matches);
+
+    // 추출된 값이 있다면 누적합니다.
+    if (matches) {
+      carbohydrates += calculateRangeValue(matches[1], matches[2]);
+      protein += calculateRangeValue(matches[3], matches[4]);
+      lipid += calculateRangeValue(matches[5], matches[6]);
+      calorie += calculateRangeValue(matches[7], matches[8]);
     }
+    console.log('carbohydrates : ', carbohydrates);
   }
 
-  // DB에 저장될때 string 타입으로 설정했음
+  // DB에 저장될 때 string 타입으로 설정했음
   return {
     carbohydrates: carbohydrates.toFixed(1),
     protein: protein.toFixed(1),
