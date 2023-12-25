@@ -21,12 +21,12 @@ export const dailyCalorieController = async (req: IUserDailyCalorieController, r
       (item) =>
         typeof item === 'object' &&
         !Array.isArray(item) &&
-        Object.keys(item).every((key) => typeof key === 'string' && typeof item[key] === 'number'),
+        typeof item.food === 'string' &&
+        typeof item.quantity === 'number',
     )
   ) {
     return next(new ErrorResponse(ERROR_CODE.FOODS_INVAILD_INPUT));
   }
-
   try {
     await dailyCalorieService({ foods, userId });
     return res.status(httpStatus.CREATED).json({ status: httpStatus.CREATED, message: '음식이 기록되었습니다.' });
