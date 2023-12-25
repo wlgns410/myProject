@@ -6,7 +6,7 @@ import { IUserDailyCalorieService, IUserEatingAllDayService, IUserEatingOneServi
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import transactionRunner from '~/database/transaction';
-import { foodSentence, parseGPTSentnece } from '~/libs/util/foodSentence';
+import { foodSentence, parseGPTSentence } from '~/libs/util/foodSentence';
 import { openAI } from '~/libs/util/openAI';
 import { getPeriod } from '~/libs/util/datetime';
 import { Between } from 'typeorm';
@@ -38,13 +38,18 @@ export const dailyCalorieService = async ({ foods, userId }: IUserDailyCalorieSe
   }
 
   const foodArrayToString = await foodSentence(foods);
+  console.log('foodArrayToString : ', foodArrayToString);
   const openAIResponse = await openAI(foodArrayToString); // 문장에서 parse 해야함
+
+  console.log('openAIResponse : ', openAIResponse);
 
   if (openAIResponse == null) {
     throw new ErrorResponse(ERROR_CODE.NOT_RETURN_CHATGPT);
   }
 
-  const { carbohydrates, protein, lipid, calorie } = await parseGPTSentnece(openAIResponse);
+  const { carbohydrates, protein, lipid, calorie } = await parseGPTSentence(openAIResponse);
+
+  console.log('carbohydrates : ', carbohydrates);
 
   await transactionRunner(async (queryRunner) => {
     const bmiRepo = dailyCalorieRepository.create({
