@@ -30,7 +30,6 @@ export const userBMISettingService = async ({
   const bodyMassIndexRepository = AppDataSource.getRepository(BodyMassIndex);
 
   const { targetDifference, bmiTarget } = targetCalculateWeightDifference(weight, height, targetBody);
-
   const currentAge = getCurrentAgeToNumber(birth);
   const gender = getGenderToEng(sex);
 
@@ -45,6 +44,7 @@ export const userBMISettingService = async ({
       activityType: activityType,
       bmrTarget: String(bmr),
       calories: String(calories),
+      userId,
     });
     await queryRunner.manager.save(bmiRepo);
   });
