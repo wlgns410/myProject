@@ -31,16 +31,12 @@ export const getDay = () => {
 
 export const getPeriod = (startDate: string, endDate: string) => {
   if (!startDate || !endDate) {
-    // If no startDate or endDate is provided, calculate period for the current day
-    const now = dayjs();
-    const startOfDay = now.startOf('day').toDate();
-    const endOfDay = now.endOf('day').toDate();
+    const { startOfDay, endOfDay } = getDay();
     return {
       startOfDay,
       endOfDay,
     };
   } else {
-    // If startDate and endDate are provided, convert them to Date objects
     const startOfDay = dayjs(startDate).startOf('day').toDate();
     const endOfDay = dayjs(endDate).endOf('day').toDate();
     return {

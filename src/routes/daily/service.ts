@@ -65,7 +65,6 @@ export const eatingAllDayService = async ({ userId, bmiId, startDate, endDate }:
   if (!foundUser) {
     throw new ErrorResponse(ERROR_CODE.UNAUTHORIZED);
   }
-
   const bodyMassIndexRepository = AppDataSource.getRepository(BodyMassIndex);
   const foundBodyMassIndex = await bodyMassIndexRepository.findOne({
     where: { id: bmiId },
