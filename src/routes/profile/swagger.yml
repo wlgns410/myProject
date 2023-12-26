@@ -1,0 +1,73 @@
+tags:
+  name: Profile
+  description: User Profile Controller
+
+definitions:
+  Save:
+    type: object
+    required:
+      - postalAddress
+      - roadNameAddress
+      - image
+    properties:
+      postalAddress:
+        type: string
+        description: 우편주소
+      roadNameAddress:
+        type: string
+        description: 도로명주소
+      image:
+        type: string
+        description: 프로필사진
+
+/profile/save:
+  post:
+    tags: [Profile]
+    produces:
+      - application/json
+    consumes:
+      - application/json
+    security:
+      - bearerAuth: []
+    requestBody:
+      content:
+        application/json:
+          name: Save
+          required: true
+          schema:
+            $ref: '#/definitions/Save'
+    responses:
+      204:
+        description: '프로필 등록 완료'
+        content:
+          application/json:
+            example:
+              status: 204
+              message: '프로필이 저장되었습니다.'
+      400:
+        description: '잘못된 데이터를 입력한 경우'
+        content:
+          application/json:
+            example:
+              errorCode:
+                status: 400
+                message: '이미지 형식은 png, jpg, jpeg, pdf만 허용합니다. | 인식할 수 없는 도로명 주소입니다. | 우편번호를 정확히 입력해주세요. | object storage에 이미지가 없습니다.'
+                code: 'PROFILE001 | PROFILE002 | PROFILE003 | COMMON011'
+      401:
+        description: '비로그인으로 접근했을 경우'
+        content:
+          application/json:
+            example:
+              errorCode:
+                status: 401
+                message: '로그인 후 이용해 주세요.'
+                code: 'COMMON008'
+      500:
+        description: '알 수 없는 오류'
+        content:
+          application/json:
+            example:
+              errorCode:
+                status: 500
+                message: Internal Server Error
+                code: COMMON005
