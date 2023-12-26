@@ -140,14 +140,15 @@ export const insufficientCalorieService = async ({ userId, bmiId, startDate, end
     foundDailyCalorie.forEach((dailyCalorie) => {
       const caloriesAsNumber: number = parseFloat(foundBodyMassIndex.calories);
       const calorieAsNumber: number = parseFloat(dailyCalorie.calorie);
-
       const difference: number = caloriesAsNumber - calorieAsNumber;
       responseArray.push({
         createdAt: dailyCalorie.createdAt,
         difference,
       });
     });
+    const lastResult = responseArray[responseArray.length - 1];
+    return lastResult;
+  } else {
+    return responseArray;
   }
-
-  return responseArray;
 };
