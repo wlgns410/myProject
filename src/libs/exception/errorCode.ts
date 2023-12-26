@@ -46,6 +46,7 @@ const ERROR_CODE = {
   FOODS_INVAILD_INPUT: $(400, '음식 종류와 개수를 올바르게 입력해주세요.', 'DAILY001'),
   NOT_FOUND_DAILY: $(404, '오늘 먹은 음식 데이터가 없습니다.', 'DAILY002'),
   NOT_RETURN_CHATGPT: $(404, 'chatgpt 응답이 올바르지 않습니다.', 'DAILY003'),
+  INVAILD_GPT_PARSE: $(404, 'chatgpt response parsing이 올바르지 않습니다.', 'DAILY004'),
 };
 
 export default ERROR_CODE;

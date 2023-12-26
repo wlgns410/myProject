@@ -38,22 +38,17 @@ export const dailyCalorieService = async ({ foods, userId }: IUserDailyCalorieSe
   }
 
   const foodArrayToString = await foodSentence(foods);
-  console.log('foodArrayToString : ', foodArrayToString);
   const openAIResponse = await openAI(foodArrayToString); // 문장에서 parse 해야함
-
-  console.log('openAIResponse : ', openAIResponse);
 
   if (openAIResponse == null) {
     throw new ErrorResponse(ERROR_CODE.NOT_RETURN_CHATGPT);
   }
 
-  const { carbohydrates, protein, lipid, calorie } = await parseGPTSentence(openAIResponse);
-
-  console.log('carbohydrates : ', carbohydrates);
+  const { carbohydrate, protein, lipid, calorie } = await parseGPTSentence(openAIResponse);
 
   await transactionRunner(async (queryRunner) => {
     const bmiRepo = dailyCalorieRepository.create({
-      carbohydrate: carbohydrates,
+      carbohydrate: carbohydrate,
       protein: protein,
       lipid: lipid,
       calorie: calorie,

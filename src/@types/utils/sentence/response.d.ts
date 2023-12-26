@@ -1,5 +1,5 @@
 export interface NutritionInfo {
-  carbohydrates: string;
+  carbohydrate: string;
   protein: string;
   lipid: string;
   calorie: string;
