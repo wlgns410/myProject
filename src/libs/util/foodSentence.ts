@@ -14,7 +14,7 @@ export const foodSentence = async (foods: FoodItem[]): Promise<string> => {
 };
 
 export const parseGPTSentence = async (openAIResponse: GptResponse): Promise<NutritionInfo> => {
-  const message = openAIResponse; // 배열이 아니므로 직접 참조
+  const message = openAIResponse;
 
   if (message.role === 'assistant') {
     const content = message.content;
@@ -24,7 +24,7 @@ export const parseGPTSentence = async (openAIResponse: GptResponse): Promise<Nut
     const lipidPattern = /\s*지방:\s*(?:약|대략)?\s*(\d+)(?:-*(\d*))?g/;
     const caloriePattern = /\s*칼로리:\s*(?:약|대략)?\s*(\d+)(?:-*(\d*))?kcal/;
 
-    // 캡처 그룹을 사용하여 숫자만 추출
+    // 캡처 그룹을 사용하여 2개 중 작은 숫자만 추출하던가 1개만 있으면 그걸 추출
     const extractNumber = (match: RegExpMatchArray) => (match ? match[1] : 0);
 
     const carbohydrate = extractNumber(content.match(patternCarbohydrate));
