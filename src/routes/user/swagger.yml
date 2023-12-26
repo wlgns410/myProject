@@ -208,6 +208,7 @@ definitions:
             example:
               data:
                 accessToken: 'testtoken1234'
+                refreshToken: 'testtest'
               status: 200
               message: '정상적으로 로그인 되었습니다.'
       400:

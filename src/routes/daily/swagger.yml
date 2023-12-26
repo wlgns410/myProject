@@ -115,6 +115,19 @@ definitions:
         content:
           application/json:
             example:
+              data:
+                - createdAt: '2023-12-25T07:59:05.378Z'
+                  updatedAt: '2023-12-25T07:59:05.378Z'
+                  deletedAt: null
+                  id: 1
+                  bmiId: 1
+                  carbohydrate: '0.0'
+                  protein: '0.0'
+                  lipid: '0.0'
+                  calorie: '0.0'
+                  foods:
+                    - food: '햄버거'
+                      quantity: 1
               status: 200
               message: '해당 기간동안 먹은 음식을 불러왔습니다.'
       400:
@@ -175,6 +188,19 @@ definitions:
         content:
           application/json:
             example:
+              data:
+                createdAt: '2023-12-25T07:59:05.378Z'
+                updatedAt: '2023-12-25T07:59:05.378Z'
+                deletedAt: null
+                id: 1
+                bmiId: 1
+                carbohydrate: '0.0'
+                protein: '0.0'
+                lipid: '0.0'
+                calorie: '0.0'
+                foods:
+                  - food: '햄버거'
+                    quantity: 1
               status: 200
               message: '오늘 먹은 음식을 불러왔습니다.'
       401:
@@ -239,6 +265,9 @@ definitions:
         content:
           application/json:
             example:
+              data:
+                createdAt: '2023-12-26T02:37:17.009Z'
+                difference: 0
               status: 200
               message: '칼로리를 차이를 계산했습니다.'
       400:
