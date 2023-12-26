@@ -35,17 +35,19 @@ app.use(
 );
 
 app.use(express.json()); // { strict:false } 설정하면 문자열만 받기도 가능 , 지금은 [], {}만 받음
-app.use(express.urlencoded({ extended: false })); 
+app.use(express.urlencoded({ extended: false }));
 
 // log setting
 // 로그 형식 정의
-morgan.format('detailed', ':method :url :status :res[content-length] - :response-time ms :remote-addr - :remote-user :referrer :user-agent');
+morgan.format(
+  'detailed',
+  ':method :url :status :res[content-length] - :response-time ms :remote-addr - :remote-user :referrer :user-agent',
+);
 app.use(morgan('detailed')); // dev, detailed 등 중 자세히 보기로 설정
 
 // Define a simple endpoint
 app.get('/test', (req, res) => {
-  res.send('로컬 테스트 중1',);
-  
+  res.send('로컬 테스트 중1');
 });
 
 if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
@@ -65,7 +67,7 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
           components: {
             securitySchemes: {
               bearerAuth: {
-                description: "JWT Authorization",
+                description: 'JWT Authorization',
                 type: 'http',
                 scheme: 'bearer',
                 name: 'Authorization',

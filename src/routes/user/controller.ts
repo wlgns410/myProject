@@ -11,7 +11,7 @@ import {
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { registerRegexesOfType } from '~/libs/util/regex';
-import { UserType } from '~/libs/util/enum';
+import { UserType, SexType } from '~/libs/util/enum';
 import {
   ISignUpController,
   ISignUpAuthNumController,
@@ -22,8 +22,7 @@ import {
 import { IRequestWithUserId, IRequestWithUserIdLogOut } from '~/@types/api/request/request';
 
 export const userSignUpController = async (req: ISignUpController, res: Response, next: NextFunction) => {
-
-  const { email, password, phone, userType } = req.body;
+  const { email, password, phone, userType, sex, birth } = req.body;
   if (!email && !password && !phone) {
     return next(new ErrorResponse(ERROR_CODE.INVALID_INPUT_VALUE));
   }
@@ -55,20 +54,35 @@ export const userSignUpController = async (req: ISignUpController, res: Response
     }
   }
 
+  if (birth) {
+    const birthRegexes = registerRegexesOfType.birth.regexes;
+    const isBirthValid = birthRegexes.some((regex) => regex.test(birth));
+
+    if (!isBirthValid) {
+      return next(new ErrorResponse(ERROR_CODE.BIRTH_TYPE_INVAILD_INPUT));
+    }
+  }
+
   if (!UserType.isValid(userType)) {
     return next(new ErrorResponse(ERROR_CODE.USER_TYPE_INVAILD_INPUT));
   }
 
   const userEnum = UserType[userType].name;
 
+  if (!SexType.isValid(sex)) {
+    return next(new ErrorResponse(ERROR_CODE.SEX_TYPE_INVAILD_INPUT));
+  }
+
+  const sexEnum = SexType[sex].name;
+
   try {
-    await userSignUpService({ email, password, phone, userType: userEnum });
+    await userSignUpService({ email, password, phone, userType: userEnum, sex: sexEnum, birth });
     return res
       .status(httpStatus.CREATED)
       .json({ status: httpStatus.CREATED, message: '정상적으로 회원가입 되었습니다.' });
-    } catch (e) {
-      return next(e.message);
-    }
+  } catch (e) {
+    return next(e.message);
+  }
 };
 
 export const userSignUpAuthenticationNumberController = async (
@@ -94,9 +108,9 @@ export const userSignUpAuthenticationNumberController = async (
     return res
       .status(httpStatus.ACCEPTED)
       .json({ data: response, status: httpStatus.ACCEPTED, message: '정상적으로 인증번호가 발급되었습니다.' });
-    } catch (e) {
-      return res.status(500).json({ error: e.message });
-    }
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
 };
 
 export const userSignInController = async (req: ISignInController, res: Response, next: NextFunction) => {

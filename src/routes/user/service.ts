@@ -1,4 +1,3 @@
-// import { UserPhoneAuth, User } from '~/database/entity';
 import { User } from '../../database/entity/Account';
 import { UserPhoneAuth } from '../../database/entity/UserPhoneAuth';
 
@@ -8,10 +7,10 @@ import {
   ISignUpService,
   ISignUpAuthNumService,
   ISignInService,
-  ILogoutService,
   IPasswordChangeService,
   IWithdrawalService,
 } from '~/@types/api/user/request';
+import { IRequestOnlyUserId } from '~/@types/api/request/request';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import { createToken, logoutToken } from '~/libs/util/jwt';
@@ -20,11 +19,9 @@ import generateFourDigitRandom from '~/libs/util/generateFourDigit';
 import { registerRegexesOfType } from '~/libs/util/regex';
 import transactionRunner from '~/database/transaction';
 
-export const userSignUpService = async ({ email, password, phone, userType }: ISignUpService) => {
-
+export const userSignUpService = async ({ email, password, phone, userType, sex, birth }: ISignUpService) => {
   const userRepository = AppDataSource.getRepository(User);
   const phoneExists = await userRepository.findOne({ where: { phone } });
-
 
   if (phoneExists) {
     throw new ErrorResponse(ERROR_CODE.ALREADY_SIGNUP_USER);
@@ -62,7 +59,9 @@ export const userSignUpService = async ({ email, password, phone, userType }: IS
       password,
       phone,
       nickname,
-      userType
+      userType,
+      sex,
+      birth,
     });
     await queryRunner.manager.save(newUser);
   });
@@ -105,6 +104,8 @@ export const userSignInService = async ({ phone }: ISignInService) => {
       email: userObj.email,
       nickname: userObj.nickname,
       phone: userObj.phone,
+      sex: userObj.sex,
+      birth: userObj.birth,
     });
 
     // refreshToken redis에 저장
@@ -115,7 +116,7 @@ export const userSignInService = async ({ phone }: ISignInService) => {
   throw new ErrorResponse(ERROR_CODE.TOKEN_NOT_CREATE);
 };
 
-export const userLogOutService = async ({ userId }: ILogoutService) => {
+export const userLogOutService = async ({ userId }: IRequestOnlyUserId) => {
   const userRepository = AppDataSource.getRepository(User);
   const foundUser = await userRepository.findOne({ where: { id: userId } });
   if (!foundUser) {

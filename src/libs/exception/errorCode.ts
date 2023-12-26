@@ -23,6 +23,8 @@ const ERROR_CODE = {
   USER_TYPE_INVAILD_INPUT: $(400, '유저 타입의 형식에 맞게 입력해주세요.', 'SIGNUP006'),
   NOT_FOUND_REDIS_SESSION_USER: $(404, '인증번호 데이터가 존재하지 않습니다.', 'SIGNUP007'),
   NOT_MATCH_SESSION_USER_PHONE: $(404, '인증번호를 다시 발급해주세요', 'SIGNUP008'),
+  SEX_TYPE_INVAILD_INPUT: $(400, '성별 타입의 형식에 맞게 입력해주세요.', 'SIGNUP009'),
+  BIRTH_TYPE_INVAILD_INPUT: $(400, '생년월일을 제대로 입력해 주세요.', 'SIGNUP010'),
 
   // SignIn
   NOT_EXACT_PHONE_OR_PASSWORD: $(400, '전화번호나 비밀번호가 일치하지 않습니다.', 'SIGNIN001'),
@@ -31,6 +33,12 @@ const ERROR_CODE = {
   //ChangePassword
   RIGHT_ORIGIN_PASSWORD: $(400, '기존의 비밀번호를 입력해주세요.', 'PASSWORD001'),
   SAME_PASSWORD: $(400, '기존의 비밀번호는 사용하실 수 없습니다.', 'PASSWORD002'),
+
+  //bmi
+  RIGHT_WEIGHT: $(400, '몸무게는 30이상 300 미만의 숫자로 입력해주세요.', 'BMI001'),
+  RIGHT_HEIGHT: $(400, '키는 50이상 350 미만의 숫자로 입력해주세요.', 'BMI002'),
+  BODY_TYPE_INVAILD_INPUT: $(400, '체형 타입의 형식에 맞게 입력해주세요.', 'BMI003'),
+  ACTIVITY_TYPE_INVAILD_INPUT: $(400, '활동 수준의 형식에 맞게 입력해주세요.', 'BMI005'),
 };
 
 export default ERROR_CODE;
