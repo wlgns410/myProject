@@ -10,8 +10,8 @@ import {
 const daily = Router();
 
 daily.route('/record').all(tokenValidation).post(dailyCalorieController);
-daily.route('/all').all(tokenValidation).get(eatingAllDayController);
-daily.route('/one').all(tokenValidation).get(eatingOneController);
-daily.route('/difference').all(tokenValidation).get(insufficientCalorieController);
+daily.route('/all/:bmiId').all(tokenValidation).get(eatingAllDayController);
+daily.route('/one/:dailyFoodId').all(tokenValidation).get(eatingOneController);
+daily.route('/difference/:bmiId').all(tokenValidation).get(insufficientCalorieController);
 
 export default daily;
