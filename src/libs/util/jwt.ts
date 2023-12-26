@@ -1,6 +1,6 @@
 import { NextFunction, Response, Request } from 'express';
 
-import { IJWTTokenData } from '~/@types/utils/jwt';
+import { IJWTTokenData } from '~/@types/utils/jwt/request';
 import { IRequestWithUserInfo } from '~/@types/api/request/request';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';

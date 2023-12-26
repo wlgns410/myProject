@@ -1,4 +1,4 @@
-import { IRequestWithUserId } from '~/@types/api/request/request';
+import { IRequestWithUserData } from '~/@types/api/request/request';
 
 export interface ISignUpController {
   body: {
@@ -45,7 +45,7 @@ export interface ILogoutService {
   userId: number;
 }
 
-export interface IPasswordChangeController extends IRequestWithUserId {
+export interface IPasswordChangeController extends IRequestWithUserData {
   body: {
     originPassword: string;
     changePassword: string;
@@ -58,7 +58,7 @@ export interface IPasswordChangeService {
   userId: number;
 }
 
-export interface IWithdrawalController extends IRequestWithUserId {
+export interface IWithdrawalController extends IRequestWithUserData {
   body: {
     password: string;
   };

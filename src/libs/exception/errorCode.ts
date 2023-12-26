@@ -13,6 +13,7 @@ const ERROR_CODE = {
   FORBIDDEN: $(403, '권한이 없습니다.', 'COMMON007'),
   UNAUTHORIZED: $(401, '로그인 후 이용해 주세요.', 'COMMON008'),
   NOT_FOUND_USER: $(404, '가입하지 않은 아이디입니다.', 'COMMON009'),
+  NOT_FOUND_DATE: $(400, '날짜를 제대로 입력해주세요.', 'COMMON010'),
 
   // SignUp
   ALREADY_SIGNUP_USER: $(403, '이미 회원가입한 아이디입니다.', 'SIGNUP001'),
@@ -38,7 +39,14 @@ const ERROR_CODE = {
   RIGHT_WEIGHT: $(400, '몸무게는 30이상 300 미만의 숫자로 입력해주세요.', 'BMI001'),
   RIGHT_HEIGHT: $(400, '키는 50이상 350 미만의 숫자로 입력해주세요.', 'BMI002'),
   BODY_TYPE_INVAILD_INPUT: $(400, '체형 타입의 형식에 맞게 입력해주세요.', 'BMI003'),
-  ACTIVITY_TYPE_INVAILD_INPUT: $(400, '활동 수준의 형식에 맞게 입력해주세요.', 'BMI005'),
+  ACTIVITY_TYPE_INVAILD_INPUT: $(400, '활동 수준의 형식에 맞게 입력해주세요.', 'BMI004'),
+  NOT_FOUND_BMI: $(404, 'bmi 지수 데이터가 없습니다.', 'BMI005'),
+
+  // daily
+  FOODS_INVAILD_INPUT: $(400, '음식 종류와 개수를 올바르게 입력해주세요.', 'DAILY001'),
+  NOT_FOUND_DAILY: $(404, '오늘 먹은 음식 데이터가 없습니다.', 'DAILY002'),
+  NOT_RETURN_CHATGPT: $(404, 'chatgpt 응답이 올바르지 않습니다.', 'DAILY003'),
+  INVAILD_GPT_PARSE: $(404, 'chatgpt response parsing이 올바르지 않습니다.', 'DAILY004'),
 };
 
 export default ERROR_CODE;

@@ -91,6 +91,19 @@ definitions:
         content:
           application/json:
             example:
+              data:
+                createdAt: '2023-12-25T06:30:13.123Z'
+                updatedAt: '2023-12-25T06:30:13.123Z'
+                deletedAt: null
+                id: 1
+                userId: 1
+                height: '180.0'
+                weight: '100.0'
+                bmiTarget: '19.0'
+                targetDifference: '-161.0'
+                bmrTarget: '2153.04'
+                calories: '3714.0'
+                activityType: 'veryInactive | Inactive | moderate | active | veryActive'
               status: 200
               message: '정상적으로 BMI가 조회되었습니다.'
       401:

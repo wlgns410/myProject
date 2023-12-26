@@ -5,9 +5,9 @@ export const bmrCalculation = (height: number, weight: number, age: number, sex:
   let bmr: number;
 
   // Calculate BMR based on gender
-  if (sex === 'male') {
+  if (sex === 'man') {
     bmr = 66.5 + 13.75 * weight + 5.003 * height - 6.75 * age;
-  } else if (sex === 'female') {
+  } else if (sex === 'woman') {
     bmr = 655.1 + 9.563 * weight + 1.85 * height - 4.676 * age;
   } else {
     throw new ErrorResponse(ERROR_CODE.SEX_TYPE_INVAILD_INPUT);
