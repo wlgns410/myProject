@@ -31,4 +31,21 @@ export const registerRegexesOfType = {
     regexes: [/^\d{4}-\d{2}-\d{2}$/],
     msg: '날짜를 제대로 입력해주세요.',
   },
+  image: {
+    regexes: [/^data:image\/(png|jpe?g|pdf);base64,[^"]+$/],
+    msg: '이미지 형식은 png, jpg, jpeg, pdf만 허용합니다.',
+  },
+  roadName: {
+    regexes: [
+      new RegExp(
+        `((([가-힣]+(\\d|\\d(,|.)\\d|)+(읍|면|동|가|리))(^구|)((\\d(~|-)\\d|\\d)(가|리|)|))([ ](산(\\d(~|-)\\d|\\d))|)|` +
+          `(([가-힣]|(\\d(~|-)\\d)|\\d)+(로|길)))`,
+      ),
+    ],
+    msg: '인식할 수 없는 도로명 주소입니다.',
+  },
+  postal: {
+    regexes: [/^\d{5}$/],
+    msg: '우편번호를 정확히 입력해주세요.',
+  },
 };

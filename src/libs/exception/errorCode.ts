@@ -14,6 +14,7 @@ const ERROR_CODE = {
   UNAUTHORIZED: $(401, '로그인 후 이용해 주세요.', 'COMMON008'),
   NOT_FOUND_USER: $(404, '가입하지 않은 아이디입니다.', 'COMMON009'),
   NOT_FOUND_DATE: $(400, '날짜를 제대로 입력해주세요.', 'COMMON010'),
+  NOT_FOUND_OBJECT_IMAGE: $(400, 'object storage에 이미지가 없습니다.', 'COMMON011'),
 
   // SignUp
   ALREADY_SIGNUP_USER: $(403, '이미 회원가입한 아이디입니다.', 'SIGNUP001'),
@@ -47,6 +48,11 @@ const ERROR_CODE = {
   NOT_FOUND_DAILY: $(404, '오늘 먹은 음식 데이터가 없습니다.', 'DAILY002'),
   NOT_RETURN_CHATGPT: $(404, 'chatgpt 응답이 올바르지 않습니다.', 'DAILY003'),
   INVAILD_GPT_PARSE: $(404, 'chatgpt response parsing이 올바르지 않습니다.', 'DAILY004'),
+
+  // profile
+  INVAILD_IMAGE_FORMAT: $(400, '이미지 형식은 png, jpg, jpeg, pdf만 허용합니다.', 'PROFILE001'),
+  INVAILD_ROAD_NAME_FORMAT: $(400, '인식할 수 없는 도로명 주소입니다.', 'PROFILE002'),
+  INVAILD_POSTAL_FORMAT: $(400, '우편번호를 정확히 입력해주세요.', 'PROFILE003'),
 };
 
 export default ERROR_CODE;
