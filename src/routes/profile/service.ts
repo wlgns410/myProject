@@ -17,14 +17,26 @@ export const userProfileService = async ({ postalAddress, roadNameAddress, image
   // object 스토리지 저장해서 주소값 받아오는 로직 추가
 
   const UserProfileRepository = AppDataSource.getRepository(UserProfile);
+  const userProfile = await UserProfileRepository.findOne({ where: { userId } });
 
   await transactionRunner(async (queryRunner) => {
-    const UserProfileRepo = UserProfileRepository.create({
-      userId,
-      postalAddress,
-      roadNameAddress,
-      image: imageUrl,
-    });
-    await queryRunner.manager.save(UserProfileRepo);
+    if (userProfile) {
+      // If the user profile exists, update it
+      userProfile.postalAddress = postalAddress;
+      userProfile.roadNameAddress = roadNameAddress;
+      userProfile.image = imageUrl;
+
+      await queryRunner.manager.save(userProfile);
+    } else {
+      // If the user profile doesn't exist, create a new one
+      const newUserProfile = UserProfileRepository.create({
+        userId,
+        postalAddress,
+        roadNameAddress,
+        image: imageUrl,
+      });
+
+      await queryRunner.manager.save(newUserProfile);
+    }
   });
 };
