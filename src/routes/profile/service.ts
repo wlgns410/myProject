@@ -6,7 +6,7 @@ import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import transactionRunner from '~/database/transaction';
 
-export const userProfileService = async ({ postalAddress, roadNameAddress, image, userId }: IUserProfileService) => {
+export const userProfileService = async ({ postalAddress, roadNameAddress, imageUrl, userId }: IUserProfileService) => {
   const userRepository = AppDataSource.getRepository(User);
   const foundUser = await userRepository.findOne({ where: { id: userId } });
 
@@ -23,7 +23,7 @@ export const userProfileService = async ({ postalAddress, roadNameAddress, image
       userId,
       postalAddress,
       roadNameAddress,
-      image,
+      image: imageUrl,
     });
     await queryRunner.manager.save(UserProfileRepo);
   });

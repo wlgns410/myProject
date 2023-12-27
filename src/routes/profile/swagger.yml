@@ -2,26 +2,8 @@ tags:
   name: Profile
   description: User Profile Controller
 
-definitions:
-  Save:
-    type: object
-    required:
-      - postalAddress
-      - roadNameAddress
-      - image
-    properties:
-      postalAddress:
-        type: string
-        description: 우편주소
-      roadNameAddress:
-        type: string
-        description: 도로명주소
-      image:
-        type: string
-        description: 프로필사진
-
 /profile/save:
-  post:
+  patch:
     tags: [Profile]
     produces:
       - application/json
@@ -31,11 +13,24 @@ definitions:
       - bearerAuth: []
     requestBody:
       content:
-        application/json:
-          name: Save
-          required: true
+        multipart/form-data:
           schema:
-            $ref: '#/definitions/Save'
+            type: object
+            properties:
+              postalAddress:
+                type: string
+                description: 우편주소
+                nullable: true
+              roadNameAddress:
+                type: string
+                description: 도로명주소
+                nullable: true
+              image:
+                type: string
+                format: binary
+                description: 프로필 사진
+                nullable: true
+
     responses:
       204:
         description: '프로필 등록 완료'

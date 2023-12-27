@@ -2,14 +2,14 @@ import { IRequestWithUserData, IRequestWithUserId } from '~/@types/api/request/r
 
 export interface IUserProfileController extends IRequestWithUserData {
   body: {
-    image: string;
     postalAddress: string;
     roadNameAddress: string;
   };
+  file: Express.Multer.File;
 }
 
 export interface IUserProfileService {
-  image: string;
+  imageUrl: string;
   postalAddress: string;
   roadNameAddress: string;
   userId: number;
