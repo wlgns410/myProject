@@ -3,10 +3,15 @@ import * as redis from 'redis';
 // const redisCli = redis.createClient({password: 'testuser', socket: {host: "redis-server", port: 6379}})
 
 // * Redis 연결
-const redisClient = redis.createClient({ legacyMode: true, username: 'default', password: 'testuser', socket: {
+const redisClient = redis.createClient({
+  legacyMode: true,
+  username: 'default',
+  password: 'testuser',
+  socket: {
     host: 'redis-server',
     port: 6379,
-}}); // legacy 모드 반드시 설정 !!
+  },
+}); // legacy 모드 반드시 설정 !!
 redisClient.on('connect', () => {
   console.info('Redis connected!');
 });
