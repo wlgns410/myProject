@@ -10,6 +10,7 @@ services:
       - /app/node_modules
     environment:
       - TZ=Asia/Seoul
+      - NODE_ENV=local
     command:
       - bash
       - -c
@@ -36,4 +37,4 @@ services:
     image: redis:latest
     command: redis-server --requirepass testuser --port 6379
     ports:
-      - "6379:6379"
+      - '6379:6379'

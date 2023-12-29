@@ -8,10 +8,9 @@ COPY package*.json ./
 RUN rm -rf node_modules
 
 RUN npm install
-RUN npm install openai
-# 2023.11.24 추가(ts-node에서는 불필요)
-Run npm run build 
 
 COPY . .
+
+RUN npm run build 
 
 EXPOSE 5001
