@@ -12,19 +12,47 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Setting .env.production file
         run: |
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+          echo "DB_PRODUCTION_TYPE=${{ secrets.DB_PRODUCTION_TYPE }}" >> .env.production
+          echo "DB_PRODUCTION_HOST=${{ secrets.DB_PRODUCTION_HOST }}" >> .env.production
+          echo "DB_PRODUCTION_PORT=${{ secrets.DB_PRODUCTION_PORT }}" >> .env.production
+          echo "DB_PRODUCTION_USERNAME=${{ secrets.DB_PRODUCTION_USERNAME }}" >> .env.production
+          echo "DB_PRODUCTION_PASSWORD=${{ secrets.DB_PRODUCTION_PASSWORD }}" >> .env.production
+          echo "DB_PRODUCTION_NAME=${{ secrets.DB_PRODUCTION_NAME }}" >> .env.production
+
+          echo "TOKEN_ACCESS_SECRET=${{ secrets.TOKEN_ACCESS_SECRET }}" >> .env.production
           echo "REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }}" >> .env.production
+
+          echo "NCP_CONTAINER_REGISTRY=${{ secrets.NCP_CONTAINER_REGISTRY }}" >> .env.production
+          echo "NCP_ACCESS_KEY=${{ secrets.NCP_ACCESS_KEY }}" >> .env.production
+          echo "NCP_SECRET_KEY=${{ secrets.NCP_SECRET_KEY }}" >> .env.production
+
+          echo "IMAGE_REGION=${{ secrets.IMAGE_REGION }}" >> .env.production
+          echo "IMAGE_ENDPOINT=${{ secrets.IMAGE_ENDPOINT }}" >> .env.production
+          echo "IMAGE_BUCKET=${{ secrets.IMAGE_BUCKET }}" >> .env.production
+
+          echo "PRODUCTION_HOST=${{ secrets.PRODUCTION_HOST }}" >> .env.production
+          echo "PRODUCTION_USERNAME=${{ secrets.PRODUCTION_USERNAME }}" >> .env.production
+          echo "PRODUCTION_PASSWORD=${{ secrets.PRODUCTION_PASSWORD }}" >> .env.production
+          echo "PRODUCTION_PORT=${{ secrets.PRODUCTION_PORT }}" >> .env.production
+
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env.production
+          echo "ORGANIZATION_INFO=${{ secrets.ORGANIZATION_INFO }}" >> .env.production
+
           cat .env.production
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+
       - name: Login to NCP Container Registry
         uses: docker/login-action@v2
         with:
           registry: ${{ secrets.NCP_CONTAINER_REGISTRY }}
           username: ${{ secrets.NCP_ACCESS_KEY }}
           password: ${{ secrets.NCP_SECRET_KEY }}
+
       - name: build and push
         uses: docker/build-push-action@v3
         with:

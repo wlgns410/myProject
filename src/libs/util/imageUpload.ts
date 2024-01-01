@@ -5,9 +5,9 @@ import ErrorResponse from '~/libs/exception/errorResponse';
 
 const s3 = new AWS.S3({
   endpoint: new AWS.Endpoint('https://kr.object.ncloudstorage.com'),
-  region: process.env.IMAGE_REGION,
-  accessKeyId: process.env.IMAGE_ACCESSKEY,
-  secretAccessKey: process.env.IMAGE_SECRETACCESSKEY,
+  region: process.env.NCP_REGION,
+  accessKeyId: process.env.NCP_ACCESS_KEY,
+  secretAccessKey: process.env.NCP_SECRET_KEY,
 });
 
 const imageUpload = async (buffer) => {
