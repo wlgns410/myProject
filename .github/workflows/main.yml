@@ -76,7 +76,6 @@ jobs:
           host: ${{ secrets.PRODUCTION_HOST }}
           username: ${{ secrets.PRODUCTION_USERNAME }}
           password: ${{ secrets.PRODUCTION_PASSWORD }}
-          port: ${{ secrets.PRODUCTION_PORT }}
           script: |
             docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
             docker run -d -p 5001:80 ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
