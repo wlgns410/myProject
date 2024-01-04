@@ -31,3 +31,9 @@ services:
       - --collation-server=utf8mb4_unicode_ci
     ports:
       - 3306:3306
+
+  redis-server:
+    image: redis:latest
+    command: redis-server --requirepass testuser --port 6379
+    ports:
+      - '6379:6379'
