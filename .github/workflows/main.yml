@@ -41,6 +41,11 @@ jobs:
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env.production
           echo "ORGANIZATION_INFO=${{ secrets.ORGANIZATION_INFO }}" >> .env.production
 
+          echo "REDIS_PRODUCTION_USER_NAME=${{ secrets.REDIS_PRODUCTION_USER_NAME }}" >> .env.production
+          echo "REDIS_PRODUCTION_USER_PASSWORD=${{ secrets.REDIS_PRODUCTION_USER_PASSWORD }}" >> .env.production
+          echo "REDIS_PRODUCTION_USER_HOST=${{ secrets.REDIS_PRODUCTION_USER_HOST }}" >> .env.production
+          echo "REDIS_PRODUCTION_USER_PORT=${{ secrets.REDIS_PRODUCTION_USER_PORT }}" >> .env.production
+
           cat .env.production
 
       - name: Set up Docker Buildx

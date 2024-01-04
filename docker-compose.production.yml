@@ -17,6 +17,7 @@ services:
       - npm run production
     depends_on:
       - mysql
+      - redis-server
 
   mysql:
     image: mysql:latest
