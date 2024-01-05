@@ -117,6 +117,5 @@ jobs:
             docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/application-image:latest
             docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/mysql-image:latest
             docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/redis-image:latest
-            docker run -d -p 5001:80 ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
             docker-compose up -d
             docker image prune -f
