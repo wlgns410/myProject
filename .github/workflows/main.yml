@@ -64,14 +64,38 @@ jobs:
           username: ${{ secrets.NCP_ACCESS_KEY }}
           password: ${{ secrets.NCP_SECRET_KEY }}
 
-      - name: build and push
+      - name: Build and Push Application Image
         uses: docker/build-push-action@v3
         with:
           context: .
           file: ./Dockerfile.production
           push: true
-          tags: ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name:latest
-          cache-from: type=registry,ref=${{ secrets.NCP_CONTAINER_REGISTRY }}/project:latest
+          tags: ${{ secrets.NCP_CONTAINER_REGISTRY }}/application-image:latest
+          cache-from: type=registry,ref=${{ secrets.NCP_CONTAINER_REGISTRY }}/application-image:latest
+          cache-to: type=inline
+          secrets: |
+            GIT_AUTH_TOKEN=${{ secrets.GIT_TOKEN }}
+
+      - name: Build and Push MySQL Image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./mysql
+          file: ./Dockerfile.production
+          push: true
+          tags: ${{ secrets.NCP_CONTAINER_REGISTRY }}/mysql-image:latest
+          cache-from: type=registry,ref=${{ secrets.NCP_CONTAINER_REGISTRY }}/mysql-image:latest
+          cache-to: type=inline
+          secrets: |
+            GIT_AUTH_TOKEN=${{ secrets.GIT_TOKEN }}
+
+      - name: Build and Push Redis Image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./redis
+          file: ./Dockerfile.production
+          push: true
+          tags: ${{ secrets.NCP_CONTAINER_REGISTRY }}/redis-image:latest
+          cache-from: type=registry,ref=${{ secrets.NCP_CONTAINER_REGISTRY }}/redis-image:latest
           cache-to: type=inline
           secrets: |
             GIT_AUTH_TOKEN=${{ secrets.GIT_TOKEN }}
@@ -88,6 +112,11 @@ jobs:
           username: ${{ secrets.PRODUCTION_USERNAME }}
           password: ${{ secrets.PRODUCTION_PASSWORD }}
           script: |
-            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
+            cd app 
+            docker-compose down
+            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/application-image:latest
+            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/mysql-image:latest
+            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/redis-image:latest
             docker run -d -p 5001:80 ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
+            docker-compose up -d
             docker image prune -f
