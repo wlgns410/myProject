@@ -65,8 +65,8 @@ jobs:
           password: ${{ secrets.NCP_SECRET_KEY }}
 
       - name: Build using Docker Compose
-          run: |
-            docker-compose -f docker-compose.production.yml build
+        run: |
+          docker-compose -f docker-compose.production.yml build
 
   pull_from_registry:
     name: Connect server ssh and pull from container registry
