@@ -31,7 +31,8 @@ jobs:
           echo "TOKEN_ACCESS_SECRET=${{ secrets.TOKEN_ACCESS_SECRET }}" >> .env.production
           echo "REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }}" >> .env.production
 
-          echo "NCP_CONTAINER_REGISTRY=${{ secrets.NCP_CONTAINER_REGISTRY }}" >> .env.production
+          echo "NCP_PUBLIC_CONTAINER_REGISTRY=${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}" >> .env.production
+          echo "NCP_PRIVATE_CONTAINER_REGISTRY=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}" >> .env.production
           echo "NCP_ACCESS_KEY=${{ secrets.NCP_ACCESS_KEY }}" >> .env.production
           echo "NCP_SECRET_KEY=${{ secrets.NCP_SECRET_KEY }}" >> .env.production
 
@@ -60,7 +61,7 @@ jobs:
       - name: Login to NCP Container Registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ secrets.NCP_CONTAINER_REGISTRY }}
+          registry: ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}
           username: ${{ secrets.NCP_ACCESS_KEY }}
           password: ${{ secrets.NCP_SECRET_KEY }}
 
@@ -69,13 +70,13 @@ jobs:
 
           echo "input env ..."
 
-          APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/application-image:latest
-          MYSQL_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/mysql:latest
-          REDIS_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/redis:latest
+          APPLICATION_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/application-image:latest
+          MYSQL_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/mysql:latest
+          REDIS_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/redis:latest
 
-          echo "APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/application-image:latest"
-          echo "MYSQL_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/mysql:latest"
-          echo "REDIS_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/redis:latest"
+          echo "APPLICATION_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/application-image:latest"
+          echo "MYSQL_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/mysql:latest"
+          echo "REDIS_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/redis:latest"
           echo "Building image..."
 
           docker-compose -f docker-compose.production.yml build \
@@ -106,8 +107,8 @@ jobs:
           script: |
             cd app 
             docker-compose down
-            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/application-image:latest
-            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/mysql:latest
-            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/redis:latest
+            docker pull ${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/application-image:latest
+            docker pull ${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/mysql:latest
+            docker pull ${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/redis:latest
             docker-compose up -d
             docker image prune -f
