@@ -66,9 +66,9 @@ jobs:
 
       - name: Build using Docker Compose
         run: |
-          APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/application-image:latest
-          MYSQL_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/mysql:latest
-          REDIS_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/redis:latest
+          APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/application-image
+          MYSQL_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/mysql
+          REDIS_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/redis
 
           docker-compose -f docker-compose.production.yml build \
             --build-arg APPLICATION_IMAGE_NAME=$APPLICATION_IMAGE_NAME \
