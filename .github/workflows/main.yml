@@ -66,18 +66,31 @@ jobs:
 
       - name: Build using Docker Compose
         run: |
-          APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}:latest
+
+          echo "input env ..."
+
+          APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/application-image:latest
           MYSQL_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/mysql:latest
           REDIS_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/redis:latest
+
+          echo "APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/application-image:latest"
+          echo "MYSQL_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/mysql:latest"
+          echo "REDIS_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/redis:latest"
+          echo "Building image..."
 
           docker-compose -f docker-compose.production.yml build \
             --build-arg APPLICATION_IMAGE_NAME=$APPLICATION_IMAGE_NAME \
             --build-arg MYSQL_IMAGE_NAME=$MYSQL_IMAGE_NAME \
             --build-arg REDIS_IMAGE_NAME=$REDIS_IMAGE_NAME
 
+          docker-compose -f docker-compose.production.yml logs
+          echo "befor push..."
+
           docker push $APPLICATION_IMAGE_NAME
           docker push $MYSQL_IMAGE_NAME
           docker push $REDIS_IMAGE_NAME
+
+          echo "build end"
 
   pull_from_registry:
     name: Connect server ssh and pull from container registry
