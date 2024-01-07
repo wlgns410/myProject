@@ -74,15 +74,15 @@ jobs:
           MYSQL_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/mysql:latest
           REDIS_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/redis:latest
 
-          echo "APPLICATION_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/application-image:latest"
-          echo "MYSQL_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/mysql:latest"
-          echo "REDIS_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/redis:latest"
+          echo "APPLICATION_IMAGE_NAME=${APPLICATION_IMAGE_NAME}"
+          echo "MYSQL_IMAGE_NAME=${MYSQL_IMAGE_NAME}"
+          echo "REDIS_IMAGE_NAME=${REDIS_IMAGE_NAME}"
           echo "Building image..."
 
           docker-compose -f docker-compose.production.yml build \
-            --build-arg APPLICATION_IMAGE_NAME=$APPLICATION_IMAGE_NAME \
-            --build-arg MYSQL_IMAGE_NAME=$MYSQL_IMAGE_NAME \
-            --build-arg REDIS_IMAGE_NAME=$REDIS_IMAGE_NAME
+            --build-arg APPLICATION_IMAGE_NAME=${APPLICATION_IMAGE_NAME} \
+            --build-arg MYSQL_IMAGE_NAME=${MYSQL_IMAGE_NAME} \
+            --build-arg REDIS_IMAGE_NAME=${REDIS_IMAGE_NAME}
 
           docker-compose -f docker-compose.production.yml logs
           echo "befor push..."
