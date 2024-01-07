@@ -75,6 +75,10 @@ jobs:
             --build-arg MYSQL_IMAGE_NAME=$MYSQL_IMAGE_NAME \
             --build-arg REDIS_IMAGE_NAME=$REDIS_IMAGE_NAME
 
+          docker push $APPLICATION_IMAGE_NAME
+          docker push $MYSQL_IMAGE_NAME
+          docker push $REDIS_IMAGE_NAME
+
   pull_from_registry:
     name: Connect server ssh and pull from container registry
     needs: push_to_registry
