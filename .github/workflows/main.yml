@@ -78,13 +78,19 @@ jobs:
             --build-arg APPLICATION_IMAGE_NAME=${APPLICATION_IMAGE_NAME} \
             --build-arg MYSQL_IMAGE_NAME=${MYSQL_IMAGE_NAME} \
             --build-arg REDIS_IMAGE_NAME=${REDIS_IMAGE_NAME}
-            -t $APPLICATION_IMAGE_NAME \
-            -t $MYSQL_IMAGE_NAME \
-            -t $REDIS_IMAGE_NAME \
             -f docker-compose.production.yml
 
+          echo "build end..."
+
+          docker tag app $APPLICATION_IMAGE_NAME
+          docker tag mysql $MYSQL_IMAGE_NAME
+          docker tag redis-server $REDIS_IMAGE_NAME
+
+          echo "image tagging..."
+
           docker-compose -f docker-compose.production.yml logs
-          echo "befor push..."
+
+          echo "compose logging..."
 
           docker push $APPLICATION_IMAGE_NAME
           docker push $MYSQL_IMAGE_NAME
