@@ -75,9 +75,9 @@ jobs:
           REDIS_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/redis:latest
 
           docker-compose build \
-            --build-arg APPLICATION_IMAGE_NAME \
-            --build-arg MYSQL_IMAGE_NAME \
-            --build-arg REDIS_IMAGE_NAME \
+            --build-arg APPLICATION_IMAGE_NAME=${APPLICATION_IMAGE_NAME} \
+            --build-arg MYSQL_IMAGE_NAME=${MYSQL_IMAGE_NAME} \
+            --build-arg REDIS_IMAGE_NAME=${REDIS_IMAGE_NAME}
             -t $APPLICATION_IMAGE_NAME \
             -t $MYSQL_IMAGE_NAME \
             -t $REDIS_IMAGE_NAME \
