@@ -66,7 +66,7 @@ jobs:
 
       - name: Build using Docker Compose
         run: |
-          APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/application-image:latest
+          APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production:latest
           MYSQL_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/mysql:latest
           REDIS_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/redis:latest
 
