@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile.production
+    image: ${{ secrets.NCP_CONTAINER_REGISTRY }}/application-image:latest
     ports:
       - '5001:5001'
     volumes:
@@ -20,7 +21,7 @@ services:
       - redis-server
 
   mysql:
-    image: mysql:latest
+    image: ${{ secrets.NCP_CONTAINER_REGISTRY }}/mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: production
       MYSQL_DATABASE: production
@@ -34,7 +35,7 @@ services:
       - 3306:3306
 
   redis-server:
-    image: redis:latest
+    image: ${{ secrets.NCP_CONTAINER_REGISTRY }}/redis:latest
     command: redis-server --requirepass testuser --port 6379
     ports:
       - '6379:6379'
