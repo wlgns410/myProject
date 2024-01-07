@@ -70,9 +70,9 @@ jobs:
 
           echo "input env ..."
 
-          APPLICATION_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/application-image:latest
-          MYSQL_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/mysql:latest
-          REDIS_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/redis:latest
+          APPLICATION_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/application-image
+          MYSQL_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/mysql
+          REDIS_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/redis
 
           docker-compose -f docker-compose.production.yml build \
             --build-arg APPLICATION_IMAGE_NAME=${APPLICATION_IMAGE_NAME} \
@@ -80,12 +80,6 @@ jobs:
             --build-arg REDIS_IMAGE_NAME=${REDIS_IMAGE_NAME}
             
           echo "build end..."
-
-          docker tag app $APPLICATION_IMAGE_NAME
-          docker tag mysql $MYSQL_IMAGE_NAME
-          docker tag redis-server $REDIS_IMAGE_NAME
-
-          echo "image tagging..."
 
           docker-compose -f docker-compose.production.yml logs
 
