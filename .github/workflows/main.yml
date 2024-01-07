@@ -66,7 +66,7 @@ jobs:
 
       - name: Build using Docker Compose
         run: |
-          APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production:latest
+          APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}:latest
           MYSQL_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/mysql:latest
           REDIS_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/jihoon-production/redis:latest
 
@@ -74,27 +74,6 @@ jobs:
             --build-arg APPLICATION_IMAGE_NAME=$APPLICATION_IMAGE_NAME \
             --build-arg MYSQL_IMAGE_NAME=$MYSQL_IMAGE_NAME \
             --build-arg REDIS_IMAGE_NAME=$REDIS_IMAGE_NAME
-
-          if docker images $APPLICATION_IMAGE_NAME | grep -q $APPLICATION_IMAGE_NAME; then
-            docker push $APPLICATION_IMAGE_NAME
-          else
-            echo "Error: The image $APPLICATION_IMAGE_NAME does not exist locally."
-            exit 1
-          fi
-
-          if docker images $MYSQL_IMAGE_NAME | grep -q $MYSQL_IMAGE_NAME; then
-            docker push $MYSQL_IMAGE_NAME
-          else
-            echo "Error: The image $MYSQL_IMAGE_NAME does not exist locally."
-            exit 1
-          fi
-
-          if docker images $REDIS_IMAGE_NAME | grep -q $REDIS_IMAGE_NAME; then
-            docker push $REDIS_IMAGE_NAME
-          else
-            echo "Error: The image $REDIS_IMAGE_NAME does not exist locally."
-            exit 1
-          fi
 
           docker push $APPLICATION_IMAGE_NAME
           docker push $MYSQL_IMAGE_NAME
