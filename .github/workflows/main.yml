@@ -66,10 +66,14 @@ jobs:
 
       - name: Build using Docker Compose
         run: |
-          APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/application-image
-          MYSQL_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/mysql
-          REDIS_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/redis
-          docker-compose -f docker-compose.production.yml build --build-arg APPLICATION_IMAGE_NAME=$APPLICATION_IMAGE_NAME MYSQL_IMAGE_NAME=$MYSQL_IMAGE_NAME REDIS_IMAGE_NAME=$REDIS_IMAGE_NAME
+          APPLICATION_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/application-image:latest
+          MYSQL_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/mysql:latest
+          REDIS_IMAGE_NAME=${{ secrets.NCP_CONTAINER_REGISTRY }}/redis:latest
+
+          docker-compose -f docker-compose.production.yml build \
+            --build-arg APPLICATION_IMAGE_NAME=$APPLICATION_IMAGE_NAME \
+            --build-arg MYSQL_IMAGE_NAME=$MYSQL_IMAGE_NAME \
+            --build-arg REDIS_IMAGE_NAME=$REDIS_IMAGE_NAME
 
   pull_from_registry:
     name: Connect server ssh and pull from container registry
