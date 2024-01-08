@@ -81,15 +81,15 @@ jobs:
             
           echo "build end..."
 
-          docker-compose -f docker-compose.production.yml logs
+          docker-compose -f docker-compose.production.yml images
 
-          echo "compose logging..."
+          echo "compose image result..."
 
           docker push $APPLICATION_IMAGE_NAME
           docker push $MYSQL_IMAGE_NAME
           docker push $REDIS_IMAGE_NAME
 
-          echo "build end"
+          echo "push finish"
 
   pull_from_registry:
     name: Connect server ssh and pull from container registry
