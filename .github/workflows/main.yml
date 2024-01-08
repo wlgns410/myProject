@@ -74,7 +74,7 @@ jobs:
           MYSQL_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/mysql:v0.0.1
           REDIS_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/redis:v0.0.1
 
-          docker-compose -f docker-compose.production.yml buildx build \
+          docker-compose -f docker-compose.production.yml build \
             --build-arg APPLICATION_IMAGE_NAME=${APPLICATION_IMAGE_NAME} \
             --build-arg MYSQL_IMAGE_NAME=${MYSQL_IMAGE_NAME} \
             --build-arg REDIS_IMAGE_NAME=${REDIS_IMAGE_NAME}
