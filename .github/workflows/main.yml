@@ -70,9 +70,9 @@ jobs:
 
           echo "input env ..."
 
-          APPLICATION_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/application-image
-          MYSQL_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/mysql
-          REDIS_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/redis
+          APPLICATION_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/application-image:v0.0.1
+          MYSQL_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/mysql:v0.0.1
+          REDIS_IMAGE_NAME=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/redis:v0.0.1
 
           docker-compose -f docker-compose.production.yml buildx build \
             --build-arg APPLICATION_IMAGE_NAME=${APPLICATION_IMAGE_NAME} \
@@ -105,8 +105,5 @@ jobs:
           script: |
             cd app 
             docker-compose down
-            docker pull ${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/application-image:latest
-            docker pull ${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/mysql:latest
-            docker pull ${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/redis:latest
             docker-compose up -d
             docker image prune -f
