@@ -81,7 +81,7 @@ jobs:
             
           echo "build end..."
 
-          docker-compose -f docker-compose.production.yml images
+          docker-compose -f docker-compose.production.yml config | docker-compose -f - images
 
           echo "compose image result..."
 
