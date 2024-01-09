@@ -76,7 +76,7 @@ jobs:
 
           echo "compose image result..."
 
-          docker tag myproject-app:latest ${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/application-image:v0.0.1
+          docker tag myproject_app:latest ${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/application-image:v0.0.1
           docker tag mysql:latest ${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/mysql:v0.0.1
           docker tag redis:latest ${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/redis:v0.0.1
 
