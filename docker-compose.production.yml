@@ -3,9 +3,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile.production
-      args:
-        - APPLICATION_IMAGE_NAME=${APPLICATION_IMAGE_NAME}
-    image: ${APPLICATION_IMAGE_NAME}
+    env_file:
+      - .env.production
     ports:
       - '5001:5001'
     volumes:
@@ -23,7 +22,7 @@ services:
       - redis-server
 
   mysql:
-    image: ${MYSQL_IMAGE_NAME}
+    image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: production
       MYSQL_DATABASE: production
@@ -37,7 +36,7 @@ services:
       - 3306:3306
 
   redis-server:
-    image: ${REDIS_IMAGE_NAME}
+    image: redis:latest
     command: redis-server --requirepass testuser --port 6379
     ports:
       - '6379:6379'
