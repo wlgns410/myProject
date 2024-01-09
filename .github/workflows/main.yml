@@ -91,8 +91,9 @@ jobs:
           host: ${{ secrets.PRODUCTION_HOST }}
           username: ${{ secrets.PRODUCTION_USERNAME }}
           password: ${{ secrets.PRODUCTION_PASSWORD }}
-          script: |
-            cd app 
+          run: |
+            ls
+            docker pull jihoon-production.kr.ncr.ntruss.com/jihoon-production::v0.0.1
             docker-compose down
             docker-compose -f docker-compose.production.yml up -d
             docker image prune -f
