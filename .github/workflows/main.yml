@@ -76,9 +76,9 @@ jobs:
 
           echo "compose image result..."
 
-          docker tag myproject_app:latest ${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/application-image:v0.0.1
+          docker tag myproject_app:latest ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}/jihoon-production:v0.0.1
 
-          docker push ${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}/jihoon-production/application-image:v0.0.1
+          docker push ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}/jihoon-production:v0.0.1
 
           echo "push finish"
 
@@ -96,5 +96,5 @@ jobs:
           script: |
             cd app 
             docker-compose down
-            docker-compose up -d
+            docker-compose -f docker-compose.production.yml up -d
             docker image prune -f
