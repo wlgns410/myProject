@@ -101,9 +101,9 @@ jobs:
         run: |
           ls
 
-          cd /home/app/
+          mkdir -p /home/app/
 
-          docker pull ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}/jihoon-production:v0.0.1
+          cd /home/app/
 
           docker-compose down
           docker-compose -f docker-compose.production.yml up -d
