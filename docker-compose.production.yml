@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile.production
-    image: jihoon-production.kr.ncr.ntruss.com/jihoon-production:v0.0.1
+    image: jihoon-production.kr.ncr.ntruss.com/jihoon-production:latest
     env_file:
       - .env.production
     ports:

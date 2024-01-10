@@ -76,12 +76,12 @@ jobs:
 
           echo "compose image result..."
 
-          docker push ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}/jihoon-production:v0.0.1
+          docker push ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}/jihoon-production:latest
 
           echo "push finish"
 
-  pull_from_registry:
-    name: Connect server ssh and pull from container registry
+  cd-pipeline:
+    name: Connect server, pull image and start container
     needs: push_to_registry
     runs-on: ubuntu-latest
     steps:
@@ -91,6 +91,8 @@ jobs:
           host: ${{ secrets.PRODUCTION_HOST }}
           username: ${{ secrets.PRODUCTION_USERNAME }}
           password: ${{ secrets.PRODUCTION_PASSWORD }}
+          source: 'docker-compose.production.yaml'
+          target: '/home/app/'
       - name: 로그인하여 도커 레지스트리에 접근
         run: |
           echo "${{ secrets.NCP_SECRET_KEY }}" | docker login -u "${{ secrets.NCP_ACCESS_KEY }}" --password-stdin ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}
@@ -98,6 +100,9 @@ jobs:
       - name: Run your commands
         run: |
           ls
+
+          cd /home/app/
+
           docker pull ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}/jihoon-production:v0.0.1
 
           docker-compose down
