@@ -91,22 +91,28 @@ jobs:
           host: ${{ secrets.PRODUCTION_HOST }}
           username: ${{ secrets.PRODUCTION_USERNAME }}
           password: ${{ secrets.PRODUCTION_PASSWORD }}
-          source: 'docker-compose.production.yaml'
-          target: '/home/app/'
+
       - name: 로그인하여 도커 레지스트리에 접근
         run: |
           echo "${{ secrets.NCP_SECRET_KEY }}" | docker login -u "${{ secrets.NCP_ACCESS_KEY }}" --password-stdin ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}
 
       - name: Run your commands
         run: |
-          ls
-
-          mkdir -p /home/app/
 
           cd /home/app/
+
+          echo "move dir"
+
+          pwd
+
+          echo "now dir"
 
           docker-compose down
           docker-compose -f docker-compose.production.yml up -d
 
+          echo "compose"
+
           docker-compose -f docker-compose.production.yml config | docker-compose -f - images
           docker images
+
+          echo "deploy end"
