@@ -1,15 +1,9 @@
 name: auto deploy
 
-# on:
-#   push:
-#     branches:
-#       - main
-
-# 테스트 위함
 on:
   push:
     branches:
-      - feature/**
+      - main
 
 jobs:
   push_to_registry:
