@@ -109,5 +109,3 @@ jobs:
 
             docker-compose -f docker-compose.production.yml config | docker-compose -f - images
             docker images
-
-            docker image prune -f
