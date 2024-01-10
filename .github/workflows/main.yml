@@ -91,10 +91,14 @@ jobs:
           host: ${{ secrets.PRODUCTION_HOST }}
           username: ${{ secrets.PRODUCTION_USERNAME }}
           password: ${{ secrets.PRODUCTION_PASSWORD }}
+      - name: 로그인하여 도커 레지스트리에 접근
+        run: |
+          echo "${{ secrets.NCP_SECRET_KEY }}" | docker login -u "${{ secrets.NCP_ACCESS_KEY }}" --password-stdin ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}
+
       - name: Run your commands
         run: |
           ls
-          docker pull jihoon-production.kr.ncr.ntruss.com/jihoon-production:v0.0.1
+          docker pull ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}/jihoon-production:v0.0.1
 
           docker-compose down
           docker-compose -f docker-compose.production.yml up -d
