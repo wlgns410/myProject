@@ -2,7 +2,10 @@ services:
   app:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.production
+    image: jihoon-production.kr.ncr.ntruss.com/jihoon-production:latest
+    env_file:
+      - .env.production
     ports:
       - '5001:5001'
     volumes:
@@ -10,11 +13,11 @@ services:
       - /app/node_modules
     environment:
       - TZ=Asia/Seoul
-      - NODE_ENV=local
+      - NODE_ENV=production
     command:
       - bash
       - -c
-      - npm run local
+      - npm run production
     depends_on:
       - mysql
       - redis-server
@@ -22,10 +25,10 @@ services:
   mysql:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: test1234
-      MYSQL_DATABASE: product
-      MYSQL_USER: testuser
-      MYSQL_PASSWORD: testuser
+      MYSQL_ROOT_PASSWORD: production
+      MYSQL_DATABASE: production
+      MYSQL_USER: production
+      MYSQL_PASSWORD: production
       TZ: Asia/Seoul
     command:
       - --character-set-server=utf8mb4

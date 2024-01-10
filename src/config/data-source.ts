@@ -44,57 +44,15 @@ const config = {
   },
 };
 
-// const connectionConfig: DataSource = {
-//   ...config[NODE_ENV],
-//   type: DB_TYPE,
-//   synchronize: NODE_ENV !== 'production',
-//   entities: ['src/database/entity/*.ts'],
-//   subscribers: ['src/database/subscriber/*.ts'],
-//   migrations: ['src/database/migration/*.ts'],
-//   cli: {
-//     entitiesDir: 'src/database/entity',
-//     migrationsDir: 'src/database/migration',
-//     subscribersDir: 'src/database/subscriber',
-//   },
-//   namingStrategy: new SnakeNamingStrategy(),
-//   dropSchema: NODE_ENV === 'test',
-//   timezone: '+09:00',
-// };
-
-// export default connectionConfig;
-
-// const ConfigOption: DataSourceOptions = {
-//   ...config[NODE_ENV],
-//   type: 'mysql',
-//   // synchronize: NODE_ENV !== 'production',
-//   synchronize: true,
-//   // entities: ['src/database/entity/*.ts'],
-//   entities: [UserPhoneAuth],
-//   subscribers: ['src/database/subscriber/*.ts'],
-//   migrations: ['src/database/migrations/*.{ts,js}'],
-//   migrationsTableName: 'migrations',
-//   cli: {
-//     entitiesDir: 'src/database/entity',
-//     migrationsDir: 'src/database/migrations/*.{ts,js}',
-//     subscribersDir: 'src/database/subscriber',
-//   },
-//   namingStrategy: new SnakeNamingStrategy(),
-//   dropSchema: NODE_ENV === 'test',
-//   timezone: '+09:00',
-// };
-
 export const AppDataSource = new DataSource({
   type: 'mysql',
-  host: 'mysql', //DB HOST
-  port: 3306, // DB 포트 mysql default port는 3306
-  username: 'testuser', // DB 접속시 계정
-  password: 'testuser', // DB 접속시 비밀번호
-  database: 'product', // DB내 사용하는 DATABASE
-  synchronize: true, // 엔티티 동기화 여부, 개발 중일땐 true를 해도 상관없으나 실서버에서는 false로 하고 migration을 하거나, 직접 수정한다.
+  ...config[NODE_ENV],
+  synchronize: NODE_ENV !== 'production',
   logging: true,
   entities: [UserPhoneAuth, User, BodyMassIndex, DailyCalorie, UserProfile],
   subscribers: [],
   migrations: [],
   namingStrategy: new SnakeNamingStrategy(),
   timezone: '+09:00',
+  dropSchema: NODE_ENV === 'test',
 });

@@ -1,0 +1,109 @@
+name: auto deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push_to_registry:
+    name: Push to ncp container registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setting .env.production file
+        run: |
+          echo "DB_PRODUCTION_TYPE=${{ secrets.DB_PRODUCTION_TYPE }}" >> .env.production
+          echo "DB_PRODUCTION_HOST=${{ secrets.DB_PRODUCTION_HOST }}" >> .env.production
+          echo "DB_PRODUCTION_PORT=${{ secrets.DB_PRODUCTION_PORT }}" >> .env.production
+          echo "DB_PRODUCTION_USERNAME=${{ secrets.DB_PRODUCTION_USERNAME }}" >> .env.production
+          echo "DB_PRODUCTION_PASSWORD=${{ secrets.DB_PRODUCTION_PASSWORD }}" >> .env.production
+          echo "DB_PRODUCTION_NAME=${{ secrets.DB_PRODUCTION_NAME }}" >> .env.production
+
+          echo "TOKEN_ACCESS_SECRET=${{ secrets.TOKEN_ACCESS_SECRET }}" >> .env.production
+          echo "REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }}" >> .env.production
+
+          echo "NCP_PUBLIC_CONTAINER_REGISTRY=${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}" >> .env.production
+          echo "NCP_PRIVATE_CONTAINER_REGISTRY=${{ secrets.NCP_PRIVATE_CONTAINER_REGISTRY }}" >> .env.production
+          echo "NCP_ACCESS_KEY=${{ secrets.NCP_ACCESS_KEY }}" >> .env.production
+          echo "NCP_SECRET_KEY=${{ secrets.NCP_SECRET_KEY }}" >> .env.production
+
+          echo "IMAGE_REGION=${{ secrets.IMAGE_REGION }}" >> .env.production
+          echo "IMAGE_ENDPOINT=${{ secrets.IMAGE_ENDPOINT }}" >> .env.production
+          echo "IMAGE_BUCKET=${{ secrets.IMAGE_BUCKET }}" >> .env.production
+
+          echo "PRODUCTION_HOST=${{ secrets.PRODUCTION_HOST }}" >> .env.production
+          echo "PRODUCTION_USERNAME=${{ secrets.PRODUCTION_USERNAME }}" >> .env.production
+          echo "PRODUCTION_PASSWORD=${{ secrets.PRODUCTION_PASSWORD }}" >> .env.production
+          echo "PRODUCTION_PORT=${{ secrets.PRODUCTION_PORT }}" >> .env.production
+
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env.production
+          echo "ORGANIZATION_INFO=${{ secrets.ORGANIZATION_INFO }}" >> .env.production
+
+          echo "REDIS_PRODUCTION_USER_NAME=${{ secrets.REDIS_PRODUCTION_USER_NAME }}" >> .env.production
+          echo "REDIS_PRODUCTION_USER_PASSWORD=${{ secrets.REDIS_PRODUCTION_USER_PASSWORD }}" >> .env.production
+          echo "REDIS_PRODUCTION_USER_HOST=${{ secrets.REDIS_PRODUCTION_USER_HOST }}" >> .env.production
+          echo "REDIS_PRODUCTION_USER_PORT=${{ secrets.REDIS_PRODUCTION_USER_PORT }}" >> .env.production
+
+          cat .env.production
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to NCP Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}
+          username: ${{ secrets.NCP_ACCESS_KEY }}
+          password: ${{ secrets.NCP_SECRET_KEY }}
+
+      - name: Build using Docker Compose
+        run: |
+
+          docker-compose -f docker-compose.production.yml build
+          echo "build end..."
+
+          docker-compose -f docker-compose.production.yml config | docker-compose -f - images
+          docker images
+
+          echo "compose image result..."
+
+          docker push ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}/jihoon-production:latest
+
+          echo "push finish"
+
+  cd-pipeline:
+    name: Connect server, pull image and start container
+    needs: push_to_registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: connect ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: ${{ secrets.PRODUCTION_USERNAME }}
+          password: ${{ secrets.PRODUCTION_PASSWORD }}
+          run: |
+            echo "${{ secrets.NCP_SECRET_KEY }}" | docker login -u "${{ secrets.NCP_ACCESS_KEY }}" --password-stdin ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}
+
+            sudo chown $USER:$USER /home/app/
+
+            cd /home/app/
+
+            echo "move dir"
+
+            pwd
+
+            echo "now dir"
+
+            docker-compose down
+            docker-compose -f docker-compose.production.yml up -d
+
+            echo "compose"
+
+            docker-compose -f docker-compose.production.yml config | docker-compose -f - images
+            docker images
+
+            echo "deploy end"
