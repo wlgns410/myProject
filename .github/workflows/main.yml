@@ -94,6 +94,8 @@ jobs:
           run: |
             echo "${{ secrets.NCP_SECRET_KEY }}" | docker login -u "${{ secrets.NCP_ACCESS_KEY }}" --password-stdin ${{ secrets.NCP_PUBLIC_CONTAINER_REGISTRY }}
 
+            sudo chown $USER:$USER /home/app/
+
             cd /home/app/
 
             echo "move dir"
