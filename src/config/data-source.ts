@@ -2,7 +2,7 @@
 import 'reflect-metadata';
 import path from 'path';
 import dotenv from 'dotenv';
-import { DataSourceOptions, DataSource } from 'typeorm';
+import { DataSource } from 'typeorm';
 import SnakeNamingStrategy from '../database/namingStrategy/SnakeNamingStrategy';
 import { UserPhoneAuth, User, BodyMassIndex, DailyCalorie, UserProfile } from '~/database/entity';
 
