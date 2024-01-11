@@ -7,7 +7,7 @@ export class UserMessage extends TimeDefaultEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL', onUpdate: 'SET NULL' })
+  @ManyToOne(() => User, { nullable: true, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
