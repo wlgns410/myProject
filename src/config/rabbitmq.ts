@@ -4,7 +4,6 @@ export class RabbitmqWrapper {
   // private
   private _url: string;
   private _queueName: string;
-  private _options: any;
 
   // 재시도 구성
   private _maxRetries: number = 3;
@@ -14,10 +13,9 @@ export class RabbitmqWrapper {
   public channel: any;
   public queue: any;
 
-  constructor(url: string, queueName: string, options?: any) {
+  constructor(url: string, queueName: string) {
     this._url = url;
     this._queueName = queueName;
-    this._options = options || {};
   }
   // 커넥트 생성하고 채널 연결
   async setup() {
