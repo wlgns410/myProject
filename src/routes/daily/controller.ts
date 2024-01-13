@@ -1,12 +1,6 @@
 import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
-import {
-  dailyCalorieService,
-  eatingAllDayService,
-  eatingOneService,
-  insufficientCalorieService,
-  insufficientNutrientAlarmService,
-} from './service';
+import { dailyCalorieService, eatingAllDayService, eatingOneService, insufficientCalorieService } from './service';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import {
@@ -15,7 +9,6 @@ import {
   IUserEatingAllDayController,
 } from '~/@types/api/daily/request';
 import { registerRegexesOfType } from '~/libs/util/regex';
-import cron from 'node-cron';
 
 export const dailyCalorieController = async (req: IUserDailyCalorieController, res: Response, next: NextFunction) => {
   const { foods } = req.body;
@@ -129,16 +122,4 @@ export const insufficientCalorieController = async (
   } catch (e) {
     return next(e.message);
   }
-};
-
-// cron으로만 처리되는 api라 라우팅 처리 필요 없음
-export const insufficientNutrientAlarmController = async (req: Request, res: Response, next: NextFunction) => {
-  cron.schedule('0 21 * * *', async () => {
-    try {
-      await insufficientNutrientAlarmService();
-      return res.status(httpStatus.OK).json({ status: httpStatus.OK, message: '알람을 전송했습니다.' });
-    } catch (e) {
-      return next(e.message);
-    }
-  });
 };
