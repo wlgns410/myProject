@@ -1,4 +1,7 @@
 import amqp from 'amqplib';
+import { UserMessage } from '../database/entity/UserMessage';
+import { AppDataSource } from './data-source';
+import transactionRunner from '~/database/transaction';
 
 export class RabbitmqWrapper {
   // private
@@ -34,22 +37,43 @@ export class RabbitmqWrapper {
 
   async handleFailedMessage(message, retryCount = 0) {
     if (retryCount < this._maxRetries) {
-      // 실패한 메시지를 처리하는 사용자 정의 로직을 구현합니다. (예: 로깅)
+      // 실패한 메시지를 처리하는 사용자 정의 로직을 구현
       console.error(`메시지 처리에 실패했습니다: ${message.content.toString()}. 다시 시도 중...`);
 
       // 재시도 전 지연
       await new Promise((resolve) => setTimeout(resolve, this._retryDelay));
 
-      // 메시지를 다시 큐에 넣어 재시도합니다.
+      // 메시지를 다시 큐에 넣어 재시도
       await this.sendToQueue(message.content.toString());
 
-      // 원래 메시지를 큐에서 제거하기 위해 확인합니다.
+      // 원래 메시지를 큐에서 제거하기 위해 확인
       this.channel.ack(message);
     } else {
-      // 최대 재시도 횟수를 초과하면 메시지를 영구적으로 실패로 간주합니다.
+      // 최대 재시도 횟수를 초과하면 메시지를 영구적으로 실패로 간주
       console.error(`메시지에 대한 최대 재시도 횟수를 초과했습니다: ${message.content.toString()}.`);
-      // 필요한 경우 추가 로직을 구현합니다 (예: 로깅 또는 데드레터 큐로 이동).
-      this.channel.ack(message); // 메시지를 큐에서 제거하기 위해 확인합니다.
+
+      await this.sendToDeadLetterQueue(message.content.toString());
+      this.channel.ack(message); // 메시지를 큐에서 제거하기 위해 확인
+    }
+  }
+
+  // 실패한 메시지는 DB에 저장
+  async sendToDeadLetterQueue(message) {
+    try {
+      const messageContent = JSON.parse(message.content.toString());
+      const userId = messageContent.userId;
+      const result = messageContent.result;
+
+      const userMessageRepository = AppDataSource.getRepository(UserMessage);
+      await transactionRunner(async (queryRunner) => {
+        const messageRepo = userMessageRepository.create({
+          userId: userId,
+          unsentMessage: result,
+        });
+        await queryRunner.manager.save(messageRepo);
+      });
+    } catch (error) {
+      console.error('Error processing message for dead letter queue:', error.message);
     }
   }
 
@@ -71,7 +95,7 @@ export class RabbitmqWrapper {
         console.log(message.content.toString());
         return message.content.toString();
       } catch (error) {
-        // 처리 오류를 처리하고 재시도 또는 실패로 표시합니다.
+        // 처리 오류를 처리하고 재시도 또는 실패로 표시
         await this.handleFailedMessage(message);
         return null;
       }
@@ -95,6 +119,6 @@ export class RabbitmqWrapper {
   // 메세지 가져오기
   async recv_message() {
     await this.setup();
-    return await this.recvFromQueue(); // 실패한 메시지에 대해서 어떻게 처리할것인지 고민중
+    return await this.recvFromQueue();
   }
 }
