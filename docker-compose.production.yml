@@ -21,6 +21,7 @@ services:
     depends_on:
       - mysql
       - redis-server
+      - rabbitmq
 
   mysql:
     image: mysql:latest

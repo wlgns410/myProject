@@ -223,13 +223,14 @@ export const insufficientNutrientAlarmService = async () => {
   }
 
   // RabbitMQ에 결과 메시지를 보냅니다.
-  const rabbitmq = new RabbitmqWrapper('localhost:5672', 'calories_message_queue');
+  // rabbitmq 컨테이너 이름으로 컨테이너 간 통신
+  const rabbitmq = new RabbitmqWrapper('rabbitmq', 'calories_message_queue');
   await rabbitmq.send_message(resultArray);
 };
 
 export const getinsufficientCalorieMessageService = async () => {
   // RabbitMQ의 결과 메시지를 가져옵니다.
-  const rabbitmq = new RabbitmqWrapper('localhost:5672', 'calories_message_queue');
+  const rabbitmq = new RabbitmqWrapper('rabbitmq', 'calories_message_queue');
   const result = await rabbitmq.recv_message();
   return result;
 };
