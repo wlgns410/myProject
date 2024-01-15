@@ -49,7 +49,10 @@ export const userSignInService = async ({ phone }: ISignInService) => {
 
     // refreshToken redis에 저장
     const { refreshToken } = token;
-    redisCli.set(String(userObj.id), refreshToken);
+
+    // 30일을 초로 환산
+    const expirationInSeconds = 30 * 24 * 60 * 60;
+    redisCli.set(String(userObj.id), refreshToken, 'EX', expirationInSeconds);
     return token;
   }
   throw new ErrorResponse(ERROR_CODE.TOKEN_NOT_CREATE);
