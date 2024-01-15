@@ -63,6 +63,9 @@ export const userLogOutService = async ({ userId }: IRequestOnlyUserId) => {
   }
   // 로그아웃 토큰
   logoutToken();
+
+  // redis에서 refresh token 제거
+  redisCli.del(String(userId));
 };
 
 export const userPasswordChangeService = async ({ originPassword, changePassword, userId }: IPasswordChangeService) => {
