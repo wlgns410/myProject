@@ -20,16 +20,6 @@ export interface ISignUpService {
   birth: string;
 }
 
-export interface ISignUpAuthNumController {
-  body: {
-    phone: string;
-  };
-}
-
-export interface ISignUpAuthNumService {
-  phone: string;
-}
-
 export interface ISignInController {
   body: {
     password: string;

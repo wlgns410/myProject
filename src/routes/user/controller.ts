@@ -2,7 +2,6 @@ import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
 import {
   userSignUpService,
-  userSignUpAuthenticationNumberService,
   userSignInService,
   userLogOutService,
   userPasswordChangeService,
@@ -14,7 +13,6 @@ import { registerRegexesOfType } from '~/libs/util/regex';
 import { UserType, SexType } from '~/libs/util/enum';
 import {
   ISignUpController,
-  ISignUpAuthNumController,
   ISignInController,
   IPasswordChangeController,
   IWithdrawalController,
@@ -82,34 +80,6 @@ export const userSignUpController = async (req: ISignUpController, res: Response
       .json({ status: httpStatus.CREATED, message: '정상적으로 회원가입 되었습니다.' });
   } catch (e) {
     return next(e.message);
-  }
-};
-
-export const userSignUpAuthenticationNumberController = async (
-  req: ISignUpAuthNumController,
-  res: Response,
-  next: NextFunction,
-) => {
-  const { phone } = req.body;
-  if (!phone) {
-    return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
-  }
-
-  if (phone) {
-    const phoneRegexes = registerRegexesOfType.phone.regexes;
-    const isPhoneValid = phoneRegexes.some((regex) => regex.test(phone));
-
-    if (!isPhoneValid) {
-      return next(new ErrorResponse(ERROR_CODE.PHONE_INVAILD_INPUT));
-    }
-  }
-  try {
-    const response = await userSignUpAuthenticationNumberService({ phone });
-    return res
-      .status(httpStatus.ACCEPTED)
-      .json({ data: response, status: httpStatus.ACCEPTED, message: '정상적으로 인증번호가 발급되었습니다.' });
-  } catch (e) {
-    return res.status(500).json({ error: e.message });
   }
 };
 
