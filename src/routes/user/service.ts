@@ -115,4 +115,7 @@ export const userWithdrawalService = async ({ password, userId }: IWithdrawalSer
   });
 
   logoutToken();
+
+  // redis에서 refresh token 제거
+  redisCli.del(String(userId));
 };
