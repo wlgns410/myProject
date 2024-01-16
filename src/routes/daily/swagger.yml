@@ -305,3 +305,37 @@ definitions:
                 status: 500
                 message: Internal Server Error
                 code: COMMON005
+
+/daily/message:
+  get:
+    tags: [Daily]
+    produces:
+      - application/json
+    consumes:
+      - application/json
+    responses:
+      200:
+        description: '보낸 알림 메시지 확인'
+        content:
+          application/json:
+            example:
+              data:
+                - userId: 1
+                  result: '000만큼 칼로리가 초과하였습니다.'
+                - userId: 2
+                  result: '000만큼 칼로리가 부족합니다.'
+                - userId: 3
+                  result: '000만큼 권장 칼로리를 섭취했습니다.'
+                - userId: 4
+                  result: '먹은 음식을 입력해주세요.'
+              status: 200
+              message: '전송한 메시지 내역을 확인합니다.'
+      500:
+        description: '알 수 없는 오류'
+        content:
+          application/json:
+            example:
+              errorCode:
+                status: 500
+                message: Internal Server Error
+                code: COMMON005

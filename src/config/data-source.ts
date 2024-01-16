@@ -2,9 +2,9 @@
 import 'reflect-metadata';
 import path from 'path';
 import dotenv from 'dotenv';
-import { DataSourceOptions, DataSource } from 'typeorm';
+import { DataSource } from 'typeorm';
 import SnakeNamingStrategy from '../database/namingStrategy/SnakeNamingStrategy';
-import { UserPhoneAuth, User, BodyMassIndex, DailyCalorie, UserProfile } from '~/database/entity';
+import { User, BodyMassIndex, DailyCalorie, UserProfile, UserMessage } from '~/database/entity';
 
 if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: path.join('.env.production') });
@@ -49,7 +49,7 @@ export const AppDataSource = new DataSource({
   ...config[NODE_ENV],
   synchronize: NODE_ENV !== 'production',
   logging: true,
-  entities: [UserPhoneAuth, User, BodyMassIndex, DailyCalorie, UserProfile],
+  entities: [User, BodyMassIndex, DailyCalorie, UserProfile, UserMessage],
   subscribers: [],
   migrations: [],
   namingStrategy: new SnakeNamingStrategy(),

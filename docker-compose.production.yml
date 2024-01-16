@@ -21,6 +21,7 @@ services:
     depends_on:
       - mysql
       - redis-server
+      - rabbitmq
 
   mysql:
     image: mysql:latest
@@ -41,3 +42,13 @@ services:
     command: redis-server --requirepass testuser --port 6379
     ports:
       - '6379:6379'
+
+  rabbitmq:
+    image: rabbitmq:latest
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 'aaaaaaaaaa'
+      RABBITMQ_DEFAULT_USER: 'admin'
+      RABBITMQ_DEFAULT_PASS: 'admin'
+    ports:
+      - '5672:5672'
+      - '15672:15672'

@@ -1,6 +1,12 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Response, Request } from 'express';
 import httpStatus from 'http-status';
-import { dailyCalorieService, eatingAllDayService, eatingOneService, insufficientCalorieService } from './service';
+import {
+  dailyCalorieService,
+  eatingAllDayService,
+  eatingOneService,
+  insufficientCalorieService,
+  getinsufficientCalorieMessageService,
+} from './service';
 import ERROR_CODE from '~/libs/exception/errorCode';
 import ErrorResponse from '~/libs/exception/errorResponse';
 import {
@@ -119,6 +125,17 @@ export const insufficientCalorieController = async (
     return res
       .status(httpStatus.OK)
       .json({ data: response, status: httpStatus.OK, message: '칼로리를 차이를 계산했습니다.' });
+  } catch (e) {
+    return next(e.message);
+  }
+};
+
+export const getinsufficientCalorieMessageController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const response = await getinsufficientCalorieMessageService();
+    return res
+      .status(httpStatus.OK)
+      .json({ data: response, status: httpStatus.OK, message: '전송한 메시지 내역을 확인합니다.' });
   } catch (e) {
     return next(e.message);
   }
