@@ -17,7 +17,7 @@ export class RabbitmqWrapper {
   public queue: any;
 
   constructor(url: string, queueName: string) {
-    this._url = url;
+    this._url = `amqp://${url}`;
     this._queueName = queueName;
   }
   // 커넥트 생성하고 채널 연결
