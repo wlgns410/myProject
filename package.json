@@ -4,6 +4,8 @@
   "description": "express project",
   "main": "index.js",
   "scripts": {
+    "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "lint": "eslint src/**/*.{ts,tsx}",
     "test": "mocha",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
