@@ -1,14 +1,12 @@
 name: Check the source code about Lint & prettier
 
 on:
-  pull_request_target:
-    types: [opened, ready_for_review]
+  push:
     branches:
-      - 'release/**'
+      - 'feature/**'
 
 jobs:
   check:
-    if: startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-latest
 
     strategy:
