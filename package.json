@@ -6,6 +6,8 @@
   "scripts": {
     "test": "mocha",
     "build": "tsc",
+    "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "lint": "eslint src/**/*.{ts,tsx}",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "ts-node ./src/bin/www.ts",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -d ./src/config/db.ts",
