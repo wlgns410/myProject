@@ -1,0 +1,11 @@
+{
+  "extension": ["ts"],
+  "package": "./package.json",
+  "reporter": "spec",
+  "recursive": true,
+  "slow": 75,
+  "timeout": false,
+  "ui": "bdd",
+  "spec": "test/**/*.spec.ts",
+  "require": ["ts-node/register", "tsconfig-paths/register"]
+}

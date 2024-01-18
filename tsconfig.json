@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./build",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "baseUrl": "./", //babel 세팅 필요
+    "skipLibCheck": true,
+    "paths": {
+      "~/*": ["src/*"]
+    },
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
